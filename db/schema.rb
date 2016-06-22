@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20160622010626) do
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "authors", force: :cascade do |t|
+  create_table "authors", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "name"
     t.string   "title"
     t.datetime "created_at", null: false
