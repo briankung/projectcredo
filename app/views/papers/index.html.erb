@@ -6,6 +6,10 @@
   <thead>
     <tr>
       <th>Title</th>
+      <th>Abstract</th>
+      <th>Link</th>
+      <th>DOI</th>
+      <th>Pubmed ID</th>
       <th>Published at</th>
       <th colspan="3"></th>
     </tr>
@@ -15,6 +19,10 @@
     <% @papers.each do |paper| %>
       <tr>
         <td><%= paper.title %></td>
+        <td><%= paper.abstract %></td>
+        <td><%= paper.link %></td>
+        <td><%= paper.doi %></td>
+        <td><%= paper.pubmed_id %></td>
         <td><%= paper.published_at %></td>
         <td><%= link_to 'Show', paper %></td>
         <td><%= link_to 'Edit', edit_paper_path(paper) %></td>
