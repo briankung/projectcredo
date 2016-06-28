@@ -1,11 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
+  title: paper one
   published_at: 2016-06-22
-  journal: MyString
 
 two:
-  title: MyString
+  title: paper two
   published_at: 2016-06-22
-  journal: MyString

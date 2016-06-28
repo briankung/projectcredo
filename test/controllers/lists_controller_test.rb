@@ -19,8 +19,6 @@ class ListsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('List.count') do
       post lists_url, params: { list: { name: @list.name } }
     end
-
-    assert_redirected_to list_path(List.last)
   end
 
   test "should show list" do

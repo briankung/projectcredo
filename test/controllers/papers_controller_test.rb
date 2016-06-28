@@ -17,10 +17,8 @@ class PapersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create paper" do
     assert_difference('Paper.count') do
-      post papers_url, params: { paper: { journal: @paper.journal, published_at: @paper.published_at, title: @paper.title } }
+      post papers_url, params: { paper: { title: "New Paper" } }
     end
-
-    assert_redirected_to paper_path(Paper.last)
   end
 
   test "should show paper" do
@@ -34,7 +32,7 @@ class PapersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update paper" do
-    patch paper_url(@paper), params: { paper: { journal: @paper.journal, published_at: @paper.published_at, title: @paper.title } }
+    patch paper_url(@paper), params: { paper: { published_at: @paper.published_at, title: @paper.title } }
     assert_redirected_to paper_path(@paper)
   end
 
