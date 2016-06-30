@@ -1,5 +1,5 @@
 class HomepageController < ApplicationController
   def show
-    head 200
+    @lists = List.all
   end
 end
