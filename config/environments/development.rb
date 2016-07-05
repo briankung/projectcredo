@@ -26,6 +26,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -48,4 +50,10 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # ProjectCredo specific settings
+
+  # SHAME - remove the hardcoding when possible. This probably won't work for
+  # Will, for example.
+  config.web_console.whitelisted_ips = '192.168.99.0/16'
 end
