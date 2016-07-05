@@ -53,7 +53,7 @@ Rails.application.configure do
 
   # ProjectCredo specific settings
 
-  # SHAME - remove the hardcoding when possible. This probably won't work for
-  # Will, for example.
-  config.web_console.whitelisted_ips = '192.168.99.0/16'
+  if ENV['DOCKERIZED'] == 'true'
+    config.web_console.whitelisted_ips = ENV['DOCKER_HOST_IP']
+  end
 end
