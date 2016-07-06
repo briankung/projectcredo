@@ -3,7 +3,7 @@ class HomepageController < ApplicationController
     if current_user
       @lists = current_user.homepage.lists
     else
-      @lists = List.all
+      redirect_to lists_url
     end
   end
 end
