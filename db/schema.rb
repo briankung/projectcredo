@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706183850) do
+ActiveRecord::Schema.define(version: 20160706191034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20160706183850) do
     t.uuid     "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "homepages_lists", id: false, force: :cascade do |t|
+    t.uuid "homepage_id"
+    t.uuid "list_id"
+    t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", using: :btree
+    t.index ["list_id", "homepage_id"], name: "index_homepages_lists_on_list_id_and_homepage_id", using: :btree
   end
 
   create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
