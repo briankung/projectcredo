@@ -11,9 +11,9 @@
 </p>
 
 <ul>
-  <%= @list.papers.each do |paper| %>
+  <% @list.papers.each do |paper| %>
     <li>
-      paper.title
+      <%=paper.title%>
     </li>
   <%end%>  
 </ul>
