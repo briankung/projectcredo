@@ -1,0 +1,5 @@
+<% if current_user.homepage.lists.include? list %>
+  <%= link_to 'Unpin from homepage', homepages_list_path(list), method: :delete %>
+<% else %>
+  <%= link_to 'Pin to homepage', homepages_list_path(list), method: :post %>
+<% end %>
