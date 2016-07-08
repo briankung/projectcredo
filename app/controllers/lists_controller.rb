@@ -10,7 +10,7 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.json
   def show
-    @list_paper = @list.lists_papers.build
+    @reference = @list.references.build
   end
 
   # GET /lists/new

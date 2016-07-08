@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :papers
   resources :lists do
     member do
-      resources :lists_papers, only: [:create, :destroy] 
+      resources :references, only: [:create, :destroy] 
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
