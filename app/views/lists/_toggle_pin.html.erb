@@ -1,5 +1,8 @@
 <% if current_user.homepage.lists.include? list %>
-  <%= link_to 'Unpin from homepage', pins_path(list), method: :delete %>
+  <%= link_to button_tag('Unpin from homepage'), pin_path(list), method: :delete %>
 <% else %>
-  <%= link_to 'Pin to homepage', pins_path(list), method: :post %>
+  <%= form_tag pins_path do %>
+    <%= text_field_tag 'id', list.id, hidden: true %>
+    <%= submit_tag 'Pin to homepage' %>
+  <% end %>
 <% end %>

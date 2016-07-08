@@ -2,12 +2,12 @@ class PinsController < ApplicationController
   before_action :set_pinned_lists
 
   def create
-    @pinned_lists << List.find(list_params[:list_id])
+    @pinned_lists << List.find(list_params[:id])
     redirect_to :back
   end
 
   def destroy
-    @pinned_lists.destroy list_params[:list_id]
+    @pinned_lists.destroy list_params[:id]
     redirect_to :back
   end
 
@@ -17,6 +17,6 @@ class PinsController < ApplicationController
     end
 
     def list_params
-      params.permit(:list_id)
+      params.permit(:id)
     end
 end
