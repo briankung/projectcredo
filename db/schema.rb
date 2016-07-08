@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20160708232952) do
     t.datetime "updated_at", null: false
   end
 
-    create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
