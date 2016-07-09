@@ -9,6 +9,10 @@ services:
       - "3000:3000"
     links:
       - postgres
+    environment:
+      - DOCKERIZED=true
+    env_file:
+      - '.env'
   postgres:
     image: postgres:9.5
     ports:

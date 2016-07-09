@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 20160708232952) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "homepages", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid     "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "homepages_lists", id: false, force: :cascade do |t|
+    t.uuid "homepage_id"
+    t.uuid "list_id"
+    t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", using: :btree
+    t.index ["list_id", "homepage_id"], name: "index_homepages_lists_on_list_id_and_homepage_id", using: :btree
+  end
+
   create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",  null: false

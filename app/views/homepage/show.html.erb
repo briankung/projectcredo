@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Lists</h1>
+<h1>Pinned Lists</h1>
 
 <table>
   <thead>
@@ -19,6 +19,7 @@
         <td><%= link_to 'Show', list %></td>
         <td><%= link_to 'Edit', edit_list_path(list) %></td>
         <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Unpin from homepage', pins_path(list), method: :delete %></td>
       </tr>
     <% end %>
   </tbody>
