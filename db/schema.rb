@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706191034) do
-
+ActiveRecord::Schema.define(version: 20160708232952) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -52,6 +51,13 @@ ActiveRecord::Schema.define(version: 20160706191034) do
     t.string   "link"
     t.string   "doi"
     t.string   "pubmed_id"
+  end
+
+  create_table "references", force: :cascade do |t|
+    t.uuid     "list_id"
+    t.uuid     "paper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
