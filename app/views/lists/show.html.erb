@@ -15,7 +15,8 @@
     <%if reference.paper.present?%>
       <li>
       <%=reference.paper.title%> 
-      <%= link_to 'Remove', reference_path(reference) %> 
+      <%= link_to 'Remove', reference, method: :delete,
+                    data: { confirm: 'Are you sure?' } %> 
       </li>
     <%end%>  
   <%end%>  

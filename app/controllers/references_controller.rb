@@ -7,7 +7,9 @@ class ReferencesController < ApplicationController
   end
 
   def destroy
-    Reference.find(params[:id]).destroy
+    reference = Reference.find(params[:id])
+    list = reference.list
+    reference.destroy
     redirect_to list
   end
 end
