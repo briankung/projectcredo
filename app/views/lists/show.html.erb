@@ -11,10 +11,14 @@
 </p>
 
 <ul>
-  <% @list.papers.each do |paper| %>
-    <li>
-      <%=paper.title%>
-    </li>
+  <% @list.references.each do |reference| %>
+    <%if reference.paper.present?%>
+      <li>
+      <%=reference.paper.title%> 
+      <%= link_to 'Remove', reference, method: :delete,
+                    data: { confirm: 'Are you sure?' } %> 
+      </li>
+    <%end%>  
   <%end%>  
 </ul>
 
