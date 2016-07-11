@@ -10,30 +10,7 @@
   <%= @list.description %>
 </p>
 
-<ul>
-  <% @list.references.each do |reference| %>
-    <%if reference.paper.present?%>
-      <li>
-      <%=reference.paper.title%> 
-      <%= link_to 'Remove', reference, method: :delete,
-                    data: { confirm: 'Are you sure?' } %> 
-      </li>
-    <%end%>  
-  <%end%>  
-</ul>
-
-<%= form_for(@reference) do |f| %>
-  <div><%= hidden_field_tag :list_id, @list.id %></div>
-
-
-  <div class="field">
-    <%= f.label :paper_id %>
-    <%= f.text_field :paper_id %>
-  </div>
-
-    <%= f.submit "Add Paper", class: "btn btn-primary" %>
-
-<% end %>
+<%= render partial: 'lists/references', locals: { list: @list } %>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
 <%= link_to 'Back', lists_path %>
