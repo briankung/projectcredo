@@ -1,4 +1,6 @@
 class ReferencesController < ApplicationController
+  before_action :ensure_current_user
+
   def create
     list = List.find(params[:list_id])
     paper = Paper.find(params[:reference][:paper_id])
