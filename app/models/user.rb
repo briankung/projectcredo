@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   has_one :homepage, dependent: :destroy
   after_create -> { self.create_homepage }
+
+  has_many :lists
 end
