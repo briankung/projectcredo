@@ -1,5 +1,6 @@
 class ListsController < ApplicationController
   before_action :set_list, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_current_user, except: [:index, :show]
 
   # GET /lists
   # GET /lists.json

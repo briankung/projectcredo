@@ -1,5 +1,6 @@
 class PapersController < ApplicationController
   before_action :set_paper, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_current_user, except: [:index, :show]
 
   # GET /papers
   # GET /papers.json
