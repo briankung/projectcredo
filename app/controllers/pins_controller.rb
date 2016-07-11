@@ -2,7 +2,6 @@ class PinsController < ApplicationController
   before_action :set_pinned_lists
   before_action :ensure_current_user
 
-
   def create
     @pinned_lists << List.find(list_params[:id])
     redirect_to :back
