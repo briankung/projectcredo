@@ -1,4 +1,6 @@
 class PapersController < ApplicationController
+
+
   before_action :set_paper, only: [:show, :edit, :update, :destroy]
   before_action :ensure_current_user, except: [:index, :show]
 
@@ -60,6 +62,11 @@ class PapersController < ApplicationController
       format.html { redirect_to papers_url, notice: 'Paper was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def pubmed_search
+    search_term = params[:search_term]
+    redirect_to root_path search_term: search_term
   end
 
   private

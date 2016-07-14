@@ -17,6 +17,7 @@
         <td><%= list.name %></td>
         <td><%= list.description %></td>
         <td><%= render partial: 'lists/references', locals: { list: list } %>
+        <td><%= render partial: 'papers/pubmed_search', locals: { list: list } %>          
         <td><%= link_to 'Show', list %></td>
         <td><%= link_to 'Edit', edit_list_path(list) %></td>
         <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
