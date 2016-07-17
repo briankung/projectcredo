@@ -12,6 +12,6 @@ module PubmedSearch
     metadata_url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&rettype=abstract&id='+uids
     uri = URI.parse(metadata_url)
     response = Net::HTTP.get(uri)
-    @results = JSON.parse(response, object_class: OpenStruct)
+    @results = JSON.parse(response)
   end
 end
