@@ -1,0 +1,19 @@
+<%if @results%>
+  <ul>
+    <%@results['result']['uids'].each do |uid|%>
+      <li>
+        <%=@results['result'][uid]['title']%>
+        </br><%=@results['result'][uid]['source']%>
+        <%=@results['result'][uid]['authors'].map {|author| author['name']}.join(", ")%>
+      </li>  
+    <%end%>
+  </ul>  
+<%else%>  
+<%end%>  
+
+<%= form_tag({controller: "papers", action: "pubmed_search"}, method: "get") do %>
+  <%= label_tag(:search_term, "Search using Pubmed ID, DOI, or title, authors, or keywords") %>
+  <% hidden_field_tag(list: list) %>
+  <%= text_field_tag(:search_term, @search_term)  %>
+  <%= submit_tag("Search") %>
+<% end %>
