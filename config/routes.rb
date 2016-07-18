@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :papers do
     collection do
       get 'pubmed_search'
+      get 'pubmed_select'
     end
   end
 
