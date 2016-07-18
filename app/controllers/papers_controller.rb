@@ -66,7 +66,8 @@ class PapersController < ApplicationController
 
   def pubmed_search
     search_term = params[:search_term]
-    redirect_to root_path search_term: search_term
+    list_id = params[:list_id]
+    redirect_to root_path(search_term: search_term, list_id: list_id)
   end
 
   private
