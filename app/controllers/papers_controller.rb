@@ -1,6 +1,4 @@
 class PapersController < ApplicationController
-
-
   before_action :set_paper, only: [:show, :edit, :update, :destroy]
   before_action :ensure_current_user, except: [:index, :show]
 
@@ -64,13 +62,7 @@ class PapersController < ApplicationController
     end
   end
 
-  def pubmed_search
-    search_term = params[:search_term]
-    list_id = params[:list_id]
-    redirect_to root_path(search_term: search_term, list_id: list_id)
-  end
-
-  def pubmed_select
+  def search
     search_term = params[:search_term]
     list_id = params[:list_id]
     redirect_to root_path(search_term: search_term, list_id: list_id)
