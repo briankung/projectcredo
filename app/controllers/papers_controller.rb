@@ -62,6 +62,12 @@ class PapersController < ApplicationController
     end
   end
 
+  def search
+    search_term = params[:search_term]
+    list_id = params[:list_id]
+    redirect_to root_path(search_term: search_term, list_id: list_id)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_paper
