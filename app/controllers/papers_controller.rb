@@ -16,6 +16,7 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
+    @authors = @paper.authors.build
   end
 
   # GET /papers/1/edit
@@ -70,6 +71,6 @@ class PapersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
-      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal)
+      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, authors_attributes: [:name])
     end
 end
