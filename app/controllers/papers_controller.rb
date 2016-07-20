@@ -16,7 +16,7 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
-    @authors = @paper.authors.build
+    @authors = 5.times {@paper.authors.build}
   end
 
   # GET /papers/1/edit
@@ -26,10 +26,12 @@ class PapersController < ApplicationController
   # POST /papers
   # POST /papers.json
   def create
-    @paper = Paper.new(paper_params)
 
+    @paper = Paper.new(paper_params)
+    
     respond_to do |format|
       if @paper.save
+
         format.html { redirect_to @paper, notice: 'Paper was successfully created.' }
         format.json { render :show, status: :created, location: @paper }
       else
@@ -71,6 +73,7 @@ class PapersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
-      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, authors_attributes: [:name])
+      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, 
+        authors_attributes: [:name])
     end
 end

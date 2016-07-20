@@ -3,6 +3,6 @@ class Paper < ApplicationRecord
   has_many :lists, through: :references
   has_many :references
 
-  accepts_nested_attributes_for :authors
+  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   validates_associated :authors
 end
