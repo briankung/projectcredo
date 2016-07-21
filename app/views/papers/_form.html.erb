@@ -16,12 +16,11 @@
     <%= f.text_field :title %>
   </div>
 
-  <%= f.fields_for :authors, authors do |a| %>  
+  <%= f.fields_for :authors, paper.authors do |a| %>  
     <div class="field">
       <%= a.label :name, 'Author Full Name' %>
       <%= a.text_field :name %>
     </div>
-
   <% end %>
 
   <div class="field">

@@ -16,7 +16,7 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
-    @authors = 5.times {@paper.authors.build}
+    5.times { @paper.authors.build }
   end
 
   # GET /papers/1/edit
@@ -63,7 +63,7 @@ class PapersController < ApplicationController
       format.html { redirect_to papers_url, notice: 'Paper was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -74,6 +74,6 @@ class PapersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
       params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, 
-        authors_attributes: [:name])
+        authors_attributes: [:id, :name])
     end
 end
