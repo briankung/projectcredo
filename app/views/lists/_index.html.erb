@@ -1,0 +1,25 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% lists.each do |list| %>
+      <tr>
+        <td><%= list.name %></td>
+        <td><%= list.description %></td>
+        <td><%= render partial: 'lists/references', locals: { list: list } %>
+        <td><%= link_to 'Show', list %></td>
+        <td><%= link_to 'Edit', edit_list_path(list) %></td>
+        <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if current_user %>
+          <td><%= render partial: 'lists/toggle_pin', locals: { list: list } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
