@@ -16,6 +16,7 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
+    # SHAME SHAME SHAME DINGDINGDING SHAME SHAME SHAME DINGDINGDING
     5.times { @paper.authors.build }
   end
 
@@ -31,7 +32,6 @@ class PapersController < ApplicationController
     
     respond_to do |format|
       if @paper.save
-
         format.html { redirect_to @paper, notice: 'Paper was successfully created.' }
         format.json { render :show, status: :created, location: @paper }
       else
