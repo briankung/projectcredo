@@ -26,7 +26,11 @@ class ReferencesController < ApplicationController
       )
     end
 
-    Reference.create!(list_id: list.id, paper_id: paper.id)
+    if Reference.exists? list_id: list.id, paper_id: paper.id
+      flash['notice'] = 'This paper has already been added to this list'
+    else
+      Reference.create(list_id: list.id, paper_id: paper.id)
+    end
     redirect_to list
   end
 
