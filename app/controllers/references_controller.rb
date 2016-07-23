@@ -1,6 +1,7 @@
 class ReferencesController < ApplicationController
   before_action :ensure_current_user
 
+  # Shame: refactor the hell out of this
   def create
     list = List.find(params[:list_id])
 
