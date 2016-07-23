@@ -12,11 +12,17 @@ class ReferencesController < ApplicationController
       pubmed = Pubmed.new
       results = pubmed.search paper_id
       data = results['result'][paper_id]
-      paper = Paper.create(
-        pubmed_id: data['uid'],
-        title: data['title'],
-        published_at: data['pubdate'],
-        doi: data['elocationid'].sub(/^doi: /, "")
+      paper = (
+        Paper.find_by(pubmed_id: paper_id) ||
+        Paper.find_by(doi: paper_id) ||
+        # I really hate this due to long experience with it,
+        # but we should probably some sort of mapping
+        Paper.create(
+          pubmed_id: data['uid'],
+          title: data['title'],
+          published_at: data['pubdate'],
+          doi: data['elocationid'].sub(/^doi: /, "")
+        )
       )
     end
 
