@@ -6,6 +6,13 @@
 </p>
 
 <p>
+  <strong>Authors:</strong>
+  <% @paper.authors.each do |author| %>
+    <%= author.name %>
+  <% end %>  
+</p>
+
+<p>
   <strong>Abstract:</strong>
   <%= @paper.abstract %>
 </p>

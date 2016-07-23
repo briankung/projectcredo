@@ -16,6 +16,8 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
+    # SHAME SHAME SHAME DINGDINGDING SHAME SHAME SHAME DINGDINGDING
+    5.times { @paper.authors.build }
   end
 
   # GET /papers/1/edit
@@ -25,8 +27,9 @@ class PapersController < ApplicationController
   # POST /papers
   # POST /papers.json
   def create
-    @paper = Paper.new(paper_params)
 
+    @paper = Paper.new(paper_params)
+    
     respond_to do |format|
       if @paper.save
         format.html { redirect_to @paper, notice: 'Paper was successfully created.' }
@@ -60,7 +63,7 @@ class PapersController < ApplicationController
       format.html { redirect_to papers_url, notice: 'Paper was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -70,6 +73,7 @@ class PapersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
-      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal)
+      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, 
+        authors_attributes: [:id, :name])
     end
 end
