@@ -11,7 +11,7 @@
 
   <%= form_for list.references.build, url: references_path(list) do |f| %>
     <%= hidden_field_tag :list_id, list.id %>
-    <%= f.text_field :paper_id, placeholder: 'Add a paper by ID' %>
+    <%= f.text_field :paper_id, placeholder: 'Add a paper by DOI, Pubmed ID, or Credo ID' %>
     <%= f.submit "Add Paper", class: "btn btn-primary" %>
   <% end %>
 </ul>
