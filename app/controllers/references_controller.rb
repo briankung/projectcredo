@@ -13,6 +13,7 @@ class ReferencesController < ApplicationController
       pubmed = Pubmed.new
       results = pubmed.search paper_id
       data = results['result'][paper_id]
+      authors = data['authors'].map {|a| {name: a['name']}}
       paper = (
         Paper.find_by(pubmed_id: paper_id) ||
         Paper.find_by(doi: paper_id) ||
@@ -22,6 +23,7 @@ class ReferencesController < ApplicationController
           pubmed_id: data['uid'],
           title: data['title'],
           published_at: data['pubdate'],
+          authors_attributes: authors,
           doi: data['elocationid'].sub(/^doi: /, "")
         )
       )
