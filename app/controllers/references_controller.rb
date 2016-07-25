@@ -8,7 +8,7 @@ class ReferencesController < ApplicationController
 
     # Check if uuid. If not, then ask Pubmed.
     identifier = params[:reference][:paper_id]
-    paper = find_paper(identifier) or import_paper(identifier)
+    paper = find_paper(identifier) || import_paper(identifier)
 
     if Reference.exists? list_id: list.id, paper_id: paper.id
       flash['notice'] = 'This paper has already been added to this list'
@@ -56,6 +56,7 @@ class ReferencesController < ApplicationController
         title: data['title'],
         published_at: data['pubdate'],
         authors_attributes: new_authors,
+        abstract: pubmed.get_abstract(data['uid']),
         doi: data['elocationid'].sub(/^doi: /, "")
       )
       paper.authors.push *existing_authors unless existing_authors.empty?

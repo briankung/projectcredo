@@ -3,6 +3,7 @@ class Pubmed
     @base_url = 'http://eutils.ncbi.nlm.nih.gov'
     @search_url = @base_url + "/entrez/eutils/esearch.fcgi"
     @metadata_url = @base_url + "/entrez/eutils/esummary.fcgi"
+    @abstract_url = @base_url + "/entrez/eutils/efetch.fcgi"
 
     @default_parameters = {
       db: 'pubmed',
@@ -19,6 +20,15 @@ class Pubmed
     )
 
     JSON.parse Net::HTTP.get(metadata_uri)
+  end
+
+  def get_abstract(uid)
+    abstract_uri = generate_uri(
+      @abstract_url,
+      @default_parameters.merge(id: uid, retmode: 'xml')
+    )
+
+    Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
   end
 
   private
