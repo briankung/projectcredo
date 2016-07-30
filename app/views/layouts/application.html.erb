@@ -10,9 +10,9 @@
   <body>
     <nav>
       <div>
-        <%= link_to 'Home', root_path %>
-        <%= text_field_tag :search, 'Reserved: future searches', disabled: true %>
-        <%= render partial: 'layouts/user_session_links' %>
+        <span><%= link_to 'Home', root_path %></span>
+        <span><%= text_field_tag :search, 'Reserved: future searches', disabled: true %></span>
+        <span><%= render partial: 'layouts/user_session_links' %></span>
       </div>
       <div>
         <%= link_to button_tag('Lists'), lists_path %>

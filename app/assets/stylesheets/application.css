@@ -23,7 +23,23 @@ body {
   font-family: "Helvetica", "Arial", sans-serif;
 }
 
+nav {
+  div {
+    width: 100%
+  }
+  div span {
+    width: 33%;
+  }
+}
+
+h1 {
+  font-size: 5em;
+}
+
 h2 {
-  margin-top: 1em;
-  padding-top: 1em;
+  font-size: 2em;
+}
+
+li {
+  list-style: disc;
 }

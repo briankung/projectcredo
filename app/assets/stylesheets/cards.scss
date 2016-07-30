@@ -24,5 +24,9 @@
   .options {
     width: 10%;
     border-left: 1px solid black;
+
+    li {
+      list-style: '- ' inside;
+    }
   }
 }
