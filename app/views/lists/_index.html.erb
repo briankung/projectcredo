@@ -13,9 +13,9 @@
         <% if user_signed_in? %>
           <li><%= link_to 'Edit', edit_list_path(list) %></li>
           <li><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+          <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
         <% end %>
       </ul>
-      <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
     </span>
   </div>
 <% end %>
