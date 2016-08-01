@@ -2,36 +2,31 @@
 
 <h1>Papers</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Abstract</th>
-      <th>Link</th>
-      <th>DOI</th>
-      <th>Pubmed ID</th>
-      <th>Published at</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @papers.each do |paper| %>
-      <tr>
-        <td><%= paper.title %></td>
-        <td><%= paper.abstract %></td>
-        <td><%= paper.link %></td>
-        <td><%= paper.doi %></td>
-        <td><%= paper.pubmed_id %></td>
-        <td><%= paper.published_at %></td>
-        <td><%= link_to 'Show', paper %></td>
-        <td><%= link_to 'Edit', edit_paper_path(paper) %></td>
-        <td><%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<% @papers.each do |paper| %>
+  <div class="card">
+    <span class="info">
+      <h3><%= paper.title %></h3>
+      <ul>
+        <li>DOI: <%= paper.doi %></li>
+        <li>Pubmed ID: <%= paper.pubmed_id %></li>
+        <li>Link: <%= paper.link %></li>
+        <li>Published: <%= paper.published_at %></li>
+      </ul>
+    </span>
+    <span class="content">
+      <p><%= paper.abstract %></p>
+    </span>
+    </ul>
+    <span class="options">
+      <ul>
+        <li><%= link_to 'Show', paper %></li>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Edit', edit_paper_path(paper) %></li>
+          <li><%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+        <% end %>
+      </ul>
+    </span>
+  </div>
+<% end %>
 
 <%= link_to 'New Paper', new_paper_path %>

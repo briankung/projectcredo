@@ -10,6 +10,40 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require reset
  *= require_tree .
  *= require_self
  */
+
+body {
+  line-height: 1.5;
+  padding: 4em 1em;
+  margin: 0 auto;
+  max-width: 70em;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+nav {
+  div {
+    width: 100%
+  }
+  div span {
+    width: 33%;
+  }
+}
+
+h1 {
+  font-size: 5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+li {
+  list-style: disc inside;
+}

@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Projectcredo</title>
+    <title>Project Credo</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
+    <nav>
+      <div>
+        <span><%= link_to 'Home', root_path %></span>
+        <span><%= text_field_tag :search, 'Reserved: future searches', disabled: true %></span>
+        <span><%= render partial: 'layouts/user_session_links' %></span>
+      </div>
+      <div>
+        <%= link_to button_tag('Lists'), lists_path %>
+        <%= link_to button_tag('Papers'), papers_path %>
+      </div>
+    </nav>
+
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <% if user_signed_in? %>
-      <%= link_to 'Edit account', edit_user_registration_path %>
-      <%= link_to 'Sign out', destroy_user_session_path, method: 'delete' %>
-    <% else %>
-      <%= link_to 'Sign in', new_user_session_path %>
-      <%= link_to 'Sign up', new_user_registration_path %>
-    <% end %>
 
     <%= yield %>
   </body>

@@ -2,8 +2,8 @@
 
 <h1>Lists</h1>
 
-<%= render partial: 'lists/index', locals: { lists: @lists } %>
+<%= link_to 'New List', new_list_path %>
 
-<br>
+<%= render partial: 'lists/index', locals: { lists: @lists } %>
 
 <%= link_to 'New List', new_list_path %>
