@@ -23,12 +23,12 @@ class Pubmed
   end
 
   def get_abstract(uid)
-    abstract_uri = generate_uri(
-      @abstract_url,
-      @default_parameters.merge(id: uid, retmode: 'xml')
-    )
+    abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
 
-    Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+    abstract = Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+    abstract = abstract.join ' ' if abstract.respond_to? :join
+
+    abstract
   end
 
   private
