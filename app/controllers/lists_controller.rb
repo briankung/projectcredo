@@ -27,6 +27,7 @@ class ListsController < ApplicationController
   # POST /lists.json
   def create
     @list = current_user.lists.build(list_params)
+
     respond_to do |format|
       if @list.save
         current_user.homepage.lists << @list
