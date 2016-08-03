@@ -16,7 +16,7 @@
     <%= f.text_field :title %>
   </div>
 
-  <%= f.fields_for :authors, paper.authors do |a| %>  
+  <%= f.fields_for :authors, paper.authors do |a| %>
     <div class="field">
       <%= a.label :name, 'Author Full Name' %>
       <%= a.text_field :name %>
@@ -46,6 +46,11 @@
   <div class="field">
     <%= f.label :published_at %>
     <%= f.date_select :published_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label :tag_list, 'Tags (separated by commas)' %>
+    <%= f.text_field :tag_list, value: paper.tag_list.join(",") %>
   </div>
 
   <div class="actions">
