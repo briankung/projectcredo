@@ -2,32 +2,6 @@
 
 <%= link_to 'New Paper', new_paper_path %>
 
-<% @papers.each do |paper| %>
-  <div class="card">
-    <span class="info">
-      <h3><%= paper.title %></h3>
-      <ul>
-        <li>DOI: <%= paper.doi %></li>
-        <li>Pubmed ID: <%= paper.pubmed_id %></li>
-        <li>Link: <%= paper.link %></li>
-        <li>Published: <%= paper.published_at %></li>
-        <li>Tags: <%= paper.tag_list %></li>
-      </ul>
-    </span>
-    <span class="content">
-      <p><%= paper.abstract %></p>
-    </span>
-    </ul>
-    <span class="options">
-      <ul>
-        <li><%= link_to 'Show', paper %></li>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Edit', edit_paper_path(paper) %></li>
-          <li><%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-        <% end %>
-      </ul>
-    </span>
-  </div>
-<% end %>
+<%= render partial: 'papers/index', locals: { papers: @papers } %>
 
 <%= link_to 'New Paper', new_paper_path %>
