@@ -6,5 +6,5 @@ class List < ApplicationRecord
   belongs_to :user
 
   has_many :papers, through: :references
-  has_many :references
+  has_many :references, dependent: :destroy
 end
