@@ -1,12 +1,9 @@
 <ul>
   <% list.references.each do |reference| %>
-    <% if reference.paper.present? %>
-      <li>
-        <%= link_to reference.paper.title, paper_path(reference.paper) %>
-        <%= link_to 'Remove', reference, method: :delete,
-                    data: { confirm: 'Are you sure?' } %>
-      </li>
-    <% end %>
+    <li>
+      <%= link_to reference.paper.title, paper_path(reference.paper) %>
+      <%= link_to 'Remove', reference, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
   <% end %>
 
   <%= form_for list.references.build, url: references_path(list) do |f| %>
