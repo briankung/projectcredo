@@ -3,6 +3,7 @@
     <span class="info">
       <h2><%= list.name %></h2>
       <p><%= list.description %></p>
+      <p>Tags:<i><%= list.tag_list %></i></p>
     </span>
     <span class="content">
       <%= render partial: 'lists/references', locals: { list: list } %>

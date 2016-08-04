@@ -29,7 +29,7 @@ class PapersController < ApplicationController
   def create
 
     @paper = Paper.new(paper_params)
-    
+
     respond_to do |format|
       if @paper.save
         format.html { redirect_to @paper, notice: 'Paper was successfully created.' }
@@ -63,7 +63,7 @@ class PapersController < ApplicationController
       format.html { redirect_to papers_url, notice: 'Paper was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end 
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -73,7 +73,7 @@ class PapersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
-      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, 
+      params.require(:paper).permit(:title, :abstract, :link, :doi, :pubmed_id, :published_at, :journal, :tag_list,
         authors_attributes: [:id, :name])
     end
 end

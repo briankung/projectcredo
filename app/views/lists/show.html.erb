@@ -8,6 +8,11 @@
   <%= @list.description %>
 </p>
 
+<p>
+  <strong>Tags:</strong>
+  <%= @list.tag_list %>
+</p>
+
 <%= render partial: 'lists/references', locals: { list: @list } %>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
