@@ -19,8 +19,7 @@ default: &default
   encoding: unicode
   pool: 5
   timeout: 5000
-  username: postgres
-  host: postgres
+  username: projectcredo
   port: 5432
 
 development:
