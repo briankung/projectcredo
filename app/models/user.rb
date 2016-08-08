@@ -8,4 +8,6 @@ class User < ApplicationRecord
   after_create -> { self.create_homepage }
 
   has_many :lists
+
+  acts_as_voter
 end
