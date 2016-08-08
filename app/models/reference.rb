@@ -1,4 +1,6 @@
 class Reference < ApplicationRecord
+  acts_as_votable
+
   belongs_to :paper
   belongs_to :list
 
