@@ -54,6 +54,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :methodology_list, 'Methodologies (the following methodologies are accepted, please seperate with a comma: meta-analysis, systematic review, randomized control trial, quasi-experiment, cohort, case-control, cross-sectional survey, case report)' %>
+    <%= f.text_field :methodology_list, value: paper.methodology_list.join(",") %>
+  </div>
+
+  <div class="field">
     <%= f.label :bias_list, 'Biases (the following biases are accepted, please seperate with a comma: selection, performance, detection, attrition, reporting, small sample size)' %>
     <%= f.text_field :bias_list, value: paper.bias_list.join(",") %>
   </div>
