@@ -17,7 +17,7 @@ class Paper < ApplicationRecord
 	end
 
   def valid_biases
-    %w(selection performance detection attrition reporting small\ sample\ size)
+  %w(selection performance detection attrition reporting small\ sample\ size)
   end
 
   def allowed_methodologies
