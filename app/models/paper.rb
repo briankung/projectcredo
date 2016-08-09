@@ -9,17 +9,23 @@ class Paper < ApplicationRecord
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   validates_associated :authors
-  validate :bias_list_inclusion, :methodology_list_inclusion
+  validate :allowed_biases, :allowed_methodologies
 
-  def bias_list_inclusion
-    bias_list.each do |bias|
-      errors.add(bias,"is not valid") unless %w(selection performance detection attrition reporting small\ sample\ size).include?(bias)
-    end
+  def allowed_biases
+	  invalid_biases = bias_list - valid_biases
+	  invalid_biases.each {|b| errors.add(b, 'is not an accepted bias') }
+	end
+
+  def valid_biases
+    %w(selection performance detection attrition reporting small\ sample\ size)
   end
 
-  def methodology_list_inclusion
-    methodology_list.each do |methodology|
-      errors.add(methodology,"is not valid") unless %w(meta-analysis systematic\ review randomized\ control\ trial quasi-experiment cohort case-control cross-sectional\ survey case\ report).include?(methodology)
-    end
+  def allowed_methodologies
+	  invalid_methodologies = methodology_list - valid_methodologies
+	  invalid_methodologies.each {|b| errors.add(b, 'is not methodology') }
+  end
+
+  def valid_methodologies
+    %w(meta-analysis systematic\ review randomized\ control\ trial quasi-experiment cohort case-control cross-sectional\ survey case\ report)
   end
 end
