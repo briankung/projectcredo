@@ -1,4 +1,17 @@
+<%
+  if defined? references
+    papers = references.map(&:paper)
+    reference_lookup = references.inject({}) do |memo, ref|
+      memo[ref.paper] = ref
+      memo
+    end
+  end
+%>
+
 <% papers.each do |paper| %>
+  <% if defined? references %>
+    <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
+  <% end %>
   <div class="card">
     <span class="info">
       <h3><%= paper.title %></h3>
