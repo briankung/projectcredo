@@ -27,7 +27,6 @@ class PapersController < ApplicationController
   # POST /papers
   # POST /papers.json
   def create
-
     @paper = Paper.new(paper_params)
 
     respond_to do |format|
