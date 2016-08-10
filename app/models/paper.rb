@@ -16,7 +16,14 @@ class Paper < ApplicationRecord
 	end
 
   def valid_biases
-    %w(selection performance detection attrition reporting small\ sample\ size)
+    [
+      'selection',
+      'performance',
+      'detection',
+      'attrition',
+      'reporting',
+      'small sample size'
+    ]
   end
 
   def allowed_methodologies
@@ -25,6 +32,15 @@ class Paper < ApplicationRecord
   end
 
   def valid_methodologies
-    %w(meta-analysis systematic\ review randomized\ control\ trial quasi-experiment cohort case-control cross-sectional\ survey case\ report)
+    [
+      'meta-analysis',
+      'systematic review',
+      'randomized control trial',
+      'quasi-experiment',
+      'cohort',
+      'case-control',
+      'cross-sectional survey',
+      'case report'
+    ]
   end
 end
