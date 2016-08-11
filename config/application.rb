@@ -14,7 +14,5 @@ module Projectcredo
 
     # For adding subdirectories
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
-  	# Force lowercase for Acts on Taggable
-  	ActsAsTaggableOn.force_lowercase = true
   end
 end
