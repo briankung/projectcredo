@@ -2,7 +2,8 @@ source 'https://rubygems.org'
 
 # ProjectCredo specific gems
 gem 'devise', '~> 4.2.0'
-
+gem 'acts-as-taggable-on', '~> 4.0'
+gem 'acts_as_votable', '~> 0.10.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0', '< 5.1'
@@ -27,8 +28,6 @@ gem 'jbuilder', '~> 2.0'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-# Use Acts as Taggable On for Lists and Papers
-gem 'acts-as-taggable-on', '~> 4.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

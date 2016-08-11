@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     acts-as-taggable-on (4.0.0)
       activerecord (>= 4.0)
+    acts_as_votable (0.10.0)
     arel (7.0.0)
     bcrypt (3.1.11)
     builder (3.2.2)
@@ -167,6 +168,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 4.0)
+  acts_as_votable (~> 0.10.0)
   byebug
   coffee-rails (~> 4.1.0)
   devise (~> 4.2.0)
