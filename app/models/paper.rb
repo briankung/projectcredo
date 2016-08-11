@@ -12,8 +12,13 @@ class Paper < ApplicationRecord
 
   def allowed_biases
 	  invalid_biases = bias_list - valid_biases
-	  invalid_biases.each {|b| errors.add(b, 'is not an accepted bias') }
+	  invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }
 	end
+
+  def allowed_methodologies
+    invalid_methodologies = methodology_list - valid_methodologies
+    invalid_methodologies.each {|b| errors.add(b, 'is not a supported methodology') }
+  end
 
   def valid_biases
     [
@@ -24,11 +29,6 @@ class Paper < ApplicationRecord
       'reporting',
       'small sample size'
     ]
-  end
-
-  def allowed_methodologies
-	  invalid_methodologies = methodology_list - valid_methodologies
-	  invalid_methodologies.each {|b| errors.add(b, 'is not methodology') }
   end
 
   def valid_methodologies
