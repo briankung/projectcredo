@@ -53,6 +53,70 @@
     <%= f.text_field :tag_list, value: paper.tag_list.join(",") %>
   </div>
 
+  Methodologies:</br>
+  <div class="field">
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'meta-analysis', nil %>
+      meta-analysis
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'systematic review', nil %>
+      systematic review
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'randomized control trial', nil %>
+      randomized control trial
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'quasi-experiment', nil %>
+      quasi-experiment
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'cohort', nil %>
+      cohort
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'case-control', nil %>
+      case-control
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'cross-sectional survey', nil %>
+      cross-sectional survey
+    </label></br>
+    <label>
+      <%= f.check_box :methodology_list, {multiple: true}, 'case report', nil %>
+      case report
+    </label>
+  </div>
+
+  Biases:</br>
+  <div class="field">
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'selection', nil %>
+      selection
+    </label></br>
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'performance', nil %>
+      performance
+    </label></br>
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'detection', nil %>
+      detection
+    </label></br>
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'attrition', nil %>
+      attrition
+    </label></br>
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'reporting', nil %>
+      reporting
+    </label></br>
+    <label>
+      <%= f.check_box :bias_list, {multiple: true}, 'small sample size', nil %>
+      small sample size
+    </label>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
