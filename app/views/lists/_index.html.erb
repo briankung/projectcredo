@@ -22,8 +22,11 @@
             <% end %>
             <h2><%= link_to list.name, list %></h2>
             <p><%= list.description %></p>
-            <p>Tags:<i><%= list.tag_list %></i></p>
-            <%= render partial: 'lists/references', locals: { list: list } %>
+            <small>
+              Tags:<i><%= list.tag_list %></i></br>
+              Updated On: <%= list.updated_at %></br>
+              Created By: <%= list.user.email %></br>
+            </small>
           </div>
         </div>
       </div>
