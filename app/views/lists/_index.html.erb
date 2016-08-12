@@ -1,17 +1,13 @@
 <% lists.each do |list| %>
-  <div class="card">
-    <% if user_signed_in? %>
-      <%= render partial: 'votes/toggle_like', locals: { votable: list } %>
-    <% end %>
-    <span class="info">
-      <h2><%= list.name %></h2>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <% if user_signed_in? %>
+        <%= render partial: 'votes/toggle_like', locals: { votable: list } %>
+      <% end %>
+      <h2><%= link_to list.name, list %></h2>
       <p><%= list.description %></p>
       <p>Tags:<i><%= list.tag_list %></i></p>
-    </span>
-    <span class="content">
       <%= render partial: 'lists/references', locals: { list: list } %>
-    </span>
-    <span class="options">
       <ul>
         <li><%= link_to 'Show', list %></li>
         <% if user_signed_in? %>
@@ -20,6 +16,6 @@
           <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
         <% end %>
       </ul>
-    </span>
+    </div>
   </div>
 <% end %>
