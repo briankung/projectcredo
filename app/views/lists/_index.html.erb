@@ -4,7 +4,7 @@
       <div class="col-md-4">
         <% if user_signed_in? %>
           <div class="row">
-            <div class="col-md-4 col-md-offset-6">
+            <div class="col-md-10">
               <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
             </div>
             <div class="col-md-2">
@@ -14,17 +14,16 @@
         <% end %>
         <div class="panel panel-default">
           <div class="panel-body">
+             <% if user_signed_in? %>
+              <small>
+                <%= link_to 'Edit ', edit_list_path(list) %>
+                <%= link_to ' Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %>
+              </small>
+            <% end %>
             <h2><%= link_to list.name, list %></h2>
             <p><%= list.description %></p>
             <p>Tags:<i><%= list.tag_list %></i></p>
             <%= render partial: 'lists/references', locals: { list: list } %>
-            <ul>
-              <li><%= link_to 'Show', list %></li>
-              <% if user_signed_in? %>
-                <li><%= link_to 'Edit', edit_list_path(list) %></li>
-                <li><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-              <% end %>
-            </ul>
           </div>
         </div>
       </div>
