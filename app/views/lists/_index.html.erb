@@ -1,21 +1,27 @@
-<% lists.each do |list| %>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <% if user_signed_in? %>
-        <%= render partial: 'votes/toggle_like', locals: { votable: list } %>
-      <% end %>
-      <h2><%= link_to list.name, list %></h2>
-      <p><%= list.description %></p>
-      <p>Tags:<i><%= list.tag_list %></i></p>
-      <%= render partial: 'lists/references', locals: { list: list } %>
-      <ul>
-        <li><%= link_to 'Show', list %></li>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Edit', edit_list_path(list) %></li>
-          <li><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-          <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
-        <% end %>
-      </ul>
-    </div>
+<% lists.each_slice(3) do |three_lists| %>
+  <div class="row">
+    <% three_lists.each do |list| %>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <% if user_signed_in? %>
+              <%= render partial: 'votes/toggle_like', locals: { votable: list } %>
+            <% end %>
+            <h2><%= link_to list.name, list %></h2>
+            <p><%= list.description %></p>
+            <p>Tags:<i><%= list.tag_list %></i></p>
+            <%= render partial: 'lists/references', locals: { list: list } %>
+            <ul>
+              <li><%= link_to 'Show', list %></li>
+              <% if user_signed_in? %>
+                <li><%= link_to 'Edit', edit_list_path(list) %></li>
+                <li><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 <% end %>
