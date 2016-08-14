@@ -16,7 +16,6 @@
 @import "cards";
 @import "navbar";
 
-
 body {
   line-height: 1.5;
   padding: 4em 1em;
@@ -26,6 +25,9 @@ body {
 }
 
 .btn {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
+.nav-button-group {
+  margin-top: 4px;
+}
