@@ -5,14 +5,10 @@
         <div class="panel-body">
            <% if user_signed_in? %>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <%= render partial: 'lists/toggle_pin', locals: { list: list } %>
-              </div>
-              <div class="col-md-2">
                 <%= render partial: 'votes/toggle_like', locals: { votable: list } %>
-              </div>
-              <div class="col-md-4">
-                <small>
+                <small class="pull-right">
                   <%= link_to 'Edit ', edit_list_path(list) %>
                   <%= link_to ' Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %>
                 </small>
