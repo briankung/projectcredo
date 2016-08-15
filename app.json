@@ -1,7 +1,7 @@
 {
   "name": "projectcredo",
   "scripts": {
-    "postdeploy": "rake db:migrate"
+    "postdeploy": "bundle exec rake db:migrate db:seed"
   },
   "env": {
     "LANG": {
