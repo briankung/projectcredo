@@ -42,7 +42,12 @@ GEM
       activerecord (>= 4.0)
     acts_as_votable (0.10.0)
     arel (7.0.0)
+    autoprefixer-rails (6.4.0.1)
+      execjs
     bcrypt (3.1.11)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.5)
     coffee-rails (4.1.1)
@@ -169,6 +174,8 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on (~> 4.0)
   acts_as_votable (~> 0.10.0)
+  autoprefixer-rails
+  bootstrap-sass (~> 3.3.6)
   byebug
   coffee-rails (~> 4.1.0)
   devise (~> 4.2.0)

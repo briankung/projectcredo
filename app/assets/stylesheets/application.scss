@@ -9,11 +9,12 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
- *
- *= require reset
- *= require_tree .
- *= require_self
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "cards";
+@import "navbar";
 
 body {
   line-height: 1.5;
@@ -23,48 +24,10 @@ body {
   font-family: "Helvetica", "Arial", sans-serif;
 }
 
-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ccc;
-
-  div {
-    margin: auto;
-    text-align: center;
-
-    span {
-      float: left;
-      width: 33%;
-    }
-  }
-
-  button {
-    background-color: white;
-    width: 10em;
-    height: 3em;
-    border-radius: 5px;
-  }
-
-  input {
-    background-color: white;
-    width: 40em;
-  }
+.btn {
+  margin-bottom: 4px;
 }
 
-h1 {
-  font-size: 5em;
-}
-
-h2 {
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.5em;
-}
-
-li {
-  list-style: disc inside;
+.nav-button-group {
+  margin-top: 4px;
 }

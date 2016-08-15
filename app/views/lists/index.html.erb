@@ -1,7 +1,10 @@
+<%= render partial: 'layouts/nav_button_group' %>
+
 <h1>Lists</h1>
 
-<%= link_to 'New List', new_list_path %>
+<p><%= link_to 'New List', new_list_path %></p>
 
 <%= render partial: 'lists/index', locals: { lists: @lists } %>
 
-<%= link_to 'New List', new_list_path %>
+<!-- SHAME - inline styles are terrible -->
+<p style="clear: left;"><%= link_to 'New List', new_list_path %></p>

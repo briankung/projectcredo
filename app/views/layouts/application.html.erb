@@ -8,21 +8,42 @@
   </head>
 
   <body>
-    <nav>
-      <div>
-        <span><%= link_to 'Project Credo', root_path %></span>
-        <span><%= text_field_tag :search, 'Reserved: future searches', disabled: true %></span>
-        <span><%= render partial: 'layouts/user_session_links' %></span>
-      </div>
-      <div>
-        <%= link_to button_tag('Lists'), lists_path %>
-        <%= link_to button_tag('Papers'), papers_path %>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                  data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to 'Project Credo', root_path, class:"navbar-brand" %>
+          <form class="navbar-form" role="search">
+            <div class="form-group" style="display: inline">
+              <div class="input-group" style="display: table">
+                <%= text_field_tag :search, 'Reserved: future searches', disabled: true, class: "form-control" %>
+                <span class="clear hidden-sm hidden-md hidden-lg"></span>
+                <span class="input-group-btn hidden-xs" style="width: 1%">
+                  <button class="btn btn-default" type="button">Search</button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <%= render partial: 'layouts/user_session_links' %>
+          </ul>
+        </div>
       </div>
     </nav>
-
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-
+    <% if notice %>
+      <p class="notice alert-success"><%= notice %></p>
+    <% elsif alert %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>
