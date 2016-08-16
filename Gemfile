@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.1'
 
 gem 'devise', '~> 4.2.0'
 gem 'acts-as-taggable-on', '~> 4.0'
