@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-# ProjectCredo specific gems
 gem 'devise', '~> 4.2.0'
 gem 'acts-as-taggable-on', '~> 4.0'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'autoprefixer-rails'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0', '< 5.1'
 # Use postgresql as the database for Active Record
@@ -36,6 +36,8 @@ gem 'jbuilder', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'remotipart', github: 'mshibuya/remotipart'
+  gem 'rails_admin', '>= 1.0.0.rc'
 end
 
 group :development do
