@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  end
   root 'homepage#show'
 
   devise_for :users
