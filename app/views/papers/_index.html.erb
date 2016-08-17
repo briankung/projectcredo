@@ -7,19 +7,23 @@
     end
   end
 %>
-
 <% papers.each_with_index do |paper,index| %>
-
-  <div class="row">
-    <div class="col-md-2">
+  <div class="row paper-show">
+    <div class="col-md-1">
       <% if defined? references %>
         <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
       <% end %>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-11">
       <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
-      <%= paper.authors.map(&:name).join(', ') %></br>
       <small>
+        <%= paper.authors.map(&:name).join(', ') %>
+        <i>
+          in Journal of Reserved
+          (<%= paper.published_at %>)
+        </i>
+
+        </br>
         <b>Methodologies:</b>
         <% paper.methodology_list.each do |methodology| %>
           <a class="btn btn-default btn-xs">
@@ -41,38 +45,37 @@
           </a>
         <% end %>
         </br>
-
-        <% if user_signed_in? %>
-          <%= link_to 'Edit', edit_paper_path(paper) %> |
-          <%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' } %>
-        <% end %>
       </small>
-        <div class="paper-collapse">
-        <ul class="nav nav-tabs">
-          <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
-            data: { parent: '#accordion', toggle: :collapse },
-            aria: { controls: :collapseOne, expanded: true } %></li>
-          <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
-            data: { parent: '#accordion', toggle: :collapse },
-            aria: { controls: :collapseOne, expanded: true } %></li>
-          <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
-            data: { parent: '#accordion', toggle: :collapse },
-            aria: { controls: :collapseOne, expanded: true } %></li>
+      <ul class="nav nav-pills">
+        <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
+          data: { parent: '#accordion', toggle: :collapse },
+          aria: { controls: :collapseOne, expanded: true }
+          %></li>
+        <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
+          data: { parent: '#accordion', toggle: :collapse },
+          aria: { controls: :collapseOne, expanded: true } %></li>
+        <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
+          data: { parent: '#accordion', toggle: :collapse },
+          aria: { controls: :collapseOne, expanded: true } %></li>
+        <li>
+          <% if user_signed_in? %>
+            <%= link_to 'Edit', edit_paper_path(paper) %>
+          <% end %>
+        </li>
+      </ul>
+      <div class="collapse" id="abstract-<%= index %>">
+        <p><%= paper.abstract %></p>
+      </div>
+      <div class="collapse" id="details-<%= index %>">
+        <ul>
+          <li>DOI: <%= paper.doi %></li>
+          <li>Pubmed ID: <%= paper.pubmed_id %></li>
+          <li>Link: <%= paper.link %></li>
+          <li>Published: <%= paper.published_at %></li>
         </ul>
-        <div class="collapse" id="abstract-<%= index %>">
-          <p><%= paper.abstract %></p>
-        </div>
-        <div class="collapse" id="details-<%= index %>">
-          <ul>
-            <li>DOI: <%= paper.doi %></li>
-            <li>Pubmed ID: <%= paper.pubmed_id %></li>
-            <li>Link: <%= paper.link %></li>
-            <li>Published: <%= paper.published_at %></li>
-          </ul>
-        </div>
-        <div class="collapse" id="comments-<%= index %>">
-          Reserved for comments in the future
-        </div>
+      </div>
+      <div class="collapse" id="comments-<%= index %>">
+        Reserved for comments in the future
       </div>
     </div>
   </div>
