@@ -1,6 +1,6 @@
 <% vote_path = polymorphic_path([votable, :vote]) %>
 
-<% if current_user.voted_for? votable %>
+<% if user_signed_in? && current_user.voted_for? votable %>
   <%= form_tag vote_path, method: :delete do %>
     <%= text_field_tag 'id', votable.id, hidden: true %>
     <%= text_field_tag 'type', votable.class.to_s.downcase, hidden: true %>
