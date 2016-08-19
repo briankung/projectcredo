@@ -33,7 +33,7 @@
         </br>
         <b>Methodologies:</b>
         <% if paper.methodology_list.empty? %>
-          (Unknown)
+          <i>(Unknown)</i>
         <% else %>
           <% paper.methodology_list.each do |methodology| %>
             <a class="btn btn-default btn-xs">
@@ -42,10 +42,14 @@
           <% end %>
         <% end %>
         <b>Biases:</b>
-        <% paper.bias_list.each do |bias| %>
-          <a class="btn btn-default btn-xs">
-            <%= bias %>
-          </a>
+        <% if paper.bias_list.empty? %>
+          <i>(Unknown)</i>
+        <% else %>
+          <% paper.bias_list.each do |bias| %>
+            <a class="btn btn-default btn-xs">
+              <%= bias %>
+            </a>
+          <% end %>
         <% end %>
       </small>
       <ul class="nav nav-pills" role="tablist">
