@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  before_action :ensure_current_user
+
   def create
     if votable_params[:type] == 'list'
       current_user.likes List.find(votable_params[:id])
