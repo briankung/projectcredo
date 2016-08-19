@@ -15,7 +15,15 @@
       <% end %>
     </div>
     <div class="col-md-11">
-      <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
+      <h4 class="paper-title">
+        <%= link_to paper.title, paper %>
+      </h4>
+      <% paper.tag_list.each do |tag| %>
+        <a class="btn btn-default btn-xs">
+          <%= tag %>
+        </a>
+      <% end %>
+      </br>
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
         <i>
@@ -24,41 +32,39 @@
         </i>
         </br>
         <b>Methodologies:</b>
-        <% paper.methodology_list.each do |methodology| %>
-          <a class="btn btn-default btn-xs">
-            <%= methodology %>
-          </a>
+        <% if paper.methodology_list.empty? %>
+          (Unknown)
+        <% else %>
+          <% paper.methodology_list.each do |methodology| %>
+            <a class="btn btn-default btn-xs">
+              <%= methodology %>
+            </a>
+          <% end %>
         <% end %>
-        </br>
         <b>Biases:</b>
         <% paper.bias_list.each do |bias| %>
           <a class="btn btn-default btn-xs">
             <%= bias %>
           </a>
         <% end %>
-        </br>
-        <b>Tags:</b>
-        <% paper.tag_list.each do |tag| %>
-          <a class="btn btn-default btn-xs">
-            <%= tag %>
-          </a>
-        <% end %>
-        </br>
       </small>
-      <ul class="nav nav-pills">
+      <ul class="nav nav-pills" role="tablist">
         <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
-          data: { parent: '#accordion', toggle: :collapse },
-          aria: { controls: :collapseOne, expanded: true }
-          %></li>
+          data: { toggle: :collapse },
+          aria: { controls: :abstract, expanded: true },
+          class: "small" %></li>
         <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
-          data: { parent: '#accordion', toggle: :collapse },
-          aria: { controls: :collapseOne, expanded: true } %></li>
+          data: {  toggle: :collapse },
+          aria: { controls: :details, expanded: true },
+          class: "small" %></li>
         <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
-          data: { parent: '#accordion', toggle: :collapse },
-          aria: { controls: :collapseOne, expanded: true } %></li>
+          data: { toggle: :collapse },
+          aria: { controls: :comments, expanded: true },
+          class: "small" %></li>
         <li>
           <% if user_signed_in? %>
-            <%= link_to 'Edit', edit_paper_path(paper) %>
+            <%= link_to 'Edit', edit_paper_path(paper),
+          class: "small" %>
           <% end %>
         </li>
       </ul>
