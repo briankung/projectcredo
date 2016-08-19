@@ -1,14 +1,10 @@
 <%
   vote_path = polymorphic_path([votable, :vote])
-  if user_signed_in? && current_user.voted_for?(votable)
-    http_method = :delete
-  else
-    http_method = :post
-  end
+  liked = user_signed_in? && current_user.voted_for?(votable)
 %>
 
-<%= form_tag vote_path, method: http_method do %>
+<%= form_tag vote_path, method: (liked ? :delete : :post) do %>
   <%= text_field_tag 'id', votable.id, hidden: true %>
   <%= text_field_tag 'type', votable.class.to_s.downcase, hidden: true %>
-  <%= submit_tag '👍 ' + votable.get_likes.size.to_s, class: "btn btn-default active btn-sm pull-left" %>
+  <%= submit_tag '👍 ' + votable.get_likes.size.to_s, class: "btn btn-default btn-sm pull-left #{"active" if liked}" %>
 <% end %>
