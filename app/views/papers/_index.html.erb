@@ -12,6 +12,11 @@
     <div class="col-md-1">
       <% if defined? references %>
         <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
+      <% else %>
+        <p class="text-center">
+          <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
+          <small>Total Votes</small>
+        </p>
       <% end %>
     </div>
     <div class="col-md-11">
