@@ -31,7 +31,6 @@
             </div>
           </form>
         </div>
-
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <%= render partial: 'layouts/user_session_links' %>
@@ -44,6 +43,9 @@
     <% elsif alert %>
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
+
+    <%= render partial: 'layouts/nav_button_group' %>
+
     <%= yield %>
   </body>
 </html>
