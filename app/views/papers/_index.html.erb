@@ -7,34 +7,90 @@
     end
   end
 %>
-
-<% papers.each do |paper| %>
-  <% if defined? references %>
-    <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
-  <% end %>
-  <div class="card">
-    <span class="info">
-      <h3><%= paper.title %></h3>
-      <ul>
-        <li>DOI: <%= paper.doi %></li>
-        <li>Pubmed ID: <%= paper.pubmed_id %></li>
-        <li>Link: <%= paper.link %></li>
-        <li>Published: <%= paper.published_at %></li>
-        <li>Tags: <%= paper.tag_list %></li>
-      </ul>
-    </span>
-    <span class="content">
-      <p><%= paper.abstract %></p>
-    </span>
-    </ul>
-    <span class="options">
-      <ul>
-        <li><%= link_to 'Show', paper %></li>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Edit', edit_paper_path(paper) %></li>
-          <li><%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+<% papers.each_with_index do |paper,index| %>
+  <div class="row paper-show">
+    <div class="col-md-1">
+      <% if defined? references %>
+        <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
+      <% else %>
+        <p class="text-center">
+          <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
+          <small>Total Votes</small>
+        </p>
+      <% end %>
+    </div>
+    <div class="col-md-11">
+      <h4 class="paper-title">
+        <%= link_to paper.title, paper %>
+      </h4>
+      <% paper.tag_list.each do |tag| %>
+        <a class="btn btn-default btn-xs">
+          <%= tag %>
+        </a>
+      <% end %>
+      </br>
+      <small>
+        <%= paper.authors.map(&:name).join(', ') %>
+        <i>
+          in Journal of Reserved
+          (<%= paper.published_at %>)
+        </i>
+        </br>
+        <b>Methodologies:</b>
+        <% if paper.methodology_list.empty? %>
+          <i>(Unknown)</i>
+        <% else %>
+          <% paper.methodology_list.each do |methodology| %>
+            <a class="btn btn-default btn-xs">
+              <%= methodology %>
+            </a>
+          <% end %>
         <% end %>
+        <b>Biases:</b>
+        <% if paper.bias_list.empty? %>
+          <i>(Unknown)</i>
+        <% else %>
+          <% paper.bias_list.each do |bias| %>
+            <a class="btn btn-default btn-xs">
+              <%= bias %>
+            </a>
+          <% end %>
+        <% end %>
+      </small>
+      <ul class="nav nav-pills" role="tablist">
+        <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
+          data: { toggle: :collapse },
+          aria: { controls: :abstract, expanded: true },
+          class: "small" %></li>
+        <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
+          data: {  toggle: :collapse },
+          aria: { controls: :details, expanded: true },
+          class: "small" %></li>
+        <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
+          data: { toggle: :collapse },
+          aria: { controls: :comments, expanded: true },
+          class: "small" %></li>
+        <li>
+          <% if user_signed_in? %>
+            <%= link_to 'Edit', edit_paper_path(paper),
+          class: "small" %>
+          <% end %>
+        </li>
       </ul>
-    </span>
+      <div class="collapse" id="abstract-<%= index %>">
+        <p><%= paper.abstract %></p>
+      </div>
+      <div class="collapse" id="details-<%= index %>">
+        <ul>
+          <li>DOI: <%= paper.doi %></li>
+          <li>Pubmed ID: <%= paper.pubmed_id %></li>
+          <li>Link: <%= paper.link %></li>
+          <li>Published: <%= paper.published_at %></li>
+        </ul>
+      </div>
+      <div class="collapse" id="comments-<%= index %>">
+        Reserved for comments in the future
+      </div>
+    </div>
   </div>
 <% end %>
