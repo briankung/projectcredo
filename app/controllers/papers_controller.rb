@@ -18,6 +18,7 @@ class PapersController < ApplicationController
     @paper = Paper.new
     # SHAME SHAME SHAME DINGDINGDING SHAME SHAME SHAME DINGDINGDING
     5.times { @paper.authors.build }
+    @paper.build_publication
   end
 
   # GET /papers/1/edit

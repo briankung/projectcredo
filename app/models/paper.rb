@@ -9,9 +9,7 @@ class Paper < ApplicationRecord
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   accepts_nested_attributes_for :publication, reject_if: proc { |attributes| attributes['name'].blank? }
-
   validates_associated :authors
-  validates_associated :publication
   validate :allowed_biases, :allowed_methodologies
 
   def allowed_biases
