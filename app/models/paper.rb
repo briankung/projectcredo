@@ -5,10 +5,13 @@ class Paper < ApplicationRecord
   has_and_belongs_to_many :authors
   has_many :lists, through: :references
   has_many :references, dependent: :destroy
-  belongs_to :publisher
+  belongs_to :publication
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
+  accepts_nested_attributes_for :publication, reject_if: proc { |attributes| attributes['name'].blank? }
+
   validates_associated :authors
+  validates_associated :publication
   validate :allowed_biases, :allowed_methodologies
 
   def allowed_biases

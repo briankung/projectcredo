@@ -23,6 +23,13 @@
     </div>
   <% end %>
 
+  <%= f.fields_for :publications, paper.publication do |p| %>
+    <div class="field">
+      <%= p.label :name, 'Publication' %>
+      <%= p.text_field :name %>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :abstract %>
     <%= f.text_area :abstract %>
