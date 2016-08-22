@@ -41,7 +41,7 @@ class ReferencesController < ApplicationController
       pubmed = Pubmed.new
       data = pubmed.search(identifier)['result'][identifier]
 
-      existing_authors, new_authors = [], []
+      existing_authors, new_authors, publication = [], [], []
 
       data['authors'].each do |author_data|
         if (author = Author.find_by name: author_data['name'])
@@ -57,7 +57,8 @@ class ReferencesController < ApplicationController
         published_at: data['pubdate'],
         authors_attributes: new_authors,
         abstract: pubmed.get_abstract(data['uid']),
-        doi: data['elocationid'].sub(/^doi: /, "")
+        doi: data['elocationid'].sub(/^doi: /, ""),
+        publication_attributes: {name: data['source']}
       )
       paper.authors.push *existing_authors unless existing_authors.empty?
       return paper
