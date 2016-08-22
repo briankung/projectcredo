@@ -32,7 +32,7 @@
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
         <i>
-          <%= "in " + paper.publication.name unless paper.publication.nil? %>
+          <%= "in " + paper.publication.name.split.map(&:capitalize).join(' ') unless paper.publication.nil? %>
           <%= "(" + paper.published_at.to_s + ")" unless paper.published_at.nil? %>
         </i>
         </br>
