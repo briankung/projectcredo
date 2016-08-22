@@ -9,8 +9,8 @@ class Paper < ApplicationRecord
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   accepts_nested_attributes_for :publication, reject_if: proc { |attributes| attributes['name'].blank? }
-  validates_associated :authors
   validate :allowed_biases, :allowed_methodologies
+  before_validation :find_publication
 
   def allowed_biases
 	  invalid_biases = bias_list - valid_biases
@@ -44,5 +44,9 @@ class Paper < ApplicationRecord
       'cross-sectional survey',
       'case report'
     ]
+  end
+
+  def find_publication
+    self.publication = Publication.where(name: self.publication.name).first_or_initialize
   end
 end
