@@ -10,23 +10,24 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
+  <div class="form-horizontal">
+  <div class="form-group">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, class: "form-control", rows: 5 %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :tag_list, 'Tags (separated by commas)' %>
-    <%= f.text_field :tag_list, value: list.tag_list.join(",") %>
+    <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control"  %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit button_name, class: "btn btn-default" %>
+  </div>
   </div>
 <% end %>
