@@ -16,14 +16,14 @@
     <%= f.text_field :title %>
   </div>
 
-  <%= f.fields_for :authors, paper.authors do |a| %>
+  <%= f.fields_for :authors, (paper.authors.empty? ? 5.times { paper.authors.build } : paper.authors) do |a| %>
     <div class="field">
       <%= a.label :name, 'Author Full Name' %>
       <%= a.text_field :name %>
     </div>
   <% end %>
 
-  <%= f.fields_for :publication, paper.publication ? paper.publication : paper.build_publication do |p| %>
+  <%= f.fields_for :publication, (paper.publication || paper.build_publication) do |p| %>
     <div class="field">
       <%= p.label :name, 'Publication' %>
       <%= p.text_field :name %>
