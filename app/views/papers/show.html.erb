@@ -10,7 +10,7 @@
 
 <p>
   <strong>Publication:</strong>
-  <%= @paper.publication.name.split.map(&:capitalize).join(' ') unless @paper.publication.nil? %>
+  <span class="publication"> <%= @paper.publication.name unless @paper.publication.nil? %></span>
 </p>
 
 <p>
