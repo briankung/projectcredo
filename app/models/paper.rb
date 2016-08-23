@@ -47,6 +47,8 @@ class Paper < ApplicationRecord
   end
 
   def find_publication
-    self.publication = Publication.where(name: self.publication.name).first_or_initialize
+    if self.publication.present?
+      self.publication = Publication.where(name: self.publication.name).first_or_initialize
+    end
   end
 end
