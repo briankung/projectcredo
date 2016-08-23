@@ -41,7 +41,7 @@ class ReferencesController < ApplicationController
       pubmed = Pubmed.new
       data = pubmed.search(identifier)['result'][identifier]
 
-      existing_authors, new_authors, publication = [], [], []
+      existing_authors, new_authors = [], []
 
       data['authors'].each do |author_data|
         if (author = Author.find_by name: author_data['name'])
