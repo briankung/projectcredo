@@ -16,7 +16,8 @@
     <%= f.text_field :title %>
   </div>
 
-  <%= f.fields_for :authors, (paper.authors.empty? ? 5.times { paper.authors.build } : paper.authors) do |a| %>
+  <% paper.authors.build %>
+  <%= f.fields_for :authors do |a| %>
     <div class="field">
       <%= a.label :name, 'Author Full Name' %>
       <%= a.text_field :name %>

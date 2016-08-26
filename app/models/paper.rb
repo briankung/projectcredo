@@ -5,17 +5,16 @@ class Paper < ApplicationRecord
   has_and_belongs_to_many :authors
   has_many :lists, through: :references
   has_many :references, dependent: :destroy
-  belongs_to :publication
+  belongs_to :publication, autosave: false
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   accepts_nested_attributes_for :publication, reject_if: proc { |attributes| attributes['name'].blank? }
   validate :allowed_biases, :allowed_methodologies
-  before_validation :find_publication
 
   def allowed_biases
-	  invalid_biases = bias_list - valid_biases
-	  invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }
-	end
+    invalid_biases = bias_list - valid_biases
+    invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }
+  end
 
   def allowed_methodologies
     invalid_methodologies = methodology_list - valid_methodologies
@@ -46,9 +45,15 @@ class Paper < ApplicationRecord
     ]
   end
 
-  def find_publication
-    if self.publication.present?
-      self.publication = Publication.where(name: self.publication.name).first_or_initialize
+  def autosave_associated_records_for_publication
+    if publication.nil?
+    elsif existing_publication = Publication.find_by_name(publication.name.downcase)
+      self.publication = existing_publication
+    else
+      new_publication = Publication.new
+      new_publication.name = publication.name
+      new_publication.save!
+      self.publication = new_publication
     end
   end
 end
