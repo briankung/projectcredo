@@ -4,30 +4,38 @@
       <h2><%= pluralize(list.errors.count, "error") %> prohibited this list from being saved:</h2>
 
       <ul>
-      <% list.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <% list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
   <div class="form-horizontal">
-  <div class="form-group">
-    <%= f.label :name, class: "col-md-2 control-label" %>
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
+    <div class="form-group">
+      <%= f.label :name, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_area :description, class: "form-control", rows: 5 %>
-  </div>
+    <div class="form-group">
+      <%= f.label :description, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_area :description, class: "form-control", rows: 5 %>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :tag_list, 'Tags (separated by commas)' %>
-    <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control"  %>
-  </div>
+    <div class="form-group">
+      <%= f.label :tag_list, 'Tags (separated by commas)', class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control"  %>
+      </div>
+    </div>
 
-  <div class="actions">
-    <%= f.submit button_name, class: "btn btn-default" %>
-  </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit button_name, class: "btn btn-primary" %>
+      </div>
+    </div>
   </div>
 <% end %>
