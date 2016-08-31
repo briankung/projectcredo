@@ -5,10 +5,10 @@ class Paper < ApplicationRecord
   has_and_belongs_to_many :authors
   has_many :lists, through: :references
   has_many :references, dependent: :destroy
-  belongs_to :publication, autosave: false
+  belongs_to :publication
 
-  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
-  accepts_nested_attributes_for :publication, reject_if: proc { |attributes| attributes['name'].blank? }
+  accepts_nested_attributes_for :authors, reject_if: proc { |a| a['name'].blank? }
+  accepts_nested_attributes_for :publication, reject_if: proc { |a| a['name'].blank? }
   validate :allowed_biases, :allowed_methodologies
 
   def allowed_biases
@@ -46,14 +46,8 @@ class Paper < ApplicationRecord
   end
 
   def autosave_associated_records_for_publication
-    if publication.nil?
-    elsif existing_publication = Publication.find_by_name(publication.name.downcase)
-      self.publication = existing_publication
-    else
-      new_publication = Publication.new
-      new_publication.name = publication.name
-      new_publication.save!
-      self.publication = new_publication
+    if publication
+      self.publication = Publication.find_or_create_by name: publication.name.downcase
     end
   end
 end
