@@ -5,15 +5,16 @@ class Paper < ApplicationRecord
   has_and_belongs_to_many :authors
   has_many :lists, through: :references
   has_many :references, dependent: :destroy
+  belongs_to :publication
 
-  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
-  validates_associated :authors
+  accepts_nested_attributes_for :authors, reject_if: proc { |a| a['name'].blank? }
+  accepts_nested_attributes_for :publication, reject_if: proc { |a| a['name'].blank? }
   validate :allowed_biases, :allowed_methodologies
 
   def allowed_biases
-	  invalid_biases = bias_list - valid_biases
-	  invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }
-	end
+    invalid_biases = bias_list - valid_biases
+    invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }
+  end
 
   def allowed_methodologies
     invalid_methodologies = methodology_list - valid_methodologies
@@ -42,5 +43,11 @@ class Paper < ApplicationRecord
       'cross-sectional survey',
       'case report'
     ]
+  end
+
+  def autosave_associated_records_for_publication
+    if publication
+      self.publication = Publication.find_or_create_by name: publication.name.downcase
+    end
   end
 end

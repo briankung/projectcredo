@@ -32,8 +32,8 @@
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
         <i>
-          in Journal of Reserved
-          (<%= paper.published_at %>)
+          <span class="publication"><%= "in " + paper.publication.name unless paper.publication.nil? %></span>
+          <%= "(" + paper.published_at.to_s + ")" unless paper.published_at.nil? %>
         </i>
         </br>
         <b>Methodologies:</b>
