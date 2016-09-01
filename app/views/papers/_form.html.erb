@@ -11,113 +11,95 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+  <div class="form-horizontal">
 
-  <%= f.fields_for :authors, paper.authors do |a| %>
-    <div class="field">
-      <%= a.label :name, 'Author Full Name' %>
-      <%= a.text_field :name %>
+    <div class="form-group">
+      <%= f.label :title, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_area :title, class: "form-control"  %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :abstract %>
-    <%= f.text_area :abstract %>
-  </div>
+    <%= f.fields_for :authors, paper.authors do |a| %>
+      <div class="form-group">
+        <%= a.label :name, 'Author Full Name', class: "col-md-2 control-label" %>
+        <div class="col-md-10">
+          <%= a.text_field :name, class: "form-control"  %>
+        </div>
+      </div>
+    <% end %>
 
-  <div class="field">
-    <%= f.label :link %>
-    <%= f.text_field :link %>
-  </div>
+    <div class="form-group">
+      <%= f.label :abstract, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_area :abstract, class: "form-control", rows: 8 %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :doi %>
-    <%= f.text_field :doi %>
-  </div>
+    <div class="form-group">
+      <%= f.label :link, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_field :link, class: "form-control" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :pubmed_id %>
-    <%= f.text_field :pubmed_id %>
-  </div>
+    <div class="form-group">
+      <%= f.label :doi, class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.text_field :doi, class: "form-control" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :published_at %>
-    <%= f.date_select :published_at %>
-  </div>
+    <div class="form-group">
+      <%= f.label :pubmed_id, class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.text_field :pubmed_id, class: "form-control" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :tag_list, 'Tags (separated by commas)' %>
-    <%= f.text_field :tag_list, value: paper.tag_list.join(",") %>
-  </div>
+    <div class="form-group">
+      <%= f.label :published_at, class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.date_select :published_at, class: "form-control" %>
+      </div>
+    </div>
 
-  Methodologies:</br>
-  <div class="field">
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'meta-analysis', nil %>
-      meta-analysis
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'systematic review', nil %>
-      systematic review
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'randomized control trial', nil %>
-      randomized control trial
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'quasi-experiment', nil %>
-      quasi-experiment
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'cohort', nil %>
-      cohort
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'case-control', nil %>
-      case-control
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'cross-sectional survey', nil %>
-      cross-sectional survey
-    </label></br>
-    <label>
-      <%= f.check_box :methodology_list, {multiple: true}, 'case report', nil %>
-      case report
-    </label>
-  </div>
+    <div class="form-group">
+      <%= f.label :tag_list, 'Tags (separated by commas)', class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.text_field :tag_list, value: paper.tag_list.join(","), class: "form-control" %>
+      </div>
+    </div>
 
-  Biases:</br>
-  <div class="field">
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'selection', nil %>
-      selection
-    </label></br>
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'performance', nil %>
-      performance
-    </label></br>
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'detection', nil %>
-      detection
-    </label></br>
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'attrition', nil %>
-      attrition
-    </label></br>
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'reporting', nil %>
-      reporting
-    </label></br>
-    <label>
-      <%= f.check_box :bias_list, {multiple: true}, 'small sample size', nil %>
-      small sample size
-    </label>
-  </div>
+    <div class="form-group">
+      <%= f.label :methodology_list, class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <% paper.valid_methodologies.each do |m|%>
+          <label class= "checkbox-inline">
+            <%= f.check_box :methodology_list, {multiple: true}, m, nil %>
+            <%= m %>
+          </label>
+        <% end %>
+      </div>
+    </div>
 
-  <div class="actions">
-    <%= f.submit %>
+    <div class="form-group">
+      <%= f.label :bias_list, class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <% paper.valid_biases.each do |b|%>
+          <label class= "checkbox-inline">
+            <%= f.check_box :bias_list, {multiple: true}, b, nil %>
+            <%= b %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit button_name, class: "btn btn-primary" %>
+      </div>
+    </div>
+
   </div>
 <% end %>
