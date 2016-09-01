@@ -16,8 +16,6 @@ class PapersController < ApplicationController
   # GET /papers/new
   def new
     @paper = Paper.new
-    # SHAME SHAME SHAME DINGDINGDING SHAME SHAME SHAME DINGDINGDING
-    5.times { @paper.authors.build }
   end
 
   # GET /papers/1/edit
