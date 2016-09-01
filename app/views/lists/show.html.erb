@@ -10,11 +10,8 @@
   <%= @list.tag_list %>
 </p>
 
-
 <%= render partial: 'papers/index', locals: { references: @list.references } %>
-
 <%= render partial: 'lists/add_paper_form', locals: { list: @list } %>
-
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
 <%= link_to 'Back', lists_path %>
