@@ -10,6 +10,12 @@ class Paper < ApplicationRecord
   validates_associated :authors
   validate :allowed_biases, :allowed_methodologies
 
+  before_save :downcase_name
+
+  def downcase_name
+    self.publication.downcase!
+  end
+
   def allowed_biases
 	  invalid_biases = bias_list - valid_biases
 	  invalid_biases.each {|b| errors.add(b, 'is not a supported bias') }

@@ -30,6 +30,13 @@
     <% end %>
 
     <div class="form-group">
+      <%= f.label :publication, class: "col-md-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.text_field :publication, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
       <%= f.label :abstract, class: "col-md-2 control-label" %>
       <div class="col-md-10">
         <%= f.text_area :abstract, class: "form-control", rows: 8 %>
