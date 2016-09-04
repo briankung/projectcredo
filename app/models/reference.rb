@@ -1,6 +1,4 @@
 class Reference < ApplicationRecord
-  default_scope { order( cached_votes_up: :desc ) }
-
   acts_as_votable
 
   belongs_to :paper
