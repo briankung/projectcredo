@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831235934) do
+ActiveRecord::Schema.define(version: 20160901163505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,10 +45,12 @@ ActiveRecord::Schema.define(version: 20160831235934) do
 
   create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.string   "description"
-    t.uuid     "user_id",     default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid     "user_id",         default: -> { "uuid_generate_v4()" }, null: false
+    t.integer  "cached_votes_up", default: 0
+    t.index ["cached_votes_up"], name: "index_lists_on_cached_votes_up", using: :btree
   end
 
   create_table "papers", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -72,10 +74,12 @@ ActiveRecord::Schema.define(version: 20160831235934) do
   end
 
   create_table "references", force: :cascade do |t|
-    t.uuid     "list_id",    null: false
-    t.uuid     "paper_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.uuid     "list_id",                     null: false
+    t.uuid     "paper_id",                    null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "cached_votes_up", default: 0
+    t.index ["cached_votes_up"], name: "index_references_on_cached_votes_up", using: :btree
   end
 
   create_table "taggings", force: :cascade do |t|
