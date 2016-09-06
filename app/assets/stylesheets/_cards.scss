@@ -1,3 +1,15 @@
-.card:nth-child(3n+1){
+.card:nth-child(3n+1) {
   clear:left
+}
+
+.link-anchor {
+  position: relative;
+}
+
+a.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
