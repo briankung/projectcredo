@@ -1,0 +1,4 @@
+<div class="btn-group btn-group-xs nav-button-group" role="group" aria-label="...">
+  <%= link_to 'Votes', list_path(sort: 'votes'), class: "btn btn-default" + (params[:sort] == "pub_date" ? "" : " active"), role: "button" %>
+  <%= link_to 'Publish Date', list_path(sort: 'pub_date'), class: "btn btn-default" + (params[:sort] == "pub_date" ? " active" : ""), role: "button"  %>
+</div>
