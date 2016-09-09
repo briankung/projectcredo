@@ -2,7 +2,7 @@
 
 <%= link_to 'New Paper', new_paper_path %> </br>
 
-<%= render partial: 'papers/sort_by', locals: { page: 'papers' } %>
+<%= render partial: 'papers/sort_by' %>
 
 <%= render partial: 'papers/index', locals: { papers: @papers } %>
 
