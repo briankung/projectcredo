@@ -13,7 +13,7 @@ class ListsController < ApplicationController
   def show
       @references = @list.references
       .joins(:paper)
-      .order(('cached_votes_up DESC, ' if params[:sort] != 'pub_date').to_s + 'papers.published_at DESC NULLS LAST')
+      .order("#{'cached_votes_up DESC, ' unless params[:sort] == 'pub_date'} papers.published_at DESC NULLS LAST")
   end
 
   # GET /lists/new
