@@ -59,6 +59,7 @@ class PapersController < ApplicationController
   # DELETE /papers/1.json
   def destroy
     @paper.destroy
+
     respond_to do |format|
       format.html { redirect_to papers_url, notice: 'Paper was successfully destroyed.' }
       format.json { head :no_content }
