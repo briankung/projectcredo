@@ -11,6 +11,9 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.json
   def show
+    @references = @list.references
+      .joins(:paper)
+      .order(params_sort_order)
   end
 
   # GET /lists/new
@@ -57,6 +60,7 @@ class ListsController < ApplicationController
   # DELETE /lists/1.json
   def destroy
     @list.destroy
+
     respond_to do |format|
       format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
@@ -72,5 +76,16 @@ class ListsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
       params.require(:list).permit(:name, :description, :tag_list)
+    end
+
+    def params_sort_order
+      pub_date_order = 'papers.published_at DESC NULLS LAST'
+      vote_order = 'cached_votes_up DESC'
+
+      if params[:sort] == 'pub_date'
+        pub_date_order
+      else # default to ordering by votes first, then pub date
+        "#{vote_order}, #{pub_date_order}"
+      end
     end
 end
