@@ -8,7 +8,7 @@ class PapersController < ApplicationController
     @papers = Paper.select('papers.*,sum(cached_votes_up) as total_votes')
       .joins(:references)
       .group('papers.id')
-      .order(('total_votes DESC, ' if params[:sort] != 'pub_date').to_s + 'papers.published_at DESC NULLS LAST')
+      .order(params_sort_order)
   end
 
   # GET /papers/1
@@ -77,5 +77,16 @@ class PapersController < ApplicationController
       params.require(:paper).permit(
         :title, :abstract, :link, :doi, :pubmed_id, :published_at, :publication,
         :tag_list, bias_list: [], methodology_list: [], authors_attributes: [:id, :name])
+    end
+
+    def params_sort_order
+      pub_date_order = 'papers.published_at DESC NULLS LAST'
+      vote_order = 'total_votes DESC'
+
+      if params[:sort] == 'pub_date'
+        pub_date_order
+      else # default to ordering by votes first, then pub date
+        "#{vote_order}, #{pub_date_order}"
+      end
     end
 end
