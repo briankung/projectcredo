@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.1'
 
 # ProjectCredo specific gems
 gem 'devise', '~> 4.2.0'
