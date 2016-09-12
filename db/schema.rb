@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901163505) do
+ActiveRecord::Schema.define(version: 20160912180755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20160901163505) do
     t.string   "publication"
   end
 
-  create_table "references", force: :cascade do |t|
+  create_table "references", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid     "list_id",                     null: false
     t.uuid     "paper_id",                    null: false
     t.datetime "created_at",                  null: false
