@@ -6,9 +6,9 @@ class PapersController < ApplicationController
   # GET /papers.json
   def index
     @papers = Paper.select('papers.*,sum(cached_votes_up) as total_votes')
-    .joins(:references)
-    .group('papers.id')
-    .order(('total_votes DESC, ' if params[:sort] != 'pub_date').to_s + 'papers.published_at DESC NULLS LAST')
+      .joins(:references)
+      .group('papers.id')
+      .order(('total_votes DESC, ' if params[:sort] != 'pub_date').to_s + 'papers.published_at DESC NULLS LAST')
   end
 
   # GET /papers/1
@@ -29,6 +29,7 @@ class PapersController < ApplicationController
   # POST /papers.json
   def create
     @paper = Paper.new(paper_params)
+
     respond_to do |format|
       if @paper.save
         format.html { redirect_to @paper, notice: 'Paper was successfully created.' }
