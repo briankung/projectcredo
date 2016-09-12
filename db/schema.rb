@@ -56,21 +56,13 @@ ActiveRecord::Schema.define(version: 20160901163505) do
   create_table "papers", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "title"
     t.date     "published_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.text     "abstract"
     t.string   "link"
     t.string   "doi"
     t.string   "pubmed_id"
-    t.uuid     "publication_id"
     t.string   "publication"
-  end
-
-  create_table "publications", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.string   "name"
-    t.string   "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "references", force: :cascade do |t|
