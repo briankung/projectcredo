@@ -8,6 +8,18 @@
 
 u = User.create(email: 'user@example.com', password: 'password', username: 'testuser')
 
-(1..10).each do |i|
-  List.create(name: i, description: i, user: u)
+[
+  "Allergies and immigrant familes",
+  "Crop co-cultivation methods",
+  "Exercise and depression",
+  "Do cellphones cause cancer?",
+  "Protein consumption for muscular hypotrophy",
+  "Efficacy of vitamin supplements",
+  "The effect of probiotics on Irritable Bowel Syndrome",
+  "Factors in second language acquisition",
+  "Maintaining mobility in senescence",
+].each do |d|
+  l = List.new(name: d, description: d, user: u)
+  l.tag_list.add(d.split)
+  l.save
 end
