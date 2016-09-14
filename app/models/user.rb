@@ -26,7 +26,7 @@ class User < ApplicationRecord
     if login = conditions.delete(:login)
       return where(conditions.to_h).where(["username = :value OR lower(email) = :value", { :value => login.downcase }]).first
     end
-    super(warden_conditions)
+    super(conditions)
   end
 
 end
