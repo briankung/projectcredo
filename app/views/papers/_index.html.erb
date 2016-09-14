@@ -58,22 +58,19 @@
         <% end %>
       </small>
       <ul class="nav nav-pills" role="tablist">
-        <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
-          data: { toggle: :collapse },
-          aria: { controls: :abstract, expanded: true },
-          class: "small" %></li>
-        <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
-          data: {  toggle: :collapse },
-          aria: { controls: :details, expanded: true },
-          class: "small" %></li>
-        <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
-          data: { toggle: :collapse },
-          aria: { controls: :comments, expanded: true },
-          class: "small" %></li>
+        <% %i{abstract details comments}.each do |tab| %>
+          <li role="presentaton">
+            <%=
+              link_to tab.capitalize, "##{tab}-#{index}",
+                data: { toggle: :collapse },
+                aria: { controls: tab, expanded: true },
+                class: "small"
+            %>
+          </li>
+        <% end %>
         <li>
           <% if user_signed_in? %>
-            <%= link_to 'Edit', edit_paper_path(paper),
-          class: "small" %>
+            <%= link_to 'Edit', edit_paper_path(paper), class: "small" %>
           <% end %>
         </li>
       </ul>
