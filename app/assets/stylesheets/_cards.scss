@@ -1,3 +1,8 @@
-.card:nth-child(3n+1) {
-  clear:left
+.cards > div:nth-child(3n+1) {
+  clear:left;
+}
+
+.panel-body h2 {
+  clear: left;
+  margin-top: 50px;
 }
