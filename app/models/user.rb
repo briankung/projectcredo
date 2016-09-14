@@ -8,6 +8,10 @@ class User < ApplicationRecord
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+  before_save do
+    self.email.downcase! if self.email
+  end
+
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, multiline: true
   validates :username,
   presence: true,
@@ -28,16 +32,13 @@ class User < ApplicationRecord
       where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       conditions[:email].downcase! if conditions[:email]
+      conditions[:username].downcase! if conditions[:username]
       where(conditions.to_h).first
     end
   end
 
-  before_save do
-    self.email.downcase! if self.email
-  end
-
   def self.find_for_authentication(conditions)
-    conditions[:email].downcase!
+    conditions[:email].downcase! if conditions[:email]
     super(conditions)
   end
 end
