@@ -8,21 +8,16 @@ class User < ApplicationRecord
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  before_save do
-    self.email.downcase! if self.email
-  end
-
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, multiline: true
   validates :username,
-  presence: true,
-  uniqueness: {
-    case_sensitive: false
-  }
+            presence: true,
+            uniqueness: { case_sensitive: false }
 
   has_one :homepage, dependent: :destroy
-  after_create -> { self.create_homepage }
-
   has_many :lists
+
+  before_save { self.email.downcase! if self.email }
+  after_create -> { self.create_homepage }
 
   acts_as_voter
 
