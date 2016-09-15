@@ -89,7 +89,11 @@
         </ul>
       </div>
       <div class="collapse" id="comments-<%= index %>">
-        Reserved for comments in the future
+        <% reference_lookup[paper].comments.each do |comment| %>
+          <div class="well">
+            <%= comments_tree_for comment.hash_tree %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
