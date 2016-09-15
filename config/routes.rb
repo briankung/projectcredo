@@ -10,15 +10,13 @@ Rails.application.routes.draw do
   resources :lists do
     member do
       resources :references, only: [:create, :destroy]
-      resource :vote, only: [:create, :destroy], as: :list_vote
+      resource :vote, controller: 'lists/votes', only: [:create, :destroy], as: :list_vote
     end
   end
 
-  namespace :reference do
-    scope ":id" do
-      post 'vote' => 'votes#create', as: :vote
-      delete 'vote' => 'votes#destroy'
-
+  resources :references do
+    member do
+      resource :vote, controller: 'references/votes', only: [:create, :destroy], as: :reference_vote
       resources :comments, only: [:edit, :create, :update, :destroy]
     end
   end
