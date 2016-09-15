@@ -8,10 +8,11 @@
   end
 %>
 <% papers.each_with_index do |paper,index| %>
+  <% reference = reference_lookup[paper] %>
   <div class="row paper-show">
     <div class="col-md-1">
       <% if defined? references %>
-        <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
+        <%= render partial: 'votes/toggle_like', locals: { votable: reference } %>
       <% else %>
         <p class="text-center">
           <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
@@ -89,11 +90,16 @@
         </ul>
       </div>
       <div class="collapse" id="comments-<%= index %>">
-        <% reference_lookup[paper].comments.each do |comment| %>
-          <div class="well">
-            <%= comments_tree_for comment.hash_tree %>
-          </div>
-        <% end %>
+        <div class="well">
+          <%= render 'comments/form',
+                comment: reference.comments.build(
+                  user_id: current_user.id,
+                  parent_type: reference.model_name),
+                display_field: true %>
+          <% reference.comments.each do |comment| %>
+              <%= comments_tree_for comment.hash_tree %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

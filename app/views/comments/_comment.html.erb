@@ -4,6 +4,8 @@
   </p>
 
   <p><%= comment.content %></p>
+  <%= link_to 'reply', "#", class: 'toggle-reply', "data-toggle-hide-id" => comment.id %>
+  <%= render 'comments/form', comment: comment.children.build(user_id: current_user.id, parent_type: comment.model_name) %>
 
   <%= yield %>
 </div>
