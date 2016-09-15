@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :ensure_current_user
   before_action :set_comment, only: [:edit, :update, :destroy]
 
   # GET /lists/1/edit
