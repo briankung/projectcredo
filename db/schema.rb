@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912225417) do
+ActiveRecord::Schema.define(version: 20160915015658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,23 @@ ActiveRecord::Schema.define(version: 20160912225417) do
     t.uuid "paper_id"
     t.index ["author_id", "paper_id"], name: "index_authors_papers_on_author_id_and_paper_id", using: :btree
     t.index ["paper_id", "author_id"], name: "index_authors_papers_on_paper_id_and_author_id", using: :btree
+  end
+
+  create_table "comment_hierarchies", id: false, force: :cascade do |t|
+    t.uuid    "ancestor_id",   null: false
+    t.uuid    "descendant_id", null: false
+    t.integer "generations",   null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "comment_anc_desc_udx", unique: true, using: :btree
+    t.index ["descendant_id"], name: "comment_desc_idx", using: :btree
+  end
+
+  create_table "comments", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.text     "content"
+    t.string   "parent_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "user_id"
+    t.string   "parent_type"
   end
 
   create_table "homepages", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|

@@ -8,10 +8,11 @@
   end
 %>
 <% papers.each_with_index do |paper,index| %>
+  <% reference = reference_lookup[paper] %>
   <div class="row paper-show">
     <div class="col-md-1">
       <% if defined? references %>
-        <%= render partial: 'votes/toggle_like', locals: { votable: reference_lookup[paper] } %>
+        <%= render partial: 'votes/toggle_like', locals: { votable: reference } %>
       <% else %>
         <p class="text-center">
           <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
@@ -58,29 +59,20 @@
         <% end %>
       </small>
       <ul class="nav nav-pills" role="tablist">
-        <li role="presentaton"><%= link_to 'Abstract', '#abstract-'+index.to_s,
-          data: { toggle: :collapse },
-          aria: { controls: :abstract, expanded: true },
-          class: "small" %></li>
-        <li role="presentaton"><%= link_to 'Details', '#details-'+index.to_s,
-          data: {  toggle: :collapse },
-          aria: { controls: :details, expanded: true },
-          class: "small" %></li>
-        <li role="presentaton"><%= link_to 'Comments', '#comments-'+index.to_s,
-          data: { toggle: :collapse },
-          aria: { controls: :comments, expanded: true },
-          class: "small" %></li>
+        <% %i{abstract details comments}.each do |tab| %>
+          <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
+        <% end %>
         <li>
           <% if user_signed_in? %>
-            <%= link_to 'Edit', edit_paper_path(paper),
-          class: "small" %>
+            <%= link_to 'Edit', edit_paper_path(paper), class: "small" %>
           <% end %>
         </li>
       </ul>
-      <div class="collapse" id="abstract-<%= index %>">
+      <div>
+      <div class="collapse paper-detail well" id="abstract-<%= index %>">
         <p><%= paper.abstract %></p>
       </div>
-      <div class="collapse" id="details-<%= index %>">
+      <div class="collapse paper-detail well" id="details-<%= index %>">
         <ul>
           <li>DOI: <%= paper.doi %></li>
           <li>Pubmed ID: <%= paper.pubmed_id %></li>
@@ -88,8 +80,17 @@
           <li>Published: <%= paper.published_at %></li>
         </ul>
       </div>
-      <div class="collapse" id="comments-<%= index %>">
-        Reserved for comments in the future
+      <div class="collapse paper-detail well" id="comments-<%= index %>">
+        <%= render('comments/form',
+              comment: reference.comments.build(
+                user_id: current_user.id,
+                parent_type: reference.model_name),
+              display_comment_field: true) if current_user
+        %>
+        <% reference.comments.each do |comment| %>
+            <%= comments_tree_for comment.hash_tree %>
+        <% end %>
+      </div>
       </div>
     </div>
   </div>

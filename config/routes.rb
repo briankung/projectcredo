@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   resources :lists do
     member do
       resources :references, only: [:create, :destroy]
-      resource :vote, only: [:create, :destroy], as: :list_vote
+      resource :vote, controller: 'lists/votes', only: [:create, :destroy], as: :list_vote
     end
   end
 
-  post 'references/:id/vote' => 'votes#create', as: :reference_vote
-  delete 'references/:id/vote' => 'votes#destroy'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :references do
+    member do
+      resource :vote, controller: 'references/votes', only: [:create, :destroy], as: :reference_vote
+      resources :comments, only: [:create, :update, :destroy]
+    end
+  end
+
+  resources :comments, only: :edit
 end

@@ -1,0 +1,14 @@
+<div class="comment">
+  <p class="text-muted">
+    Added by <strong><%= comment.user.username %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
+  </p>
+
+  <p><%= comment.content %></p>
+  <% if current_user %>
+    <%= link_to 'edit', edit_comment_path(comment) %>
+    <%= link_to 'reply', "#", class: 'toggle-reply', "data-toggle-hide-id" => comment.id %>
+    <%= render 'comments/form', comment: comment.children.build(user_id: current_user.id, parent_type: comment.model_name) %>
+  <% end %>
+
+  <%= yield %>
+</div>
