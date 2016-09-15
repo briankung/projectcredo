@@ -1,15 +1,3 @@
-.card:nth-child(3n+1) {
-  clear:left
-}
-
-.link-anchor {
-  position: relative;
-}
-
-.clickable-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.cards > div:nth-child(3n+1) {
+  clear: left;
 }
