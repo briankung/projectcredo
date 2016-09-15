@@ -1,4 +1,4 @@
-class Reference::VotesController < ApplicationController
+class References::VotesController < ApplicationController
   before_action :ensure_current_user
 
   def create
