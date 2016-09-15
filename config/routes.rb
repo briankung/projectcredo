@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   resources :references do
     member do
       resource :vote, controller: 'references/votes', only: [:create, :destroy], as: :reference_vote
-      resources :comments, only: [:edit, :create, :update, :destroy]
+      resources :comments, only: [:create, :update, :destroy]
     end
   end
+
+  resources :comments, only: :edit
 end

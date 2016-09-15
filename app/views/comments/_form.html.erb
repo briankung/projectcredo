@@ -1,4 +1,4 @@
-<% display_field ||= false %>
+<% display_comment_field ||= false %>
 
 <%= form_for(comment) do |f| %>
   <% if comment.errors.any? %>
@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-  <div class="form-group <%= "hidden" unless display_field %>" id="<%= comment.parent_id %>">
+  <div class="form-group <%= "hidden" unless display_comment_field %>" id="<%= comment.parent_id %>">
     <%= f.text_field :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
   </div>
 

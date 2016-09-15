@@ -95,7 +95,7 @@
                 comment: reference.comments.build(
                   user_id: current_user.id,
                   parent_type: reference.model_name),
-                display_field: true %>
+                display_comment_field: true %>
           <% reference.comments.each do |comment| %>
               <%= comments_tree_for comment.hash_tree %>
           <% end %>
