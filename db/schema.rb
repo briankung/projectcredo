@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20160915015658) do
   end
 
   create_table "comment_hierarchies", id: false, force: :cascade do |t|
-    t.string "ancestor_id",   null: false
-    t.string "descendant_id", null: false
-    t.string "generations",   null: false
+    t.uuid    "ancestor_id",   null: false
+    t.uuid    "descendant_id", null: false
+    t.integer "generations",   null: false
     t.index ["ancestor_id", "descendant_id", "generations"], name: "comment_anc_desc_udx", unique: true, using: :btree
     t.index ["descendant_id"], name: "comment_desc_idx", using: :btree
   end
