@@ -17,7 +17,7 @@ u = User.create(email: 'user@example.com', password: 'password', username: 'test
   "Efficacy of vitamin supplements",
   "The effect of probiotics on Irritable Bowel Syndrome",
   "Factors in second language acquisition",
-  "Maintaining mobility in senescence",
+  "Maintaining mobility in old age",
 ].each do |d|
   l = List.new(name: d, description: d, user: u)
   l.tag_list.add(d.split)
