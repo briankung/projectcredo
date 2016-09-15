@@ -68,10 +68,11 @@
           <% end %>
         </li>
       </ul>
-      <div class="collapse paper-detail" id="abstract-<%= index %>">
+      <div>
+      <div class="collapse paper-detail well" id="abstract-<%= index %>">
         <p><%= paper.abstract %></p>
       </div>
-      <div class="collapse paper-detail" id="details-<%= index %>">
+      <div class="collapse paper-detail well" id="details-<%= index %>">
         <ul>
           <li>DOI: <%= paper.doi %></li>
           <li>Pubmed ID: <%= paper.pubmed_id %></li>
@@ -79,18 +80,17 @@
           <li>Published: <%= paper.published_at %></li>
         </ul>
       </div>
-      <div class="collapse paper-detail" id="comments-<%= index %>">
-        <div class="well">
-          <%= render('comments/form',
-                comment: reference.comments.build(
-                  user_id: current_user.id,
-                  parent_type: reference.model_name),
-                display_comment_field: true) if current_user
-          %>
-          <% reference.comments.each do |comment| %>
-              <%= comments_tree_for comment.hash_tree %>
-          <% end %>
-        </div>
+      <div class="collapse paper-detail well" id="comments-<%= index %>">
+        <%= render('comments/form',
+              comment: reference.comments.build(
+                user_id: current_user.id,
+                parent_type: reference.model_name),
+              display_comment_field: true) if current_user
+        %>
+        <% reference.comments.each do |comment| %>
+            <%= comments_tree_for comment.hash_tree %>
+        <% end %>
+      </div>
       </div>
     </div>
   </div>
