@@ -60,14 +60,7 @@
       </small>
       <ul class="nav nav-pills" role="tablist">
         <% %i{abstract details comments}.each do |tab| %>
-          <li role="presentaton">
-            <%=
-              link_to tab.capitalize, "##{tab}-#{index}",
-                data: { toggle: :collapse },
-                aria: { controls: tab, expanded: true },
-                class: "small"
-            %>
-          </li>
+          <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
         <% end %>
         <li>
           <% if user_signed_in? %>
@@ -75,10 +68,10 @@
           <% end %>
         </li>
       </ul>
-      <div class="collapse" id="abstract-<%= index %>">
+      <div class="collapse paper-detail" id="abstract-<%= index %>">
         <p><%= paper.abstract %></p>
       </div>
-      <div class="collapse" id="details-<%= index %>">
+      <div class="collapse paper-detail" id="details-<%= index %>">
         <ul>
           <li>DOI: <%= paper.doi %></li>
           <li>Pubmed ID: <%= paper.pubmed_id %></li>
@@ -86,7 +79,7 @@
           <li>Published: <%= paper.published_at %></li>
         </ul>
       </div>
-      <div class="collapse" id="comments-<%= index %>">
+      <div class="collapse paper-detail" id="comments-<%= index %>">
         <div class="well">
           <%= render('comments/form',
                 comment: reference.comments.build(
