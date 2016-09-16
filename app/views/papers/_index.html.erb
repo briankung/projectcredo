@@ -21,30 +21,24 @@
       <% end %>
     </div>
     <div class="col-md-11">
-      <h4 class="paper-title">
-        <%= link_to paper.title, paper %>
-      </h4>
+      <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
       <% paper.tag_list.each do |tag| %>
-        <a class="btn btn-default btn-xs">
-          <%= tag %>
-        </a>
+        <a class="btn btn-default btn-xs"><%= tag %></a>
       <% end %>
-      </br>
+
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
         <i>
           <span class="publication"><%= "in " + paper.publication unless paper.publication.nil? %></span>
           <%= "(" + paper.published_at.to_s + ")" unless paper.published_at.nil? %>
         </i>
-        </br>
+
         <b>Methodologies:</b>
         <% if paper.methodology_list.empty? %>
           <i>(Unknown)</i>
         <% else %>
           <% paper.methodology_list.each do |methodology| %>
-            <a class="btn btn-default btn-xs">
-              <%= methodology %>
-            </a>
+            <a class="btn btn-default btn-xs"><%= methodology %></a>
           <% end %>
         <% end %>
         <b>Biases:</b>
@@ -52,9 +46,7 @@
           <i>(Unknown)</i>
         <% else %>
           <% paper.bias_list.each do |bias| %>
-            <a class="btn btn-default btn-xs">
-              <%= bias %>
-            </a>
+            <a class="btn btn-default btn-xs"><%= bias %></a>
           <% end %>
         <% end %>
       </small>
@@ -63,36 +55,34 @@
           <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
         <% end %>
         <li>
-          <% if user_signed_in? %>
-            <%= link_to 'Edit', edit_paper_path(paper), class: "small" %>
-          <% end %>
+          <% if current_user %><%= link_to 'Edit', edit_paper_path(paper), class: "small" %><% end %>
         </li>
       </ul>
       <div>
-      <div class="collapse paper-detail well" id="abstract-<%= index %>">
-        <p><%= paper.abstract %></p>
-      </div>
-      <div class="collapse paper-detail well" id="details-<%= index %>">
-        <ul>
-          <li>DOI: <%= paper.doi %></li>
-          <li>Pubmed ID: <%= paper.pubmed_id %></li>
-          <li>Link: <%= paper.link %></li>
-          <li>Published: <%= paper.published_at %></li>
-        </ul>
-      </div>
-      <div class="collapse paper-detail well" id="comments-<%= index %>">
-        <% if @references %>
-          <%= render('comments/form',
-                comment: paper_reference.comments.build(
-                  user_id: current_user.id,
-                  parent_type: paper_reference.model_name),
-                display_comment_field: true) if current_user
-          %>
-          <% paper_reference.comments.each do |comment| %>
-              <%= comments_tree_for comment.hash_tree %>
+        <div class="collapse paper-detail well" id="abstract-<%= index %>">
+          <p><%= paper.abstract %></p>
+        </div>
+        <div class="collapse paper-detail well" id="details-<%= index %>">
+          <ul>
+            <li>DOI: <%= paper.doi %></li>
+            <li>Pubmed ID: <%= paper.pubmed_id %></li>
+            <li>Link: <%= paper.link %></li>
+            <li>Published: <%= paper.published_at %></li>
+          </ul>
+        </div>
+        <div class="collapse paper-detail well" id="comments-<%= index %>">
+          <% if @references %>
+            <%= render('comments/form',
+                  comment: paper_reference.comments.build(
+                    user_id: current_user.id,
+                    parent_type: paper_reference.model_name),
+                  display_comment_field: true) if current_user
+            %>
+            <% paper_reference.comments.each do |comment| %>
+                <%= comments_tree_for comment.hash_tree %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
       </div>
     </div>
   </div>
