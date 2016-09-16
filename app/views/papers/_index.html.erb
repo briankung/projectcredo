@@ -1,18 +1,18 @@
 <%
-  if defined? references
-    papers = references.map(&:paper)
-    reference_lookup = references.inject({}) do |memo, ref|
+  if @references
+    papers = @references.map(&:paper)
+    reference_lookup = @references.inject({}) do |memo, ref|
       memo[ref.paper] = ref
       memo
     end
   end
 %>
 <% papers.each_with_index do |paper,index| %>
-  <% reference = reference_lookup[paper] %>
   <div class="row paper-show">
     <div class="col-md-1">
-      <% if defined? references %>
-        <%= render partial: 'votes/toggle_like', locals: { votable: reference } %>
+      <% if @references %>
+        <% paper_reference = reference_lookup[paper] %>
+        <%= render 'votes/toggle_like', votable: paper_reference %>
       <% else %>
         <p class="text-center">
           <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
@@ -81,14 +81,16 @@
         </ul>
       </div>
       <div class="collapse paper-detail well" id="comments-<%= index %>">
-        <%= render('comments/form',
-              comment: reference.comments.build(
-                user_id: current_user.id,
-                parent_type: reference.model_name),
-              display_comment_field: true) if current_user
-        %>
-        <% reference.comments.each do |comment| %>
-            <%= comments_tree_for comment.hash_tree %>
+        <% if @references %>
+          <%= render('comments/form',
+                comment: paper_reference.comments.build(
+                  user_id: current_user.id,
+                  parent_type: paper_reference.model_name),
+                display_comment_field: true) if current_user
+          %>
+          <% paper_reference.comments.each do |comment| %>
+              <%= comments_tree_for comment.hash_tree %>
+          <% end %>
         <% end %>
       </div>
       </div>
