@@ -5,6 +5,7 @@
 
   <p><%= comment.content %></p>
   <% if current_user %>
+    <%= render 'votes/toggle_like', votable: comment %>
     <%= link_to 'edit', edit_comment_path(comment) %>
     <%= link_to 'reply', "#", class: 'toggle-reply', "data-toggle-hide-id" => comment.id %>
     <%= render 'comments/form',
