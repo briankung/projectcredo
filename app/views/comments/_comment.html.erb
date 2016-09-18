@@ -5,14 +5,11 @@
 
   <p><%= comment.content %></p>
   <ul>
-    <li>
-      <%= render 'votes/toggle_like', votable: comment %>
-    </li>
+    <li><%= render 'votes/toggle_like', votable: comment %></li>
     <% if current_user %>
-      <li>
-        <%= button_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %>
-      </li>
-      <%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', "data-toggle-hide-id" => comment.id %>
+      <li><%= link_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %></li>
+      <li><%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', "data-toggle-hide-id" => comment.id %></li>
+      <%= link_to 'delete', comment_path(comment), class: "btn btn-link btn-xs", method: :delete %>
   </ul>
     <%= render 'comments/form',
           comment: comment.children.build(
