@@ -11,8 +11,13 @@
     </div>
   <% end %>
 
-  <div class="form-group <%= "hidden" unless display_comment_field %>" id="<%= comment.parent_id %>">
-    <%= f.text_field :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
+  <div class="<%= "hidden" unless display_comment_field %>" id="<%= comment.parent_id %>">
+    <div class="form-group">
+      <%= f.text_area :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
+    </div>
+    <div class="form-group">
+      <%= submit_tag "Submit", class: "btn btn-primary btn-xs" %>
+    </div>
   </div>
 
   <%= f.hidden_field :parent_type, value: comment.parent_type %>

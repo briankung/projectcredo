@@ -4,10 +4,16 @@
   </p>
 
   <p><%= comment.content %></p>
-  <% if current_user %>
-    <%= render 'votes/toggle_like', votable: comment %>
-    <%= link_to 'edit', edit_comment_path(comment) %>
-    <%= link_to 'reply', "#", class: 'toggle-reply', "data-toggle-hide-id" => comment.id %>
+  <ul>
+    <li>
+      <%= render 'votes/toggle_like', votable: comment %>
+    </li>
+    <% if current_user %>
+      <li>
+        <%= button_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %>
+      </li>
+      <%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', "data-toggle-hide-id" => comment.id %>
+  </ul>
     <%= render 'comments/form',
           comment: comment.children.build(
             user_id: current_user.id,

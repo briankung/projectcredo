@@ -6,5 +6,12 @@
 <%= form_tag vote_path, method: (liked ? :delete : :post) do %>
   <%= text_field_tag 'id', votable.id, hidden: true %>
   <%= text_field_tag 'type', votable.class.to_s.downcase, hidden: true %>
-  <%= submit_tag '👍 ' + votable.get_likes.size.to_s, class: "btn btn-default btn-sm pull-left #{"active" if liked}" %>
+  <% if votable.class.to_s == "Comment" %>
+    <%= button_tag(type: 'submit', class: "btn btn-link btn-xs") do %>
+      <%= votable.get_likes.size.to_s %>
+      <span class="glyphicon glyphicon-triangle-top"></span>
+    <% end %>
+  <% else %>
+    <%= submit_tag '👍 ' + votable.get_likes.size.to_s, class: "btn pull-left btn-default btn-sm #{"active" if liked}" %>
+  <% end %>
 <% end %>
