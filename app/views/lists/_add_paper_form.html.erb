@@ -1,7 +1,15 @@
 <%= form_for list.references.build, url: references_path(list) do |f| %>
   <%= f.hidden_field :list_id, value: list.id %>
-  <div class="form-group">
-    <%= f.text_field :paper_id, placeholder: 'Add a paper by DOI, Pubmed ID, or Credo ID', class: "form-control" %>
+  <div class="form-group add-paper">
+    <%= f.label :type, 'Add a paper by:' %>
+    <%= f.select :type,
+      options_for_select({"URL" => 'url',
+                          "DOI" => 'doi',
+                          "Pubmed ID" => 'pubmed'}),
+      {prompt: 'Choose one'},
+      {class: 'form-control'}
+    %>
+    <%= f.text_field :paper_id, class: "form-control hidden" %>
   </div>
   <div class="form-group">
     <%= f.submit "Add Paper", class: "btn btn-primary btn-sm" %>

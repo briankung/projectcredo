@@ -1,4 +1,6 @@
 class Reference < ApplicationRecord
+  attr_accessor :type
+
   has_many :comments, as: :parent
 
   belongs_to :paper
