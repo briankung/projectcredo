@@ -66,31 +66,29 @@
           </li>
         <% end %>
       </ul>
-      <div>
-        <div class="collapse paper-detail well" id="abstract-<%= index %>">
-          <p><%= paper.abstract %></p>
-        </div>
-        <div class="collapse paper-detail well" id="details-<%= index %>">
-          <ul>
-            <li>DOI: <%= paper.doi %></li>
-            <li>Pubmed ID: <%= paper.pubmed_id %></li>
-            <li>Link: <%= paper.link %></li>
-            <li>Published: <%= paper.published_at %></li>
-          </ul>
-        </div>
-        <div class="collapse paper-detail well" id="comments-<%= index %>">
-          <% if @references %>
-            <%= render('comments/form',
-                  comment: paper_reference.comments.build(
-                    user_id: current_user.id,
-                    parent_type: paper_reference.model_name),
-                  display_comment_field: true) if current_user
-            %>
-            <% paper_reference.comments.each do |comment| %>
-                <%= comments_tree_for comment.hash_tree %>
-            <% end %>
+      <div class="collapse paper-detail well" id="abstract-<%= index %>">
+        <p><%= paper.abstract %></p>
+      </div>
+      <div class="collapse paper-detail well" id="details-<%= index %>">
+        <ul>
+          <li>DOI: <%= paper.doi %></li>
+          <li>Pubmed ID: <%= paper.pubmed_id %></li>
+          <li>Link: <%= paper.link %></li>
+          <li>Published: <%= paper.published_at %></li>
+        </ul>
+      </div>
+      <div class="collapse paper-detail well" id="comments-<%= index %>">
+        <% if @references %>
+          <%= render('comments/form',
+                comment: paper_reference.comments.build(
+                  user_id: current_user.id,
+                  parent_type: paper_reference.model_name),
+                display_comment_field: true) if current_user
+          %>
+          <% paper_reference.comments.each do |comment| %>
+              <%= comments_tree_for comment.hash_tree %>
           <% end %>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>
