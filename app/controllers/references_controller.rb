@@ -4,10 +4,10 @@ class ReferencesController < ApplicationController
 
   # Shame: refactor the hell out of this
   def create
-    list = List.find(params[:list_id])
+    list = List.find(reference_params[:list_id])
 
     # Check if uuid. If not, then ask Pubmed.
-    identifier = params[:reference][:paper_id]
+    identifier = reference_params[:paper_id]
     paper = find_paper(identifier) || import_paper(identifier)
 
     if Reference.exists? list_id: list.id, paper_id: paper.id
@@ -19,13 +19,17 @@ class ReferencesController < ApplicationController
   end
 
   def destroy
-    reference = Reference.find(params[:id])
+    reference = Reference.find(reference_params[:id])
     list = reference.list
     reference.destroy
     redirect_to list
   end
 
   private
+    def reference_params
+      params.require(:reference).permit(:list_id, :paper_id, :id)
+    end
+
     def find_paper identifier
       if UUID_FORMAT =~ identifier
         paper = Paper.find(identifier)

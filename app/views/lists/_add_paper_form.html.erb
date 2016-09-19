@@ -1,5 +1,5 @@
 <%= form_for list.references.build, url: references_path(list) do |f| %>
-  <%= hidden_field_tag :list_id, list.id %>
+  <%= f.hidden_field :list_id, value: list.id %>
   <div class="form-group">
     <%= f.text_field :paper_id, placeholder: 'Add a paper by DOI, Pubmed ID, or Credo ID', class: "form-control" %>
   </div>
