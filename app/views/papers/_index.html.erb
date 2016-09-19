@@ -24,7 +24,7 @@
       <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
       <% paper.tag_list.each do |tag| %>
         <a class="btn btn-default btn-xs"><%= tag %></a>
-      <% end %>
+      <% end %>
 
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
@@ -78,7 +78,7 @@
                     parent_type: paper_reference.model_name),
                   display_comment_field: true) if current_user
             %>
-            <% paper_reference.comments.each do |comment| %>
+            <% paper_reference.comments.order('cached_votes_up DESC, created_at').each do |comment| %>
                 <%= comments_tree_for comment.hash_tree %>
             <% end %>
           <% end %>
