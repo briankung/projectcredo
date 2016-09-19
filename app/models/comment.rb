@@ -4,4 +4,6 @@ class Comment < ApplicationRecord
   belongs_to :parent, polymorphic: true
 
   has_closure_tree
+
+  validates :content, presence: true
 end
