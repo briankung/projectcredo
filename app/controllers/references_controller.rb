@@ -1,8 +1,6 @@
 class ReferencesController < ApplicationController
   before_action :ensure_current_user
-  UUID_FORMAT = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}/
 
-  # Shame: refactor the hell out of this
   def create
     list = List.find(reference_params[:list_id])
 
