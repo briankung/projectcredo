@@ -72,12 +72,18 @@
         </div>
         <div class="collapse paper-detail well" id="comments-<%= index %>">
           <% if @references %>
-            <%= render('comments/form',
-                  comment: paper_reference.comments.build(
-                    user_id: current_user.id,
-                    parent_type: paper_reference.model_name),
-                  display_comment_field: true) if current_user
-            %>
+            <% if current_user %>
+              <%= render('comments/form',
+                    comment: paper_reference.comments.build(
+                      user_id: current_user.id,
+                      parent_type: paper_reference.model_name),
+                    display_comment_field: true)
+              %>
+            <% else %>
+              <h4>
+                <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
+              </h4>
+            <% end %>
             <% paper_reference.comments.order('cached_votes_up DESC, created_at').each do |comment| %>
                 <%= comments_tree_for comment.hash_tree %>
             <% end %>
