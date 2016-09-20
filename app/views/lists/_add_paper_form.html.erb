@@ -3,7 +3,7 @@
   <div class="form-group add-paper">
     <%= f.label :type, 'Add paper by:' %>
     <%= f.select :type,
-      options_for_select({"URL" => 'url',
+      options_for_select({"URL" => 'link',
                           "DOI" => 'doi',
                           "Pubmed ID" => 'pubmed'}),
       {prompt: 'Choose one'},
