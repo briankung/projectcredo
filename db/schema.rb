@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919050449) do
+ActiveRecord::Schema.define(version: 20160918013634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
 
-  create_table "authors", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "authors", force: :cascade do |t|
     t.string   "name"
     t.string   "title"
     t.datetime "created_at", null: false
@@ -24,21 +23,17 @@ ActiveRecord::Schema.define(version: 20160919050449) do
   end
 
   create_table "authors_papers", id: false, force: :cascade do |t|
-    t.uuid "author_id"
-    t.uuid "paper_id"
-    t.index ["author_id", "paper_id"], name: "index_authors_papers_on_author_id_and_paper_id", using: :btree
-    t.index ["paper_id", "author_id"], name: "index_authors_papers_on_paper_id_and_author_id", using: :btree
+    t.integer "author_id", null: false
+    t.integer "paper_id",  null: false
   end
 
   create_table "comment_hierarchies", id: false, force: :cascade do |t|
-    t.uuid    "ancestor_id",   null: false
-    t.uuid    "descendant_id", null: false
     t.integer "generations",   null: false
-    t.index ["ancestor_id", "descendant_id", "generations"], name: "comment_anc_desc_udx", unique: true, using: :btree
-    t.index ["descendant_id"], name: "comment_desc_idx", using: :btree
+    t.integer "ancestor_id"
+    t.integer "descendant_id"
   end
 
-  create_table "comments", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "comments", force: :cascade do |t|
     t.text     "content"
     t.string   "parent_id"
     t.datetime "created_at",                  null: false
@@ -49,30 +44,28 @@ ActiveRecord::Schema.define(version: 20160919050449) do
     t.index ["cached_votes_up"], name: "index_comments_on_cached_votes_up", using: :btree
   end
 
-  create_table "homepages", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.uuid     "user_id"
+  create_table "homepages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id",    null: false
   end
 
   create_table "homepages_lists", id: false, force: :cascade do |t|
-    t.uuid "homepage_id"
-    t.uuid "list_id"
-    t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", using: :btree
-    t.index ["list_id", "homepage_id"], name: "index_homepages_lists_on_list_id_and_homepage_id", using: :btree
+    t.integer "homepage_id", null: false
+    t.integer "list_id",     null: false
   end
 
-  create_table "lists", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "lists", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "description"
-    t.uuid     "user_id",         default: -> { "uuid_generate_v4()" }, null: false
     t.integer  "cached_votes_up", default: 0
+    t.integer  "user_id",                     null: false
     t.index ["cached_votes_up"], name: "index_lists_on_cached_votes_up", using: :btree
   end
 
-  create_table "papers", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.date     "published_at"
     t.datetime "created_at",   null: false
@@ -84,12 +77,12 @@ ActiveRecord::Schema.define(version: 20160919050449) do
     t.string   "publication"
   end
 
-  create_table "references", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.uuid     "list_id",                     null: false
-    t.uuid     "paper_id",                    null: false
+  create_table "references", force: :cascade do |t|
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "cached_votes_up", default: 0
+    t.integer  "list_id",                     null: false
+    t.integer  "paper_id",                    null: false
     t.index ["cached_votes_up"], name: "index_references_on_cached_votes_up", using: :btree
   end
 
@@ -118,7 +111,7 @@ ActiveRecord::Schema.define(version: 20160919050449) do
     t.index ["name"], name: "index_tags_on_name", unique: true, using: :btree
   end
 
-  create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
