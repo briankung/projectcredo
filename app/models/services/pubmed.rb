@@ -31,6 +31,32 @@ class Pubmed
     abstract
   end
 
+  def import_paper identifier
+    data = self.search(identifier)['result'][identifier]
+
+    existing_authors, new_authors = [], []
+
+    data['authors'].each do |author_data|
+      if (author = Author.find_by name: author_data['name'])
+        existing_authors << author
+      else
+        new_authors << {name: author_data['name']}
+      end
+    end
+
+    paper = Paper.new(
+      pubmed_id: data['uid'],
+      title: data['title'],
+      published_at: data['pubdate'],
+      authors_attributes: new_authors,
+      abstract: self.get_abstract(data['uid']),
+      doi: data['elocationid'].sub(/^doi: /, ""),
+      publication: data['source']
+    )
+    paper.authors.push *existing_authors unless existing_authors.empty?
+    return paper
+  end
+
   private
     def generate_uri(url, parameters)
       URI.parse(url + '?' + URI.encode_www_form(parameters))

@@ -55,35 +55,12 @@ class ReferencesController < ApplicationController
       when 'doi'
         paper = Paper.find_by(doi: identifier)
       when 'pubmed'
-        paper = Paper.find_by(pubmed_id: identifier) || import_pubmed_paper(identifier)
-      end
-      return paper
-    end
-
-    def import_pubmed_paper identifier
-      pubmed = Pubmed.new
-      data = pubmed.search(identifier)['result'][identifier]
-
-      existing_authors, new_authors = [], []
-
-      data['authors'].each do |author_data|
-        if (author = Author.find_by name: author_data['name'])
-          existing_authors << author
-        else
-          new_authors << {name: author_data['name']}
+        unless (paper = Paper.find_by(pubmed_id: identifier))
+          pubmed = Pubmed.new
+          paper = pubmed.import_paper(identifier)
+          paper.save
         end
       end
-
-      paper = Paper.create(
-        pubmed_id: data['uid'],
-        title: data['title'],
-        published_at: data['pubdate'],
-        authors_attributes: new_authors,
-        abstract: pubmed.get_abstract(data['uid']),
-        doi: data['elocationid'].sub(/^doi: /, ""),
-        publication: data['source']
-      )
-      paper.authors.push *existing_authors unless existing_authors.empty?
       return paper
     end
 end
