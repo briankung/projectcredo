@@ -21,5 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments, only: :edit
+  resources :comments, only: :edit do
+    resource :vote, controller: 'comments/votes', only: [:create, :destroy]
+  end
+
 end

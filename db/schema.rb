@@ -36,10 +36,12 @@ ActiveRecord::Schema.define(version: 20160918013634) do
   create_table "comments", force: :cascade do |t|
     t.text     "content"
     t.string   "parent_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "user_id"
     t.string   "parent_type"
+    t.integer  "cached_votes_up", default: 0
+    t.index ["cached_votes_up"], name: "index_comments_on_cached_votes_up", using: :btree
   end
 
   create_table "homepages", force: :cascade do |t|
