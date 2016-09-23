@@ -45,7 +45,7 @@ class ReferencesController < ApplicationController
 
   private
     def reference_params
-      params.require(:reference).permit(:list_id, :paper_id, :id, :type)
+      params.require(:reference).permit(:list_id, :paper_id, :id)
     end
 
     def find_or_import_paper id_type, identifier
