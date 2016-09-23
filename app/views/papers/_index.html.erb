@@ -72,11 +72,7 @@
         </div>
         <div class="collapse paper-detail well" id="comments-<%= index %>">
           <% if @references %>
-            <%= render('comments/form',
-                  comment: paper_reference.comments.build(
-                    parent_type: paper_reference.model_name),
-                  display_comment_field: true) if current_user
-            %>
+            <%= render('comments/form', comment: paper_reference.comments.build, display_comment_field: true) if current_user %>
             <% paper_reference.comments.each do |comment| %>
                 <%= comments_tree_for comment.hash_tree %>
             <% end %>
