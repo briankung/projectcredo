@@ -2,7 +2,7 @@
   <%= f.hidden_field :list_id, value: list.id %>
   <div class="form-group add-paper">
     <%= f.fields_for Paper.new do |p| %>
-      <%= p.label :locator_type, 'Add paper by:' %>
+      <%= p.label :locator_type, 'Add paper by locator:' %>
       <%= p.select :locator_type,
         options_for_select({"URL" => 'link',
                             "DOI" => 'doi',
@@ -10,8 +10,15 @@
         {prompt: 'Choose one'},
         {class: 'form-control'}
       %>
-      <%= p.text_field :locator, placeholder: 'Input paper ID', class: "form-control", disabled: true %>
-      <%= p.text_field :title, placeholder: 'Input paper title', class: "form-control", disabled: true %>
+      <%= p.text_field  :locator,
+                        placeholder: 'Link, DOI, or Pubmed',
+                        class: "form-control hidden paper-locator",
+                        disabled: true %>
+
+      <%= p.text_field  :title,
+                        placeholder: 'Input paper title',
+                        class: "form-control hidden paper-title",
+                        disabled: true %>
     <% end %>
     <%= f.submit "Submit", class: "btn btn-primary btn-sm" %>
   </div>
