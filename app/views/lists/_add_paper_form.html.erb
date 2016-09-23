@@ -1,15 +1,18 @@
 <%= form_for list.references.build, html: {class: 'form-inline'} do |f| %>
   <%= f.hidden_field :list_id, value: list.id %>
   <div class="form-group add-paper">
-    <%= f.label :type, 'Add paper by:' %>
-    <%= f.select :type,
-      options_for_select({"URL" => 'link',
-                          "DOI" => 'doi',
-                          "Pubmed ID" => 'pubmed'}),
-      {prompt: 'Choose one'},
-      {class: 'form-control'}
-    %>
-    <%= f.text_field :paper_id, placeholder: 'Input paper ID', class: "form-control" %>
+    <%= f.fields_for Paper.new do |p| %>
+      <%= p.label :locator_type, 'Add paper by:' %>
+      <%= p.select :locator_type,
+        options_for_select({"URL" => 'link',
+                            "DOI" => 'doi',
+                            "Pubmed ID" => 'pubmed'}),
+        {prompt: 'Choose one'},
+        {class: 'form-control'}
+      %>
+      <%= p.text_field :locator, placeholder: 'Input paper ID', class: "form-control", disabled: true %>
+      <%= p.text_field :title, placeholder: 'Input paper title', class: "form-control", disabled: true %>
+    <% end %>
     <%= f.submit "Submit", class: "btn btn-primary btn-sm" %>
   </div>
 <% end %>
