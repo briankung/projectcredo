@@ -16,6 +16,12 @@
   </div>
 
   <%= f.hidden_field :parent_id, value: comment.parent_id %>
+  <%#
+      We're hiding commentable fields unless display_comment_field because
+      the only time we're displaying the comment field is when a user wants to add a top level comment.
+
+      We unfortunately have to pass display_comment_field=true on the edit view, as well.
+  %>
   <%= f.hidden_field :commentable_type, value: comment.commentable_type if display_comment_field %>
   <%= f.hidden_field :commentable_id, value: comment.commentable_id if display_comment_field %>
 
