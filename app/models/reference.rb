@@ -1,5 +1,5 @@
 class Reference < ApplicationRecord
-  has_many :comments, as: :parent
+  has_many :comments, as: :commentable
 
   belongs_to :paper
   belongs_to :list
