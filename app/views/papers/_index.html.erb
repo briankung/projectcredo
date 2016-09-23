@@ -74,7 +74,6 @@
           <% if @references %>
             <%= render('comments/form',
                   comment: paper_reference.comments.build(
-                    user_id: current_user.id,
                     parent_type: paper_reference.model_name),
                   display_comment_field: true) if current_user
             %>
