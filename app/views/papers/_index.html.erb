@@ -53,7 +53,11 @@
       </small>
       <ul class="nav nav-pills" role="tablist">
         <% %i{abstract details comments}.each do |tab| %>
-          <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
+          <% if tab == :comments %>
+            <li><%= link_to tab.capitalize.to_s + "(" + paper_reference.comments.map {|c| c.self_and_descendants.length}.inject(0, :+).to_s + ")", '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
+          <% else %>
+            <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
+          <% end %>
         <% end %>
         <li>
           <% if current_user %><%= link_to 'Edit', edit_paper_path(paper), class: "small" %><% end %>
