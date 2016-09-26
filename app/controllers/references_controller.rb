@@ -1,35 +1,18 @@
 class ReferencesController < ApplicationController
   before_action :ensure_current_user
+  before_action :set_paper_locator, only: :create
 
   def create
-    begin
-      reference_params.require(%i{type paper_id list_id})
-    rescue ActionController::ParameterMissing => e
-      missing_params = Set.new e.param[:reference]
-
-      if missing_params.intersect? Set[:type, :paper_id]
-        flash['alert'] = 'You must choose a paper identifier type and input an ID.'
-      else
-        flash['alert'] = 'You must choose a list to add to.'
-      end
-
-      redirect_to :back
-      return
-    end
-
     list = List.find(reference_params[:list_id])
-    identifier = reference_params[:paper_id]
-    id_type = reference_params[:type]
 
-    unless (paper = find_or_import_paper(id_type, identifier))
-      flash['alert'] = 'Paper not found.'
-      return redirect_to(:back)
-    end
-
-    if Reference.exists? list_id: list.id, paper_id: paper.id
-      flash['notice'] = 'This paper has already been added to this list'
+    if (paper = @locator.find_paper)
+      if Reference.exists? list_id: list.id, paper_id: paper.id
+        flash['notice'] = 'This paper has already been added to this list'
+      else
+        Reference.create(list_id: list.id, paper_id: paper.id)
+      end
     else
-      Reference.create(list_id: list.id, paper_id: paper.id)
+      flash['alert'] = "Couldn't find a paper with those parameters :'("
     end
     redirect_to list
   end
@@ -46,22 +29,35 @@ class ReferencesController < ApplicationController
   private
     def reference_params
       params.require(:reference).permit(
-        :list_id, :paper_id, :id, paper: [:locator, :locator_type, :title])
+        :list_id, :paper_id, :id, paper: [:locator_id, :locator_type, :title])
     end
 
-    def find_or_import_paper id_type, identifier
-      case id_type
-      when 'link'
-        paper = Paper.find_by(link: identifier)
-      when 'doi'
-        paper = Paper.find_by(doi: identifier)
-      when 'pubmed'
-        unless (paper = Paper.find_by(pubmed_id: identifier))
-          pubmed = Pubmed.new
-          paper = pubmed.import_paper(identifier)
-          paper.save
-        end
+    def paper_params
+      reference_params.fetch(:paper, nil)
+    end
+
+    def set_paper_locator
+      if paper_params.blank?
+        flash['alert'] = 'Bad paper parameters'
+        redirect_to :back
+      elsif paper_params[:locator_type].blank? || paper_params[:locator_id].blank?
+        flash['alert'] = 'Bad locator parameters'
+        redirect_to :back
       end
-      return paper
+
+      locator_type = paper_params.fetch :locator_type, nil
+      locator_id = paper_params.fetch :locator_id, nil
+
+      case locator_type
+      when 'doi'
+        @locator = DoiPaperLocator.new locator_id
+      when 'link'
+        @locator = LinkPaperLocator.new locator_id
+      when 'pubmed'
+        @locator = PubmedPaperLocator.new locator_id
+      else
+        flash['alert'] = 'Bad locator parameters'
+        redirect_to :back
+      end
     end
 end
