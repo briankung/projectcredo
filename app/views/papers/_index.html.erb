@@ -84,7 +84,7 @@
                 <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
               </h4>
             <% end %>
-            <% paper_reference.comments.order('sort_order ASC').each do |comment| %>
+            <% paper_reference.comments.order('cached_votes_up DESC').each do |comment| %>
                 <%= comments_tree_for comment.hash_tree %>
             <% end %>
           <% end %>
