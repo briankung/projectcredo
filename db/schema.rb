@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923153744) do
+ActiveRecord::Schema.define(version: 20160926185152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,9 @@ ActiveRecord::Schema.define(version: 20160923153744) do
     t.string   "commentable_type"
     t.integer  "parent_id"
     t.integer  "cached_votes_up",  default: 0
+    t.integer  "sort_order"
     t.index ["cached_votes_up"], name: "index_comments_on_cached_votes_up", using: :btree
+    t.index ["sort_order"], name: "index_comments_on_sort_order", using: :btree
   end
 
   create_table "homepages", force: :cascade do |t|
