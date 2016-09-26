@@ -1,0 +1,2 @@
+class DoiPaperLocator < BaseLocator
+end

@@ -1,0 +1,2 @@
+class LinkPaperLocator < BaseLocator
+end

@@ -1,0 +1,2 @@
+class PubmedPaperLocator < BaseLocator
+end
