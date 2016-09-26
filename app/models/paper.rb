@@ -1,5 +1,5 @@
 class Paper < ApplicationRecord
-  attr_accessor :locator, :locator_type
+  attr_accessor :locator_id, :locator_type
   acts_as_taggable
   acts_as_taggable_on :biases, :methodologies
 
