@@ -53,7 +53,11 @@ class ReferencesController < ApplicationController
       when 'doi'
         @locator = DoiPaperLocator.new locator_id
       when 'link'
-        @locator = LinkPaperLocator.new locator_id
+        if paper_params[:title].blank?
+          flash['alert'] = 'You must enter a title'
+          redirect_to :back
+        end
+        @locator = LinkPaperLocator.new locator_id, paper_params[:title]
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id
       else
