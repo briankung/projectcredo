@@ -13,7 +13,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added #{paper.title} to #{list.name}"
       end
     else
-      flash['alert'] = "Couldn't find a paper with those parameters :'("
+      flash['alert'] = "Couldn't find a paper with those parameters 😢"
     end
     redirect_to list
   end
