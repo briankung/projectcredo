@@ -2,7 +2,7 @@
   <%= f.hidden_field :list_id, value: list.id %>
   <div class="form-group add-paper">
     <%= f.fields_for Paper.new do |p| %>
-      <%= p.label :locator_type, 'Add paper by locator:' %>
+      <%= p.label :locator_type, 'Add paper by:' %>
       <%= p.select :locator_type,
         options_for_select({"URL" => 'link',
                             "DOI" => 'doi',
