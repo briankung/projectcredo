@@ -1,66 +1,68 @@
 class ReferencesController < ApplicationController
   before_action :ensure_current_user
-  UUID_FORMAT = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}/
+  before_action :set_paper_locator, only: :create
 
-  # Shame: refactor the hell out of this
   def create
-    list = List.find(params[:list_id])
+    list = List.find(reference_params[:list_id])
 
-    # Check if uuid. If not, then ask Pubmed.
-    identifier = params[:reference][:paper_id]
-    paper = find_paper(identifier) || import_paper(identifier)
-
-    if Reference.exists? list_id: list.id, paper_id: paper.id
-      flash['notice'] = 'This paper has already been added to this list'
+    if (paper = @locator.find_paper)
+      if Reference.exists? list_id: list.id, paper_id: paper.id
+        flash['notice'] = 'This paper has already been added to this list'
+      else
+        Reference.create(list_id: list.id, paper_id: paper.id)
+        flash['notice'] = "You added #{paper.title} to #{list.name}"
+      end
     else
-      Reference.create(list_id: list.id, paper_id: paper.id)
+      flash['alert'] = "Couldn't find a paper with those parameters 😢"
     end
     redirect_to list
   end
 
   def destroy
-    reference = Reference.find(params[:id])
-    list = reference.list
-    reference.destroy
-    redirect_to list
+    if (reference = Reference.find_by(id: reference_params[:id]))
+      reference.destroy
+      redirect_to reference.list
+    else
+      redirect_to :back
+    end
   end
 
   private
-    def find_paper identifier
-      if UUID_FORMAT =~ identifier
-        paper = Paper.find(identifier)
-      elsif /\// =~ identifier
-        paper = Paper.find_by(doi: identifier)
-      else
-        paper = Paper.find_by(pubmed_id: identifier)
-      end
-      return paper
+    def reference_params
+      params.require(:reference).permit(
+        :list_id, :paper_id, :id, paper: [:locator_id, :locator_type, :title])
     end
 
-    def import_paper identifier
-      pubmed = Pubmed.new
-      data = pubmed.search(identifier)['result'][identifier]
+    def paper_params
+      reference_params.fetch(:paper, nil)
+    end
 
-      existing_authors, new_authors = [], []
-
-      data['authors'].each do |author_data|
-        if (author = Author.find_by name: author_data['name'])
-          existing_authors << author
-        else
-          new_authors << {name: author_data['name']}
-        end
+    def set_paper_locator
+      if paper_params.blank?
+        flash['alert'] = 'Bad paper parameters'
+        redirect_to :back
+      elsif paper_params[:locator_type].blank? || paper_params[:locator_id].blank?
+        flash['alert'] = 'Bad locator parameters'
+        redirect_to :back
       end
 
-      paper = Paper.create(
-        pubmed_id: data['uid'],
-        title: data['title'],
-        published_at: data['pubdate'],
-        authors_attributes: new_authors,
-        abstract: pubmed.get_abstract(data['uid']),
-        doi: data['elocationid'].sub(/^doi: /, ""),
-        publication: data['source']
-      )
-      paper.authors.push *existing_authors unless existing_authors.empty?
-      return paper
+      locator_type = paper_params.fetch :locator_type, nil
+      locator_id = paper_params.fetch :locator_id, nil
+
+      case locator_type
+      when 'doi'
+        @locator = DoiPaperLocator.new locator_id
+      when 'link'
+        if paper_params[:title].blank?
+          flash['alert'] = 'You must enter a title'
+          redirect_to :back
+        end
+        @locator = LinkPaperLocator.new locator_id, paper_params[:title]
+      when 'pubmed'
+        @locator = PubmedPaperLocator.new locator_id
+      else
+        flash['alert'] = 'Bad locator parameters'
+        redirect_to :back
+      end
     end
 end

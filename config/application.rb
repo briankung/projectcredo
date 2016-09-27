@@ -13,6 +13,8 @@ module Projectcredo
     # -- all .rb files in that directory are automatically loaded.
 
     # For adding subdirectories
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    config.autoload_paths += Dir[
+      Rails.root.join('app', 'models', '{**}', '{**}')
+    ]
   end
 end
