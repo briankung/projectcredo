@@ -30,8 +30,8 @@
       <small>
         <%= paper.authors.map(&:name).join(', ') %>
         <i>
-          <span class="publication"><%= "in " + paper.publication unless paper.publication.nil? %></span>
-          <%= "(" + paper.published_at.to_s + ")" unless paper.published_at.nil? %>
+          <%= content_tag(:span, "in #{paper.publication}", class: 'publication') if paper.publication.present? %>
+          <%= "(#{paper.published_at})" if paper.published_at.present? %>
         </i>
 
         <b>Methodologies:</b>
