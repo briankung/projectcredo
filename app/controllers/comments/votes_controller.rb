@@ -30,6 +30,10 @@ class Comments::VotesController < ApplicationController
         closest_comment_by_votes = comment.siblings.min_by {|c| (c.cached_votes_up - comment.cached_votes_up).abs }
         if comment.cached_votes_up > closest_comment_by_votes.cached_votes_up
           closest_comment_by_votes.prepend_sibling(comment)
+        elsif comment.cached_votes_up == closest_comment_by_votes.cached_votes_up
+          newest_similar_comment = comment.siblings.where(
+            cached_votes_up: closest_comment_by_votes.cached_votes_up).order(updated_at: :asc).last
+          newest_similar_comment.append_sibling(comment)
         else
           closest_comment_by_votes.append_sibling(comment)
         end
