@@ -27,5 +27,5 @@ button.comment-vote.active {
     content: "\e125";
   }
 
-  @extend .btn, .btn-default, .btn-sm;
+  @extend .btn, .btn-default, .btn-sm, .pull-left;
 }
