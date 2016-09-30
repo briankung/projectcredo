@@ -1,0 +1,26 @@
+.comment-vote {
+  &:before  {
+    font-family: "Glyphicons Halflings";
+    content: "\e253";
+  }
+
+  @extend .btn, .btn-link, .btn-xs;
+}
+
+.reference-vote {
+  &:before  {
+    font-family: "Glyphicons Halflings";
+    content: "\e125";
+  }
+
+  @extend .btn, .btn-default, .btn-sm;
+}
+
+.list-vote {
+  &:before  {
+    font-family: "Glyphicons Halflings";
+    content: "\e125";
+  }
+
+  @extend .btn, .btn-default, .btn-sm;
+}
