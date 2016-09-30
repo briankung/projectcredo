@@ -12,9 +12,8 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.text_field :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
+    <%= f.text_area :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
   </div>
-
   <%= f.hidden_field :parent_id, value: comment.parent_id %>
   <%#
       We're hiding commentable fields unless display_comment_field because
@@ -24,6 +23,7 @@
   %>
   <%= f.hidden_field :commentable_type, value: comment.commentable_type if display_comment_field %>
   <%= f.hidden_field :commentable_id, value: comment.commentable_id if display_comment_field %>
-
-  <%= f.submit class: 'btn btn-primary hidden' %>
+  <div class="form-group">
+    <%= submit_tag "Submit", class: "btn btn-primary btn-xs" %>
+  </div>
 <% end %>

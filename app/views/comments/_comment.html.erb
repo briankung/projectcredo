@@ -4,11 +4,15 @@
   </p>
 
   <p><%= comment.content %></p>
-  <% if current_user %>
-    <%= link_to 'edit', edit_comment_path(comment) %>
-    <%= link_to 'reply', "#", class: 'toggle-reply', "data-toggle-hide-id" => comment.id %>
-    <%= render 'comments/form', comment: comment.children.build, display_comment_field: false %>
-  <% end %>
+  <ul>
+    <li><%= render 'votes/toggle_like', votable: comment %></li>
+    <% if current_user %>
+      <li><%= link_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %></li>
+      <li><%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', 'data-toggle-hide-id' => comment.id %></li>
+      <li><%= link_to 'delete', comment_path(comment), class: "btn btn-link btn-xs", method: :delete %><li>
+    <% end %>
+  </ul>
+  <%= (render 'comments/form', comment: comment.children.build, display_comment_field: false) if current_user %>
 
   <%= yield %>
 </div>
