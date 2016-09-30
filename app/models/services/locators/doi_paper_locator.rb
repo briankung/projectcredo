@@ -4,9 +4,7 @@ class DoiPaperLocator < BaseLocator
   end
 
   def find_paper
-    if (paper = super)
-      return paper
-    end
+    if (paper = super) then return paper end
 
     pubmed = Pubmed.new
     uid = pubmed.get_search_result_ids(self.locator_id)

@@ -4,9 +4,7 @@ class PubmedPaperLocator < BaseLocator
   end
 
   def find_paper
-    if (paper = super)
-      return paper
-    end
+    if (paper = super) then return paper end
 
     pubmed = Pubmed.new
     results = pubmed.search(self.locator_id)
