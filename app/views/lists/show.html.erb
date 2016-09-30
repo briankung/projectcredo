@@ -13,7 +13,7 @@
 <%= render 'papers/sort_by' %>
 
 <%= render 'papers/index', references: @references %>
-<%= render 'lists/add_paper_form', list: @list %>
+<%= render 'lists/add_reference', list: @list %>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
 <%= link_to 'Back', lists_path %>

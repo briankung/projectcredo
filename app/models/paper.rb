@@ -1,4 +1,5 @@
 class Paper < ApplicationRecord
+  attr_accessor :locator_id, :locator_type
   acts_as_taggable
   acts_as_taggable_on :biases, :methodologies
 
@@ -13,7 +14,8 @@ class Paper < ApplicationRecord
   before_save :downcase_name
 
   def downcase_name
-    self.publication.downcase!
+    # This needs to be fixed - either we require a publication name or we stop downcasing
+    self.publication.try :downcase!
   end
 
   def allowed_biases

@@ -7,6 +7,7 @@ class Reference < ApplicationRecord
   # Consider moving validations to the schema:
   # http://stackoverflow.com/a/1449466/1042144
   validates :paper, uniqueness: { scope: :list }
+  accepts_nested_attributes_for :paper
 
   acts_as_votable
 end
