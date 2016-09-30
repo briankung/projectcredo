@@ -3,12 +3,9 @@ $(document).ready(function() {
     e.preventDefault();
     $(e.target).parents("ul").next('.comment-reply').toggleClass('hidden');
   });
-});
 
-
-$(document).ready(function() {
-    $( '[data-detail-id^=comments-]' ).each(function(index) {
-      var commentCount = $( '#comments-'+index ).find(".comment").length;
-      $( '[data-detail-id="comments-'+index+'"]').text( "Comments(" + commentCount + ")" );
-    });
-  })
+  $('[data-detail-id^=comments-]').each(function(index) {
+    var commentCount = $('#comments-'+index ).find(".comment").length;
+    $('[data-detail-id="comments-'+index+'"]').text("Comments(" + commentCount + ")");
+  });
+})
