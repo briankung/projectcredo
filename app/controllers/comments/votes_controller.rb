@@ -4,14 +4,14 @@ class Comments::VotesController < ApplicationController
 
   def create
     current_user.likes @comment
-    order_comment @comment
+    order_siblings @comment
 
     redirect_to :back
   end
 
   def destroy
     current_user.unlike @comment
-    order_comment @comment
+    order_siblings @comment
 
     redirect_to :back
   end
@@ -25,18 +25,7 @@ class Comments::VotesController < ApplicationController
       @comment = Comment.find(votable_params[:id])
     end
 
-    def order_comment comment
-      if comment.parent_id
-        closest_comment_by_votes = comment.siblings.order("abs(comments.cached_votes_up - #{comment.cached_votes_up})").first
-        if comment.cached_votes_up > closest_comment_by_votes.cached_votes_up
-          closest_comment_by_votes.prepend_sibling(comment)
-        elsif comment.cached_votes_up == closest_comment_by_votes.cached_votes_up
-          newest_similar_comment = comment.siblings.where(
-            cached_votes_up: closest_comment_by_votes.cached_votes_up).order(created_at: :asc).last
-          newest_similar_comment.append_sibling(comment)
-        else
-          closest_comment_by_votes.append_sibling(comment)
-        end
-      end
+    def order_siblings comment
+      comment.order_siblings if comment.child?
     end
 end
