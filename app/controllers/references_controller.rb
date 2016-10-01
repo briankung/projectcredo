@@ -1,19 +1,27 @@
-class ReferencesController < ApplicationController
+  class ReferencesController < ApplicationController
   before_action :ensure_current_user
   before_action :set_paper_locator, only: :create
 
   def create
     list = List.find(reference_params[:list_id])
+    paper = @locator.find_paper
 
-    if (paper = @locator.find_paper)
-      if Reference.exists? list_id: list.id, paper_id: paper.id
-        flash['notice'] = 'This paper has already been added to this list'
+    if paper.present?
+      if paper.persisted?
+        if Reference.exists? list_id: list.id, paper_id: paper.id
+          flash['notice'] = 'This paper has already been added to this list'
+        else
+          Reference.create(list_id: list.id, paper_id: paper.id)
+          flash['notice'] = "You added #{paper.title} to #{list.name}"
+        end
       else
-        Reference.create(list_id: list.id, paper_id: paper.id)
-        flash['notice'] = "You added #{paper.title} to #{list.name}"
+        flash['alert'] = "Mistakes were made 😢: "
+        if paper.errors
+          flash['alert'] += paper.errors.map {|e,msg| "#{e} #{msg}.".capitalize}.join(', ')
+        end
       end
     else
-      flash['alert'] = "Couldn't find a paper with those parameters 😢"
+      flash['alert'] = 'No paper found with those search parameters.'
     end
     redirect_to list
   end

@@ -63,7 +63,12 @@ class Pubmed
     search_response = JSON.parse Net::HTTP.get(search_uri)
 
     # Someday: It would be nice to validate that these search results are in the format we expect
-    search_response['esearchresult']['idlist'].join(",")
+    if search_response['esearchresult']['idlist'].empty?
+      return nil
+    else
+      return search_response['esearchresult']['idlist'].join(",")
+    end
+
   end
 
   private
