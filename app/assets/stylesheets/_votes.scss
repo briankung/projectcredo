@@ -1,10 +1,15 @@
-.comment-vote {
+button.comment-vote {
+  @extend .btn, .btn-link, .btn-xs;
+  color: $gray-light;
+
   &:before  {
     font-family: "Glyphicons Halflings";
     content: "\e253";
   }
+}
 
-  @extend .btn, .btn-link, .btn-xs;
+button.comment-vote.active {
+  color: $link-color;
 }
 
 .reference-vote {
@@ -22,5 +27,5 @@
     content: "\e125";
   }
 
-  @extend .btn, .btn-default, .btn-sm;
+  @extend .btn, .btn-default, .btn-sm, .pull-left;
 }
