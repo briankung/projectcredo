@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :papers
+  resources :papers, except: :index
 
   resources :pins, only: [:create, :destroy]
 
