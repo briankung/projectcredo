@@ -1,8 +1,9 @@
-<h1>Pinned Lists</h1>
-
-<%= link_to 'New List', new_list_path %>
-<%= render 'lists/index', lists: @lists %>
-<%= link_to 'New List', new_list_path %>
+<% if @lists.present? %>
+  <h1>Pinned Lists</h1>
+  <%= link_to 'New List', new_list_path %>
+  <%= render 'lists/index', lists: @lists %>
+  <%= link_to 'New List', new_list_path %>
+<% end %>
 
 <h1>Popular Lists</h1>
 <%= link_to "All lists", lists_path %>
