@@ -2,7 +2,9 @@
 
 <%= link_to 'New List', new_list_path %>
 <%= render 'lists/index', lists: @lists %>
-
-<h1>Unpinned Lists</h1>
-<%= render 'lists/index', lists: List.where.not(id: @lists.pluck(:id)) %>
 <%= link_to 'New List', new_list_path %>
+
+<h1>Popular Lists</h1>
+<%= link_to "All lists", lists_path %>
+<%= render 'lists/index', lists: List.where.not(id: @lists.pluck(:id)).limit(9) %>
+<%= link_to "All lists", lists_path %>
