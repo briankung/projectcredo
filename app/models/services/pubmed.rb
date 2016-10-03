@@ -63,9 +63,7 @@ class Pubmed
     search_response = JSON.parse Net::HTTP.get(search_uri)
 
     # Someday: It would be nice to validate that these search results are in the format we expect
-    search_response['esearchresult']['idlist'].join(",")
-    end
-
+    search_response['esearchresult']['idlist']
   end
 
   def find_uid_by_doi query
