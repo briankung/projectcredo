@@ -63,10 +63,7 @@ class Pubmed
     search_response = JSON.parse Net::HTTP.get(search_uri)
 
     # Someday: It would be nice to validate that these search results are in the format we expect
-    if search_response['esearchresult']['idlist'].empty?
-      return nil
-    else
-      return search_response['esearchresult']['idlist'].join(",")
+    search_response['esearchresult']['idlist'].join(",")
     end
 
   end
@@ -74,8 +71,6 @@ class Pubmed
   def find_uid_by_doi query
     search_uri = generate_uri @search_url, @default_parameters.merge(term: query)
     search_response = JSON.parse Net::HTTP.get(search_uri)
-
-    # Someday: It would be nice to validate that these search results are in the format we expect
     search_response['esearchresult']['idlist'].first
   end
 
