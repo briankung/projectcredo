@@ -71,8 +71,17 @@ class Pubmed
 
   end
 
+  def find_uid_by_doi query
+    search_uri = generate_uri @search_url, @default_parameters.merge(term: query)
+    search_response = JSON.parse Net::HTTP.get(search_uri)
+
+    # Someday: It would be nice to validate that these search results are in the format we expect
+    search_response['esearchresult']['idlist'].first
+  end
+
   private
     def generate_uri(url, parameters)
       URI.parse(url + '?' + URI.encode_www_form(parameters))
     end
+
 end

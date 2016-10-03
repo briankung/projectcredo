@@ -7,7 +7,7 @@ class DoiPaperLocator < BaseLocator
     return super if super
 
     pubmed = Pubmed.new
-    if uid = pubmed.get_search_result_ids(self.locator_id)
+    if uid = pubmed.find_uid_by_doi(self.locator_id)
       results = pubmed.search(uid)
       data = results['result'][uid]
       names = data['authors'].map {|a| a['name']}
