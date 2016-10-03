@@ -14,12 +14,7 @@
         flash['notice'] = "You added #{paper.title} to #{list.name}"
       end
     else
-      flash['alert'] = "Mistakes were made 😢: "
-      if paper.errors.present?
-        flash['alert'] += paper.errors.map {|e,msg| "#{e} #{msg}.".capitalize}.join(', ')
-      else
-        flash['alert'] += 'No paper found with those search parameters.'
-      end
+      flash['alert'] = paper.errors.map {|e,msg| "#{e.capitalize} #{msg}."}.join(', ')
     end
     redirect_to list
   end
