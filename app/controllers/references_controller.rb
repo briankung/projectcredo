@@ -14,7 +14,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added #{paper.title} to #{list.name}"
       end
     else
-      flash['alert'] = paper.errors.map {|e,msg| "#{e.humanize} #{msg}."}.join(', ')
+      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
     end
     redirect_to list
   end
