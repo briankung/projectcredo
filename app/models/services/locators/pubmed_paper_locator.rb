@@ -16,7 +16,6 @@ class PubmedPaperLocator < BaseLocator
       new_authors = (names - existing_names).map {|a| Author.create name: a}
 
       doi = data['elocationid']
-      # .sub(/^doi: /, "")
       if doi.blank?
         doi = data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
       end
