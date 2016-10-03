@@ -22,7 +22,7 @@ class DoiPaperLocator < BaseLocator
         published_at: data['pubdate'],
         authors: (existing_authors + new_authors),
         abstract: pubmed.get_abstract(data['uid']),
-        doi: data['elocationid'].sub(/^doi: /, ""),
+        doi: self.locator_id,
         publication: data['source']
       )
       return paper

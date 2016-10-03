@@ -15,13 +15,20 @@ class PubmedPaperLocator < BaseLocator
       existing_names = existing_authors.map(&:name)
       new_authors = (names - existing_names).map {|a| Author.create name: a}
 
+      doi = data['elocationid']
+      if doi.blank?
+        doi = data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
+      end
+
+      doi = doi.sub(/^doi: /, "")
+
       paper = Paper.create(
         pubmed_id: data['uid'],
         title: data['title'],
         published_at: data['pubdate'],
         authors: (existing_authors + new_authors),
         abstract: pubmed.get_abstract(data['uid']),
-        doi: data['elocationid'].sub(/^doi: /, ""),
+        doi: doi,
         publication: data['source']
       )
       return paper
