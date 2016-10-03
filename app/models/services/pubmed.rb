@@ -16,7 +16,16 @@ class Pubmed
   def search(query)
     metadata_uri = generate_uri(
       @metadata_url,
-      @default_parameters.merge(id: get_search_result_ids(query))
+      @default_parameters.merge(id: get_search_result_ids(query).join(","))
+    )
+
+    JSON.parse Net::HTTP.get(metadata_uri)
+  end
+
+  def get_uid_metadata(uid)
+    metadata_uri = generate_uri(
+      @metadata_url,
+      @default_parameters.merge(id: uid)
     )
 
     JSON.parse Net::HTTP.get(metadata_uri)

@@ -8,8 +8,8 @@ class DoiPaperLocator < BaseLocator
 
     pubmed = Pubmed.new
     if uid = pubmed.find_uid_by_doi(self.locator_id)
-      results = pubmed.search(uid)
-      data = results['result'][uid]
+      result = pubmed.get_uid_metadata(uid)
+      data = result['result'][uid]
       names = data['authors'].map {|a| a['name']}
 
       existing_authors = Author.where(name: names)
