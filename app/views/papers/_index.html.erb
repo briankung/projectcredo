@@ -1,25 +1,15 @@
 <%
-  # SHAME: This pattern is particularly odious
-  if @references
-    papers = @references.map(&:paper)
-    reference_lookup = @references.inject({}) do |memo, ref|
-      memo[ref.paper] = ref
-      memo
-    end
+  papers = @references.map(&:paper)
+  reference_lookup = @references.inject({}) do |memo, ref|
+    memo[ref.paper] = ref
+    memo
   end
 %>
 <% papers.each_with_index do |paper,index| %>
   <div class="row paper-show">
     <div class="col-md-1">
-      <% if @references %>
-        <% paper_reference = reference_lookup[paper] %>
-        <%= render 'votes/toggle_like', votable: paper_reference %>
-      <% else %>
-        <p class="text-center">
-          <%= paper.references.map{|ref| ref.get_likes.size }.sum %></br>
-          <small>Total Votes</small>
-        </p>
-      <% end %>
+      <% paper_reference = reference_lookup[paper] %>
+      <%= render 'votes/toggle_like', votable: paper_reference %>
     </div>
     <div class="col-md-11">
       <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
@@ -79,17 +69,15 @@
         </ul>
       </div>
       <div class="collapse paper-detail well" id="comments-<%= index %>">
-        <% if @references %>
-          <% if current_user %>
-            <%= render('comments/form', comment: paper_reference.comments.build, display_comment_field: true) %>
-          <% else %>
-            <h4>
-              <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
-            </h4>
-          <% end %>
-          <% paper_reference.comments.order('cached_votes_up DESC').each do |comment| %>
-              <%= comments_tree_for comment.hash_tree %>
-          <% end %>
+        <% if current_user %>
+          <%= render('comments/form', comment: paper_reference.comments.build, display_comment_field: true) %>
+        <% else %>
+          <h4>
+            <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
+          </h4>
+        <% end %>
+        <% paper_reference.comments.order('cached_votes_up DESC').each do |comment| %>
+            <%= comments_tree_for comment.hash_tree %>
         <% end %>
       </div>
     </div>
