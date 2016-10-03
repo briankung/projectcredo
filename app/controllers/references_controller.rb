@@ -1,4 +1,4 @@
-  class ReferencesController < ApplicationController
+class ReferencesController < ApplicationController
   before_action :ensure_current_user
   before_action :set_paper_locator, only: :create
 
