@@ -4,8 +4,9 @@ class ReferencesController < ApplicationController
 
   def create
     list = List.find(reference_params[:list_id])
+    paper = @locator.find_paper
 
-    if (paper = @locator.find_paper)
+    if paper.persisted?
       if Reference.exists? list_id: list.id, paper_id: paper.id
         flash['notice'] = 'This paper has already been added to this list'
       else
@@ -13,7 +14,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added #{paper.title} to #{list.name}"
       end
     else
-      flash['alert'] = "Couldn't find a paper with those parameters 😢"
+      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
     end
     redirect_to list
   end
