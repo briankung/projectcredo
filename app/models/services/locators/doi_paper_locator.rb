@@ -27,7 +27,7 @@ class DoiPaperLocator < BaseLocator
       )
       return paper
     else
-      return nil
+      return Paper.new
     end
   end
 end
