@@ -6,35 +6,31 @@ class PubmedPaperLocator < BaseLocator
   def find_paper
     return super if super
 
+    paper = Paper.new
+
     pubmed = Pubmed.new
     result = pubmed.get_uid_metadata(self.locator_id)
     if (data = result['result'][self.locator_id])
-      names = data['authors'].map {|a| a['name']}
+      paper = self.import_data_to_paper(paper,data,'pubmed')
+    end
 
-      existing_authors = Author.where(name: names)
-      existing_names = existing_authors.map(&:name)
-      new_authors = (names - existing_names).map {|a| Author.create name: a}
-
-      doi = data['elocationid']
-      if doi.blank?
-        doi = data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
+    if paper.doi
+      crossref = Crossref.new
+      if result = crossref.get_doi_metadata(self.locator_id)
+        data = result['message']
+        paper = self.import_data_to_paper(paper,data,'crossref')
       end
+    end
 
-      doi = doi.sub(/^doi: /, "")
+    existing_paper = Paper.where( "title = ? or doi = ? and doi is not null", paper.title, paper.doi )
 
-      paper = Paper.create(
-        pubmed_id: data['uid'],
-        title: data['title'],
-        published_at: data['pubdate'],
-        authors: (existing_authors + new_authors),
-        abstract: pubmed.get_abstract(data['uid']),
-        doi: doi,
-        publication: data['source']
-      )
+    if existing_paper.present?
+      return existing_paper
+    elsif paper.save
       return paper
     else
-      paper = Paper.new
-      paper.errors.add(:locator_id, "is invalid; no paper found for searched Pubmed ID: #{self.locator_id}")
+      paper.errors.delete(:title)
+      paper.errors.add(:locator_id, "is invalid; no paper found for searched DOI: #{self.locator_id}")
       return paper
     end
 

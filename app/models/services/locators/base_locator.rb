@@ -25,6 +25,8 @@ class BaseLocator
         doi = imported_data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
       end
 
+      doi = doi.sub(/^doi: /, "")
+
       paper.pubmed_id ||= imported_data['uid']
       paper.title ||= imported_data['title']
       paper.published_at ||=  imported_data['pubdate']

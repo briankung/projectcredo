@@ -32,5 +32,6 @@ class DoiPaperLocator < BaseLocator
       paper.errors.add(:locator_id, "is invalid; no paper found for searched DOI: #{self.locator_id}")
       return paper
     end
+
   end
 end
