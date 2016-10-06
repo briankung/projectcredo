@@ -10,7 +10,7 @@ class Crossref
     begin
       JSON.parse Net::HTTP.get(metadata_uri)
     rescue JSON::ParserError => e
-      return false
+      return nil
     end
   end
 
