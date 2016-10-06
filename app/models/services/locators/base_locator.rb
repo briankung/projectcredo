@@ -37,16 +37,16 @@ class BaseLocator
     end
 
     if source == "crossref"
-      if paper.authors.empty?
+      if paper.authors.empty? && imported_data['author']
         names = imported_data['author'].map {|a| "#{a['given']} #{a['family']}"}
         existing_authors = Author.where(name: names)
         existing_names = existing_authors.map(&:name)
         new_authors = (names - existing_names).map {|a| Author.create name: a}
+        paper.authors = (existing_authors + new_authors)
       end
 
       paper.title ||= imported_data['title'].first
       paper.published_at ||=  imported_data['created']['date-time'].to_date
-      paper.authors = (existing_authors + new_authors) if paper.authors.empty?
       paper.doi ||= imported_data['DOI']
       paper.publication ||= imported_data['publisher']
       paper.link ||= imported_data['link'].first['URL'] if imported_data['link']
