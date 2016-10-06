@@ -35,7 +35,7 @@
     </small>
     <ul class="nav nav-pills" role="tablist">
       <% %i{abstract details comments}.each do |tab| %>
-        <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{nil}", class: "small paper-detail-tab" %></li>
+        <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{tab_id_for(paper)}", class: "small paper-detail-tab" %></li>
       <% end %>
       <% if current_user %>
         <li><%= link_to 'Edit', edit_paper_path(paper), class: "small" %></li>
@@ -47,10 +47,10 @@
         </li>
       <% end %>
     </ul>
-    <div class="collapse paper-detail well" id="abstract-<%= nil %>">
+    <div class="collapse paper-detail well" id="abstract-<%= tab_id_for(paper) %>">
       <p><%= paper.abstract %></p>
     </div>
-    <div class="collapse paper-detail well" id="details-<%= nil %>">
+    <div class="collapse paper-detail well" id="details-<%= tab_id_for(paper) %>">
       <ul>
         <li>DOI: <%= paper.doi %></li>
         <li>Pubmed ID: <%= paper.pubmed_id %></li>
@@ -58,7 +58,7 @@
         <li>Published: <%= paper.published_at %></li>
       </ul>
     </div>
-    <div class="collapse paper-detail well" id="comments-<%= nil %>">
+    <div class="collapse paper-detail well" id="comments-<%= tab_id_for(paper) %>">
       <% if current_user %>
         <%= render('comments/form', comment: reference.comments.build, display_comment_field: true) %>
       <% else %>
