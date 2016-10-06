@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :papers, except: :index
+  resources :papers, only: [:show, :edit, :update]
 
   resources :pins, only: [:create, :destroy]
 
@@ -24,5 +24,4 @@ Rails.application.routes.draw do
   resources :comments, only: :edit do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
-
 end
