@@ -4,6 +4,8 @@ class Pubmed
     @search_url = @base_url + "/entrez/eutils/esearch.fcgi"
     @metadata_url = @base_url + "/entrez/eutils/esummary.fcgi"
     @abstract_url = @base_url + "/entrez/eutils/efetch.fcgi"
+    @pubmed_url = 'https://www.ncbi.nlm.nih.gov/pubmed/'
+    @pubmed_xml_options = '?report=xml&format=text'
 
     @default_parameters = {
       db: 'pubmed',
@@ -34,10 +36,13 @@ class Pubmed
   def get_abstract(uid)
     abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
 
-    abstract = Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+    begin
+      abstract = Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+    rescue
+      pubmed_scrape = Hash.from_xml(Net::HTTP.get(URI.parse(@pubmed_url + uid + @pubmed_xml_options)))
+      abstract = pubmed_scrape['pre'][/#{"AbstractText"}(.*?)#{"</AbstractText>"}/m, 1].partition('>').last
+    end
     abstract = abstract.join ' ' if abstract.respond_to? :join
-
-    abstract
   end
 
   def import_paper identifier
