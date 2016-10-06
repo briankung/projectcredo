@@ -1,65 +1,64 @@
+<% paper = reference.paper %>
 <div class="row paper-show">
   <div class="col-md-1">
     <%= render 'votes/toggle_like', votable: reference %>
   </div>
   <div class="col-md-11">
-    <h4 class="paper-title"><%= link_to reference.paper.title, reference.paper %></h4>
-    <% reference.paper.tag_list.each do |tag| %>
+    <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
+    <% paper.tag_list.each do |tag| %>
       <a class="btn btn-default btn-xs"><%= tag %></a>
     <% end %>
 
     <small>
-      <%= reference.paper.authors.map(&:name).join(', ') %>
+      <%= paper.authors.map(&:name).join(', ') %>
       <i>
-        <%= content_tag(:span, "in #{reference.paper.publication}", class: 'publication') if reference.paper.publication.present? %>
-        <%= "(#{reference.paper.published_at})" if reference.paper.published_at.present? %>
+        <%= content_tag(:span, "in #{paper.publication}", class: 'publication') if paper.publication.present? %>
+        <%= "(#{paper.published_at})" if paper.published_at.present? %>
       </i>
 
       <b>Methodologies:</b>
-      <% if reference.paper.methodology_list.empty? %>
+      <% if paper.methodology_list.empty? %>
         <i>(Unknown)</i>
       <% else %>
-        <% reference.paper.methodology_list.each do |methodology| %>
+        <% paper.methodology_list.each do |methodology| %>
           <a class="btn btn-default btn-xs"><%= methodology %></a>
         <% end %>
       <% end %>
       <b>Biases:</b>
-      <% if reference.paper.bias_list.empty? %>
+      <% if paper.bias_list.empty? %>
         <i>(Unknown)</i>
       <% else %>
-        <% reference.paper.bias_list.each do |bias| %>
+        <% paper.bias_list.each do |bias| %>
           <a class="btn btn-default btn-xs"><%= bias %></a>
         <% end %>
       <% end %>
     </small>
     <ul class="nav nav-pills" role="tablist">
       <% %i{abstract details comments}.each do |tab| %>
-        <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{index}", class: "small paper-detail-tab" %></li>
+        <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{nil}", class: "small paper-detail-tab" %></li>
       <% end %>
       <% if current_user %>
-        <li><%= link_to 'Edit', edit_paper_path(reference.paper), class: "small" %></li>
+        <li><%= link_to 'Edit', edit_paper_path(paper), class: "small" %></li>
         <li>
-          <% if reference %>
-            <%= form_for reference, method: :delete do |r| %>
-              <%= r.text_field :id, value: reference.id, hidden: true %>
-            <% end %>
-            <%= link_to 'Remove from list', {}, class: 'delete-reference small' %>
+          <%= form_for reference, method: :delete do |r| %>
+            <%= r.text_field :id, value: reference.id, hidden: true %>
           <% end %>
+          <%= link_to 'Remove from list', {}, class: 'delete-reference small' %>
         </li>
       <% end %>
     </ul>
-    <div class="collapse paper-detail well" id="abstract-<%= index %>">
-      <p><%= reference.paper.abstract %></p>
+    <div class="collapse paper-detail well" id="abstract-<%= nil %>">
+      <p><%= paper.abstract %></p>
     </div>
-    <div class="collapse paper-detail well" id="details-<%= index %>">
+    <div class="collapse paper-detail well" id="details-<%= nil %>">
       <ul>
-        <li>DOI: <%= reference.paper.doi %></li>
-        <li>Pubmed ID: <%= reference.paper.pubmed_id %></li>
-        <li>Link: <%= reference.paper.link %></li>
-        <li>Published: <%= reference.paper.published_at %></li>
+        <li>DOI: <%= paper.doi %></li>
+        <li>Pubmed ID: <%= paper.pubmed_id %></li>
+        <li>Link: <%= paper.link %></li>
+        <li>Published: <%= paper.published_at %></li>
       </ul>
     </div>
-    <div class="collapse paper-detail well" id="comments-<%= index %>">
+    <div class="collapse paper-detail well" id="comments-<%= nil %>">
       <% if current_user %>
         <%= render('comments/form', comment: reference.comments.build, display_comment_field: true) %>
       <% else %>
