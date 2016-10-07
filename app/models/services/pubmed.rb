@@ -43,6 +43,8 @@ class Pubmed
       abstract = pubmed_scrape['pre'][/#{"AbstractText"}(.*?)#{"</AbstractText>"}/m, 1].partition('>').last
     end
     abstract = abstract.join ' ' if abstract.respond_to? :join
+
+    return abstract
   end
 
   def import_paper identifier
