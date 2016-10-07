@@ -22,7 +22,7 @@ class PubmedPaperLocator < BaseLocator
       end
     end
 
-    existing_paper = Paper.where( "title = ? or doi = ? and doi is not null", paper.title, paper.doi )
+    existing_paper = Paper.where( "title = ? or doi = ? and doi is not null", paper.title, paper.doi ).first
 
     if existing_paper.present?
       return existing_paper

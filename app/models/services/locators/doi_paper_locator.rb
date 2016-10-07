@@ -21,7 +21,7 @@ class DoiPaperLocator < BaseLocator
       paper = self.import_data_to_paper(paper,data,'pubmed')
     end
 
-    existing_paper = Paper.where( "title = ? or pubmed_id = ? and pubmed_id is not null", paper.title, paper.pubmed_id )
+    existing_paper = Paper.where( "title = ? or pubmed_id = ? and pubmed_id is not null", paper.title, paper.pubmed_id ).first
 
     if existing_paper.present?
       return existing_paper
