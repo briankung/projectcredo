@@ -4,7 +4,7 @@
     <%= render 'votes/toggle_like', votable: @reference %>
   </div>
   <div class="col-md-11">
-    <h1><%= paper.title %></h1>
+    <h1><%= link_to paper.title, @reference %></h1>
     <p>Referenced in <%= link_to @reference.list.name, @reference.list %></p>
     <% paper.tag_list.each do |tag| %>
       <a class="btn btn-default btn-xs"><%= tag %></a>
