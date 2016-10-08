@@ -23,5 +23,5 @@ Rails.application.routes.draw do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
 
-  get ':username' => 'users/lists#index'
+  get ':username' => 'users/lists#index', as: :profile
 end
