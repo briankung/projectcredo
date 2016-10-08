@@ -1,9 +1,13 @@
 class ReferencesController < ApplicationController
-  before_action :ensure_current_user
+  before_action :set_reference, except: :create
+  before_action :ensure_current_user, except: :show
   before_action :set_paper_locator, only: :create
 
+  def show
+  end
+
   def create
-    list = List.find(reference_params[:list_id])
+    list = @reference.list
 
     if (paper = @locator.find_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
@@ -19,15 +23,19 @@ class ReferencesController < ApplicationController
   end
 
   def destroy
-    if (reference = Reference.find_by(id: reference_params[:id]))
-      reference.destroy
-      redirect_to reference.list
-    else
-      redirect_to :back
+    @reference.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @reference.list, notice: 'Reference was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
   private
+    def set_reference
+      @reference = Reference.find(reference_params[:id])
+    end
+
     def reference_params
       params.require(:reference).permit(
         :list_id, :paper_id, :id, paper: [:locator_id, :locator_type, :title])
