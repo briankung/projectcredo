@@ -1,19 +1,15 @@
 <% if @lists.present? %>
   <h1>Pinned Lists</h1>
-  <%= link_to "All lists", lists_path %>
-  <%= link_to 'Create New List', new_list_path %>
+  <p><%= link_to "All lists", lists_path %></p>
+  <p><%= link_to 'Create New List', new_list_path %></p>
   <div class="cards row">
     <%= render @lists %>
   </div>
-  <%= link_to "All lists", lists_path %>
-  <%= link_to 'Create New List', new_list_path %>
 <% end %>
 
 <h1>Popular Lists</h1>
-<%= link_to "All lists", lists_path %>
-<%= link_to 'Create New List', new_list_path %>
+<p><%= link_to "All lists", lists_path %></p>
+<p><%= link_to 'Create New List', new_list_path %></p>
 <div class="cards row">
   <%= render List.where.not(id: @lists.pluck(:id)).limit(9) %>
 </div>
-<%= link_to "All lists", lists_path %>
-<%= link_to 'Create New List', new_list_path %>
