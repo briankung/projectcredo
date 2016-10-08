@@ -9,30 +9,7 @@
       <a class="btn btn-default btn-xs"><%= tag %></a>
     <% end %>
 
-    <small>
-      <%= paper.authors.map(&:name).join(', ') %>
-      <i>
-        <%= content_tag(:span, "in #{paper.publication}", class: 'publication') if paper.publication.present? %>
-        <%= "(#{paper.published_at})" if paper.published_at.present? %>
-      </i>
-
-      <b>Methodologies:</b>
-      <% if paper.methodology_list.empty? %>
-        <i>(Unknown)</i>
-      <% else %>
-        <% paper.methodology_list.each do |methodology| %>
-          <a class="btn btn-default btn-xs"><%= methodology %></a>
-        <% end %>
-      <% end %>
-      <b>Biases:</b>
-      <% if paper.bias_list.empty? %>
-        <i>(Unknown)</i>
-      <% else %>
-        <% paper.bias_list.each do |bias| %>
-          <a class="btn btn-default btn-xs"><%= bias %></a>
-        <% end %>
-      <% end %>
-    </small>
+    <%= render 'papers/metadata', paper: paper %>
     <%= render 'papers/tablist', reference: reference, paper: paper, show_comments: false %>
   </div>
 </div>
