@@ -6,10 +6,8 @@
   <div class="col-md-11">
     <h1><%= link_to paper.title, @reference %></h1>
     <p>Referenced in <%= link_to @reference.list.name, @reference.list %></p>
-    <% paper.tag_list.each do |tag| %>
-      <a class="btn btn-default btn-xs"><%= tag %></a>
-    <% end %>
 
+    <%= render 'papers/tags', paper: paper %>
     <%= render 'papers/metadata', paper: paper %>
     <%= render 'papers/tablist', reference: @reference, paper: paper, show_comments: true %>
   </div>
