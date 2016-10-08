@@ -1,10 +1,11 @@
-<% paper = reference.paper %>
+<% paper = @reference.paper %>
 <div class="row paper-show">
   <div class="col-md-1">
-    <%= render 'votes/toggle_like', votable: reference %>
+    <%= render 'votes/toggle_like', votable: @reference %>
   </div>
   <div class="col-md-11">
-    <h4 class="paper-title"><%= link_to paper.title, paper %></h4>
+    <h1><%= paper.title %></h1>
+    <p>Referenced in <%= link_to @reference.list.name, @reference.list %></p>
     <% paper.tag_list.each do |tag| %>
       <a class="btn btn-default btn-xs"><%= tag %></a>
     <% end %>
@@ -34,15 +35,14 @@
       <% end %>
     </small>
     <ul class="nav nav-pills" role="tablist">
-      <% %i{abstract details}.each do |tab| %>
+      <% %i{abstract details comments}.each do |tab| %>
         <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{tab_id_for(paper)}", class: "small paper-detail-tab" %></li>
       <% end %>
-      <li><%= link_to 'Comments', list_reference_path(@list, reference), class: 'small' %></li>
       <% if current_user %>
         <li><%= link_to 'Edit', edit_paper_path(paper), class: "small" %></li>
         <li>
-          <%= form_for reference, method: :delete do |r| %>
-            <%= r.text_field :id, value: reference.id, hidden: true %>
+          <%= form_for @reference, method: :delete do |r| %>
+            <%= r.text_field :id, value: @reference.id, hidden: true %>
           <% end %>
           <%= link_to 'Remove from list', {}, class: 'delete-reference small' %>
         </li>
@@ -58,6 +58,18 @@
         <li>Link: <%= paper.link %></li>
         <li>Published: <%= paper.published_at %></li>
       </ul>
+    </div>
+    <div class="paper-detail well collapse in" id="comments-<%= tab_id_for(paper) %>">
+      <% if current_user %>
+        <%= render('comments/form', comment: @reference.comments.build, display_comment_field: true) %>
+      <% else %>
+        <h4>
+          <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
+        </h4>
+      <% end %>
+      <% @reference.comments.order('cached_votes_up DESC, created_at ASC').each do |comment| %>
+          <%= comments_tree_for comment.hash_tree %>
+      <% end %>
     </div>
   </div>
 </div>
