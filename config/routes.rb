@@ -8,10 +8,8 @@ Rails.application.routes.draw do
   resources :pins, only: [:create, :destroy]
 
   resources :lists do
-    member do
-      resources :references, only: [:show, :create, :destroy]
-      resource :vote, controller: 'lists/votes', only: [:create, :destroy], as: :list_vote
-    end
+    resources :references, only: [:show, :create, :destroy]
+    resource :vote, controller: 'lists/votes', only: [:create, :destroy]
   end
 
   resources :references do
