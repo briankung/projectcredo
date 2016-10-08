@@ -4,7 +4,11 @@
     <%= render 'votes/toggle_like', votable: reference %>
   </div>
   <div class="col-md-11">
-    <h4 class="paper-title"><%= link_to paper.title, reference %></h4>
+    <% if content_for?(:paper_title) %>
+      <%= yield(:paper_title) %>
+    <% else %>
+      <h4 class="paper-title"><%= link_to paper.title, reference %></h4>
+    <% end %>
 
     <%= render 'papers/tags', paper: paper %>
     <%= render 'papers/metadata', paper: paper %>

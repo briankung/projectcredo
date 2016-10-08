@@ -1,14 +1,6 @@
-<% paper = @reference.paper %>
-<div class="row paper-show">
-  <div class="col-md-1">
-    <%= render 'votes/toggle_like', votable: @reference %>
-  </div>
-  <div class="col-md-11">
-    <h1><%= link_to paper.title, @reference %></h1>
-    <p>Referenced in <%= link_to @reference.list.name, @reference.list %></p>
+<% content_for :paper_title do %>
+  <h1><%= link_to @reference.paper.title, @reference %></h1>
+  <p>Referenced in <%= link_to @reference.list.name, @reference.list %></p>
+<% end %>
 
-    <%= render 'papers/tags', paper: paper %>
-    <%= render 'papers/metadata', paper: paper %>
-    <%= render 'papers/tablist', reference: @reference, paper: paper, show_comments: true %>
-  </div>
-</div>
+<%= render @reference %>
