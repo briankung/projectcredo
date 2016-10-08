@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :lists do
     member do
-      resources :references, only: [:create, :destroy]
+      resources :references, only: [:show, :create, :destroy]
       resource :vote, controller: 'lists/votes', only: [:create, :destroy], as: :list_vote
     end
   end
