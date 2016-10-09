@@ -4,9 +4,11 @@ class Pubmed
     @search_url = @base_url + "/entrez/eutils/esearch.fcgi"
     @metadata_url = @base_url + "/entrez/eutils/esummary.fcgi"
     @abstract_url = @base_url + "/entrez/eutils/efetch.fcgi"
-    @pubmed_url = 'https://www.ncbi.nlm.nih.gov/pubmed/'
-    @pubmed_xml_options = '?report=xml&format=text'
-
+    @pubmed_scrape_url = 'https://www.ncbi.nlm.nih.gov/pubmed/'
+    @pubmed_scrape_parameters = {
+      report: 'xml',
+      format: 'text'
+    }
     @default_parameters = {
       db: 'pubmed',
       retmode: 'json',
@@ -37,10 +39,25 @@ class Pubmed
     abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
 
     begin
-      abstract = Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+      result = Hash.from_xml(Net::HTTP.get(abstract_uri))
+      abstract = result.dig(
+        'PubmedArticleSet',
+        'PubmedArticle',
+        'MedlineCitation',
+        'Article',
+        'Abstract',
+        'AbstractText'
+      )
     rescue
-      pubmed_scrape = Hash.from_xml(Net::HTTP.get(URI.parse(@pubmed_url + uid + @pubmed_xml_options)))
-      abstract = pubmed_scrape['pre'][/#{"AbstractText"}(.*?)#{"</AbstractText>"}/m, 1].partition('>').last
+      result = Hash.from_xml(
+        Net::HTTP.get(
+          generate_uri(@pubmed_scrape_url + uid, @pubmed_scrape_parameters)
+        )
+      )
+
+      if (pubmed_scrape = result.dig('pre'))
+       abstract = pubmed_scrape[/#{"AbstractText"}(.*?)#{"</AbstractText>"}/m, 1].partition('>').last
+      end
     end
     abstract = abstract.join ' ' if abstract.respond_to? :join
 
