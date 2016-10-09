@@ -8,7 +8,7 @@ class User < ApplicationRecord
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, multiline: true
+  validates_format_of :username, with: /\A[a-zA-Z0-9_\.]{3,}\z/
   validates :username,
             presence: true,
             uniqueness: { case_sensitive: false }
