@@ -9,7 +9,8 @@ class DoiPaperLocator < BaseLocator
     paper = Paper.new
 
     crossref = Crossref.new
-    if (result = crossref.get_doi_metadata(self.locator_id))
+    result = crossref.get_doi_metadata(self.locator_id)
+    if result[:error]
       data = result['message']
       paper = self.import_data_to_paper(paper,data,'crossref')
     end

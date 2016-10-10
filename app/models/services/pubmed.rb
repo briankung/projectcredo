@@ -37,18 +37,16 @@ class Pubmed
 
   def get_abstract(uid)
     abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
-
-    begin
-      result = Hash.from_xml(Net::HTTP.get(abstract_uri))
-      abstract = result.dig(
-        'PubmedArticleSet',
-        'PubmedArticle',
-        'MedlineCitation',
-        'Article',
-        'Abstract',
-        'AbstractText'
-      )
-    rescue
+    result = Hash.from_xml(Net::HTTP.get(abstract_uri))
+    abstract = result.dig(
+      'PubmedArticleSet',
+      'PubmedArticle',
+      'MedlineCitation',
+      'Article',
+      'Abstract',
+      'AbstractText'
+    )
+    if abstract.blank?
       result = Hash.from_xml(
         Net::HTTP.get(
           generate_uri(@pubmed_scrape_url + uid, @pubmed_scrape_parameters)
