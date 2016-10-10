@@ -8,10 +8,10 @@ class User < ApplicationRecord
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  validates_format_of :username, with: /\A[\p{N}\p{L}_]{3,}\z/
   validates :username,
             presence: true,
-            uniqueness: { case_sensitive: false }
+            uniqueness: {case_sensitive: false},
+            format: {with: /\A[\p{N}\p{L}_]{3,}\z/}
 
   has_one :homepage, dependent: :destroy
   has_many :lists
