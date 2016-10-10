@@ -29,6 +29,6 @@ class Crossref
     paper.publication ||= imported_data['publisher']
     paper.link ||= imported_data['link'].first['URL'] if imported_data['link']
 
-  return paper
+    return paper
   end
 end
