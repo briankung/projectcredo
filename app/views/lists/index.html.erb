@@ -5,8 +5,9 @@
 
 
 <p><%= link_to 'Create New List', new_list_path %></p>
-
-<%= render 'lists/index', lists: @lists %>
+<div class="cards row">
+  <%= render @lists %>
+</div>
 
 <div class="row">
   <div class="col-md-12">
