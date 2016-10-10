@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926185152) do
+ActiveRecord::Schema.define(version: 20161010231037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160926185152) do
     t.text     "content"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.string   "user_id"
+    t.integer  "user_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
@@ -92,9 +92,9 @@ ActiveRecord::Schema.define(version: 20160926185152) do
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.string   "taggable_type"
-    t.string   "taggable_id"
+    t.integer  "taggable_id"
     t.string   "tagger_type"
-    t.string   "tagger_id"
+    t.integer  "tagger_id"
     t.string   "context",       limit: 128
     t.datetime "created_at"
     t.index ["context"], name: "index_taggings_on_context", using: :btree
@@ -135,9 +135,9 @@ ActiveRecord::Schema.define(version: 20160926185152) do
 
   create_table "votes", force: :cascade do |t|
     t.string   "votable_type"
-    t.string   "votable_id",   null: false
+    t.integer  "votable_id",   null: false
     t.string   "voter_type"
-    t.string   "voter_id",     null: false
+    t.integer  "voter_id",     null: false
     t.boolean  "vote_flag"
     t.string   "vote_scope"
     t.integer  "vote_weight"
