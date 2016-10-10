@@ -103,6 +103,32 @@ class Pubmed
     search_response['esearchresult']['idlist'].first
   end
 
+   def import_data_to_paper(paper,imported_data)
+      if paper.authors.empty?
+        names = imported_data['authors'].map {|a| a['name']}
+        existing_authors = Author.where(name: names)
+        existing_names = existing_authors.map(&:name)
+        new_authors = (names - existing_names).map {|a| Author.create name: a}
+      end
+
+      doi = imported_data['elocationid']
+      if doi.blank?
+        doi = imported_data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
+      end
+
+      doi = doi.sub(/^doi: /, "")
+
+      paper.pubmed_id ||= imported_data['uid']
+      paper.title ||= imported_data['title']
+      paper.published_at ||=  imported_data['pubdate']
+      paper.authors ||= (existing_authors + new_authors)
+      paper.abstract ||= Pubmed.new.get_abstract(imported_data['uid'])
+      paper.doi ||= doi
+      paper.publication ||= imported_data['source']
+
+      return paper
+    end
+
   private
     def generate_uri(url, parameters)
       URI.parse(url + '?' + URI.encode_www_form(parameters))

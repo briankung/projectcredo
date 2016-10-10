@@ -11,15 +11,15 @@ class PubmedPaperLocator < BaseLocator
     pubmed = Pubmed.new
     result = pubmed.get_uid_metadata(self.locator_id)
     if (data = result['result'][self.locator_id])
-      paper = self.import_data_to_paper(paper,data,'pubmed')
+      paper = pubmed.import_data_to_paper(paper,data)
     end
 
     if paper.doi
       crossref = Crossref.new
       result = crossref.get_doi_metadata(self.locator_id)
-      if result[:error]
+      if result[:error].blank?
         data = result['message']
-        paper = self.import_data_to_paper(paper,data,'crossref')
+        paper = crossref.import_data_to_paper(paper,data)
       end
     end
 
@@ -38,9 +38,7 @@ class PubmedPaperLocator < BaseLocator
   end
 
   def import_data_to_paper(paper,imported_data,source)
-    source = source.downcase
-
-    if source == "pubmed"
+    if self.class == PubmedPaperLocator
       if paper.authors.empty?
         names = imported_data['authors'].map {|a| a['name']}
         existing_authors = Author.where(name: names)
@@ -64,7 +62,7 @@ class PubmedPaperLocator < BaseLocator
       paper.publication ||= imported_data['source']
     end
 
-    if source == "crossref"
+    if self.class == DoiPaperLocator
       if paper.authors.empty? && imported_data['author']
         names = imported_data['author'].map {|a| "#{a['given']} #{a['family']}"}
         existing_authors = Author.where(name: names)
