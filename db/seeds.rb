@@ -9,7 +9,7 @@
 u = User.create(email: 'user@example.com', password: 'password', username: 'testuser')
 
 [
-  "Allergies and immigrant familes",
+  "Allergies and immigrant families",
   "Crop co-cultivation methods",
   "Exercise and depression",
   "Do cellphones cause cancer?",

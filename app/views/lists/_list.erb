@@ -1,0 +1,21 @@
+<div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <% if user_signed_in? %>
+        <div class="row">
+          <div class="col-md-12">
+            <%= render 'lists/toggle_pin', list: list %>
+            <%= render 'votes/toggle_like', votable: list %>
+            <small class="pull-right">
+              <%= link_to 'Edit ', edit_list_path(list) %>
+              <%= link_to ' Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </small>
+          </div>
+        </div>
+      <% end %>
+      <h2><%= link_to list.name, list %></h2>
+      <p><%= list.description %></p>
+      <small>Tags:<i><%= list.tag_list %></i></br></small>
+    </div>
+  </div>
+</div>

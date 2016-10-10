@@ -3,15 +3,13 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :papers, except: :index
+  resources :papers, only: [:show, :edit, :update]
 
   resources :pins, only: [:create, :destroy]
 
   resources :lists do
-    member do
-      resources :references, only: [:create, :destroy]
-      resource :vote, controller: 'lists/votes', only: [:create, :destroy], as: :list_vote
-    end
+    resources :references, only: [:show, :create, :destroy]
+    resource :vote, controller: 'lists/votes', only: [:create, :destroy]
   end
 
   resources :references do
@@ -25,4 +23,5 @@ Rails.application.routes.draw do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
 
+  get ':username' => 'users/lists#index', as: :profile
 end
