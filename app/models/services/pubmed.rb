@@ -4,7 +4,11 @@ class Pubmed
     @search_url = @base_url + "/entrez/eutils/esearch.fcgi"
     @metadata_url = @base_url + "/entrez/eutils/esummary.fcgi"
     @abstract_url = @base_url + "/entrez/eutils/efetch.fcgi"
-
+    @pubmed_scrape_url = 'https://www.ncbi.nlm.nih.gov/pubmed/'
+    @pubmed_scrape_parameters = {
+      report: 'xml',
+      format: 'text'
+    }
     @default_parameters = {
       db: 'pubmed',
       retmode: 'json',
@@ -33,11 +37,27 @@ class Pubmed
 
   def get_abstract(uid)
     abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
-
-    abstract = Hash.from_xml(Net::HTTP.get(abstract_uri))['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+    response = Net::HTTP.get(abstract_uri)
+    result = Hash.from_xml(response)
+    abstract = result.dig(
+      'PubmedArticleSet',
+      'PubmedArticle',
+      'MedlineCitation',
+      'Article',
+      'Abstract',
+      'AbstractText'
+    )
+    if abstract.blank?
+      uri = generate_uri(@pubmed_scrape_url + uid, @pubmed_scrape_parameters)
+      response = Net::HTTP.get(uri)
+      result = Hash.from_xml(response)
+      if (pubmed_scrape = result.dig('pre'))
+       abstract = pubmed_scrape[/#{"AbstractText"}(.*?)#{"</AbstractText>"}/m, 1].partition('>').last
+      end
+    end
     abstract = abstract.join ' ' if abstract.respond_to? :join
 
-    abstract
+    return abstract
   end
 
   def import_paper identifier
@@ -80,6 +100,32 @@ class Pubmed
     search_response = JSON.parse Net::HTTP.get(search_uri)
     search_response['esearchresult']['idlist'].first
   end
+
+   def import_data_to_paper(paper,imported_data)
+      if paper.authors.empty?
+        names = imported_data['authors'].map {|a| a['name']}
+        existing_authors = Author.where(name: names)
+        existing_names = existing_authors.map(&:name)
+        new_authors = (names - existing_names).map {|a| Author.create name: a}
+      end
+
+      doi = imported_data['elocationid']
+      if doi.blank?
+        doi = imported_data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
+      end
+
+      doi = doi.sub(/^doi: /, "")
+
+      paper.pubmed_id ||= imported_data['uid']
+      paper.title ||= imported_data['title']
+      paper.published_at ||=  imported_data['pubdate']
+      paper.authors ||= (existing_authors + new_authors)
+      paper.abstract ||= Pubmed.new.get_abstract(imported_data['uid'])
+      paper.doi ||= doi
+      paper.publication ||= imported_data['source']
+
+      return paper
+    end
 
   private
     def generate_uri(url, parameters)

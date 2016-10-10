@@ -15,7 +15,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = 'This paper has already been added to this list'
       else
         Reference.create(list_id: list.id, paper_id: paper.id)
-        flash['notice'] = "You added \"#{paper.title}\" to #{list.name}"
+        flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
       end
     else
       flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')

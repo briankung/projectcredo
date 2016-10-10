@@ -8,4 +8,5 @@ class BaseLocator
   def find_paper
     Paper.find_by self.column => self.locator_id
   end
+
 end
