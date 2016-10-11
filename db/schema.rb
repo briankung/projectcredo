@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926185152) do
+ActiveRecord::Schema.define(version: 20161011002653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,37 +25,44 @@ ActiveRecord::Schema.define(version: 20160926185152) do
   create_table "authors_papers", id: false, force: :cascade do |t|
     t.integer "author_id", null: false
     t.integer "paper_id",  null: false
+    t.index ["author_id", "paper_id"], name: "index_authors_papers_on_author_id_and_paper_id", unique: true, using: :btree
   end
 
   create_table "comment_hierarchies", id: false, force: :cascade do |t|
     t.integer "generations",   null: false
     t.integer "ancestor_id"
     t.integer "descendant_id"
+    t.index ["ancestor_id", "descendant_id"], name: "index_comment_hierarchies_on_ancestor_id_and_descendant_id", unique: true, using: :btree
   end
 
   create_table "comments", force: :cascade do |t|
     t.text     "content"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.string   "user_id"
+    t.integer  "user_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
     t.integer  "cached_votes_up",  default: 0
     t.integer  "sort_order"
     t.index ["cached_votes_up"], name: "index_comments_on_cached_votes_up", using: :btree
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+    t.index ["parent_id"], name: "index_comments_on_parent_id", using: :btree
     t.index ["sort_order"], name: "index_comments_on_sort_order", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
   create_table "homepages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id",    null: false
+    t.index ["user_id"], name: "index_homepages_on_user_id", using: :btree
   end
 
   create_table "homepages_lists", id: false, force: :cascade do |t|
     t.integer "homepage_id", null: false
     t.integer "list_id",     null: false
+    t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", unique: true, using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
@@ -65,7 +72,8 @@ ActiveRecord::Schema.define(version: 20160926185152) do
     t.string   "description"
     t.integer  "cached_votes_up", default: 0
     t.integer  "user_id",                     null: false
-    t.index ["cached_votes_up"], name: "index_lists_on_cached_votes_up", using: :btree
+    t.index ["cached_votes_up", "created_at"], name: "index_lists_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
+    t.index ["user_id"], name: "index_lists_on_user_id", using: :btree
   end
 
   create_table "papers", force: :cascade do |t|
@@ -78,6 +86,9 @@ ActiveRecord::Schema.define(version: 20160926185152) do
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
+    t.index ["doi"], name: "index_papers_on_doi", using: :btree
+    t.index ["link", "title"], name: "index_papers_on_link_and_title", unique: true, using: :btree
+    t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
 
   create_table "references", force: :cascade do |t|
@@ -86,15 +97,16 @@ ActiveRecord::Schema.define(version: 20160926185152) do
     t.integer  "cached_votes_up", default: 0
     t.integer  "list_id",                     null: false
     t.integer  "paper_id",                    null: false
-    t.index ["cached_votes_up"], name: "index_references_on_cached_votes_up", using: :btree
+    t.index ["cached_votes_up", "created_at"], name: "index_references_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
+    t.index ["list_id", "paper_id"], name: "index_references_on_list_id_and_paper_id", unique: true, using: :btree
   end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.string   "taggable_type"
-    t.string   "taggable_id"
+    t.integer  "taggable_id"
     t.string   "tagger_type"
-    t.string   "tagger_id"
+    t.integer  "tagger_id"
     t.string   "context",       limit: 128
     t.datetime "created_at"
     t.index ["context"], name: "index_taggings_on_context", using: :btree
@@ -135,9 +147,9 @@ ActiveRecord::Schema.define(version: 20160926185152) do
 
   create_table "votes", force: :cascade do |t|
     t.string   "votable_type"
-    t.string   "votable_id",   null: false
+    t.integer  "votable_id",   null: false
     t.string   "voter_type"
-    t.string   "voter_id",     null: false
+    t.integer  "voter_id",     null: false
     t.boolean  "vote_flag"
     t.string   "vote_scope"
     t.integer  "vote_weight"
