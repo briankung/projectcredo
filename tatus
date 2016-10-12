@@ -1,0 +1,35 @@
+[1mdiff --git a/app/assets/javascripts/comments.js b/app/assets/javascripts/comments.js[m
+[1mindex bb06b5e..7afd0d5 100644[m
+[1m--- a/app/assets/javascripts/comments.js[m
+[1m+++ b/app/assets/javascripts/comments.js[m
+[36m@@ -3,9 +3,4 @@[m [m$(document).ready(function() {[m
+     e.preventDefault();[m
+     $(e.target).parents("ul").next('.comment-reply').toggleClass('hidden');[m
+   });[m
+[31m-[m
+[31m-  $('[data-detail-id^=comments-]').each(function(index) {[m
+[31m-    var commentCount = $('#comments-'+index ).find(".comment").length;[m
+[31m-    $('[data-detail-id="comments-'+index+'"]').text("Comments(" + commentCount + ")");[m
+[31m-  });[m
+ })[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/papers/_tablist.html.erb b/app/views/papers/_tablist.html.erb[m
+[1mindex c894289..8ffa20e 100644[m
+[1m--- a/app/views/papers/_tablist.html.erb[m
+[1m+++ b/app/views/papers/_tablist.html.erb[m
+[36m@@ -1,7 +1,14 @@[m
+ <% paper = reference.paper %>[m
+[32m+[m[32m<% comments_count = reference.comments.map {|c| c.self_and_descendants.length}.inject(&:+) %>[m
+ <ul class="nav nav-pills" role="tablist">[m
+   <% %i{abstract details comments}.each do |tab| %>[m
+[31m-    <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{tab_id_for(paper)}", class: "small paper-detail-tab" %></li>[m
+[32m+[m[32m    <li>[m
+[32m+[m[32m      <%= link_to "#{tab.capitalize}" +[m
+[32m+[m[32m            (tab.to_s == 'comments' && comments_count ? "(#{comments_count})" : ""),[m
+[32m+[m[32m            '',[m
+[32m+[m[32m            "data-detail-id" => "#{tab}-#{tab_id_for(paper)}",[m
+[32m+[m[32m            class: "small paper-detail-tab" %>[m
+[32m+[m[32m    </li>[m
+   <% end %>[m
+   <% if current_user %>[m
+     <li>[m
