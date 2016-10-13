@@ -1,21 +1,16 @@
 <% paper = reference.paper %>
 <% comments_count = reference.comments.map {|c| c.self_and_descendants.length}.inject(&:+) %>
-<ul class="nav nav-pills" role="tablist">
-  <% %i{abstract details comments}.each do |tab| %>
-    <li>
-      <%= link_to "#{tab.capitalize}" +
-            (tab.to_s == 'comments' && comments_count ? "(#{comments_count})" : ""),
-            '',
-            "data-detail-id" => "#{tab}-#{tab_id_for(paper)}",
-            class: "small paper-detail-tab" %>
-    </li>
+<ul class="nav nav-pills small" role="tablist">
+  <% %i{abstract details}.each do |tab| %>
+    <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{tab_id_for(paper)}", class: "paper-detail-tab" %></li>
   <% end %>
+  <li><%= link_to comments_count ? "Comments(#{comments_count})" : "Comments", '', "data-detail-id" => "comments-#{tab_id_for(paper)}", class: " paper-detail-tab" %></li>
   <% if current_user %>
     <li>
       <%= form_for reference, method: :delete do |r| %>
         <%= r.text_field :id, value: reference.id, hidden: true %>
       <% end %>
-      <%= link_to 'Remove from list', {}, class: 'delete-reference small text-danger' %>
+      <%= link_to 'Remove from list', {}, class: 'delete-reference text-danger' %>
     </li>
   <% end %>
 </ul>
