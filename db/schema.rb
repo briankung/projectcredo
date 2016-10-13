@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013192001) do
+ActiveRecord::Schema.define(version: 20161011002653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,15 +63,6 @@ ActiveRecord::Schema.define(version: 20161013192001) do
     t.integer "homepage_id", null: false
     t.integer "list_id",     null: false
     t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", unique: true, using: :btree
-  end
-
-  create_table "links", force: :cascade do |t|
-    t.string   "link"
-    t.string   "link_type"
-    t.integer  "paper_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["link", "link_type"], name: "index_links_on_link_and_link_type", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
