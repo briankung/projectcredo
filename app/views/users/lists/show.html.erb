@@ -1,0 +1,19 @@
+<h1><%= @list.name %></h1>
+
+<p>
+  <strong>Description:</strong>
+  <%= @list.description %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @list.tag_list %>
+</p>
+
+<%= render 'papers/sort_by' %>
+
+<%= render @references, comments_page: false %>
+<%= render 'lists/add_reference', list: @list %>
+
+<%= link_to 'Edit', edit_list_path(@list) %> |
+<%= link_to 'Back', lists_path %>
