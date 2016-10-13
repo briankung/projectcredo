@@ -1,7 +1,4 @@
-<%
-  paper = reference.paper
-  comments_page = current_page?(controller: 'references', action: 'show')
-%>
+<% paper = reference.paper %>
 <div class="row paper-show">
   <% if not comments_page %>
     <div class="col-md-1"><%= render 'votes/toggle_like', votable: reference %></div>

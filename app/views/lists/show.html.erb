@@ -12,7 +12,7 @@
 
 <%= render 'papers/sort_by' %>
 
-<%= render @references %>
+<%= render @references, comments_page: false %>
 <%= render 'lists/add_reference', list: @list %>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
