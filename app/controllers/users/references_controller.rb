@@ -1,13 +1,9 @@
-class Users::ListsController < ApplicationController
+class Users::ReferencesController < ApplicationController
   before_action :set_user
-
-  def index
-    @lists = @user.lists
-  end
 
   def show
     @list = @user.lists.find_by slug: params[:list_slug]
-    @references = @list.references
+    @reference = @list.references.find_by id: params[:reference_id]
   end
 
   private
