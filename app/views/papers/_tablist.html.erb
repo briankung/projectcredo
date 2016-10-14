@@ -23,10 +23,22 @@
 </div>
 <div class="collapse paper-detail well" id="details-<%= tab_id_for(paper) %>">
   <ul>
+    <li>Published: <%= paper.published_at %></li>
     <li>DOI: <%= paper.doi %></li>
     <li>Pubmed ID: <%= paper.pubmed_id %></li>
-    <li>Link: <%= paper.link %></li>
-    <li>Published: <%= paper.published_at %></li>
+    <li>
+      Link:
+      <% if paper.links.length > 1 %>
+        <ul>
+          <% paper.links.each do |l| %>
+            <li><%= l.link %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= paper.links.first.link if paper.links.present? %>
+        <%= paper.link %>
+      <% end %>
+    </li>
   </ul>
 </div>
 <div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= tab_id_for(paper) %>">
