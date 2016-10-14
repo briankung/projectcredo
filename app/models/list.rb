@@ -23,4 +23,8 @@ class List < ApplicationRecord
   def set_slug!
     self.update_column :slug, self.to_slug;
   end
+
+  def to_param
+    slug
+  end
 end
