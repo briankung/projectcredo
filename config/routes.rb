@@ -13,13 +13,10 @@ Rails.application.routes.draw do
   end
 
   resources :references do
-    member do
-      resource :vote, controller: 'references/votes', only: [:create, :destroy], as: :reference_vote
-      resources :comments, only: [:create, :update, :destroy]
-    end
+    resource :vote, controller: 'references/votes', only: [:create, :destroy]
   end
 
-  resources :comments, only: :edit do
+  resources :comments, only: [:create, :edit, :update, :destroy] do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
 
