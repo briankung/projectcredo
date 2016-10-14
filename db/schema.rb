@@ -66,12 +66,11 @@ ActiveRecord::Schema.define(version: 20161013200917) do
   end
 
   create_table "links", force: :cascade do |t|
-    t.string   "link"
-    t.string   "link_type"
+    t.string   "url"
     t.integer  "paper_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["link", "link_type"], name: "index_links_on_link_and_link_type", using: :btree
+    t.index ["url"], name: "index_links_on_url", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
