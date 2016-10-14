@@ -8,7 +8,7 @@ class PinsController < ApplicationController
   end
 
   def destroy
-    @pinned_lists.destroy list_params[:id]
+    @pinned_lists.find_by(slug: list_params[:id]).destroy
     redirect_to :back
   end
 
