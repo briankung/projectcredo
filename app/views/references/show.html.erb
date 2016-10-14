@@ -3,4 +3,4 @@
   <p>Referenced in <%= link_to @reference.list.name, user_list_path(@reference.list.user, @reference.list) %></p>
 <% end %>
 
-<%= render 'references/reference', reference: @reference, comments_page: true %>
+<%= render 'references/reference', reference: @reference, show_comments: true %>
