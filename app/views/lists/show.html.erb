@@ -15,5 +15,5 @@
 <%= render partial: 'references/reference', collection: @references, locals: {comments_page: false} %>
 <%= render 'lists/add_reference', list: @list %>
 
-<%= link_to 'Edit', edit_list_path(@list) %> |
+<%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> |
 <%= link_to 'Back', lists_path %>
