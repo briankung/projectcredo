@@ -13,7 +13,7 @@
           </div>
         </div>
       <% end %>
-      <h2><%= link_to list.name, list %></h2>
+      <h2><%= link_to list.name, user_list_path(list.user, list) %></h2>
       <p><%= list.description %></p>
       <small>Tags:<i><%= list.tag_list %></i></br></small>
     </div>
