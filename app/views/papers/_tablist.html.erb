@@ -31,11 +31,11 @@
       <% if paper.links.length > 1 %>
         <ul>
           <% paper.links.each do |l| %>
-            <li><%= l.link %></li>
+            <li><%= l.url %></li>
           <% end %>
         </ul>
       <% else %>
-        <%= paper.links.first.link if paper.links.present? %>
+        <%= paper.links.first.url if paper.links.present? %>
       <% end %>
     </li>
   </ul>

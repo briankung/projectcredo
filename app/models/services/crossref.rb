@@ -24,7 +24,7 @@ class Crossref
     end
     if paper.links.empty? && imported_data['link']
       links = imported_data['link'].map do |link|
-        Link.create( link: link['URL'], link_type: 'paper' )
+        Link.create( url: link['URL'] )
       end
       paper.links = links
     end
