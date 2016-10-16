@@ -13,6 +13,6 @@ class LinkPaperLocator < BaseLocator
   def find_paper
     return super if super
 
-    Paper.create title: paper_title, links_attributes: [{link: self.locator_id, link_type: 'paper'}]
+    Paper.create title: paper_title, links_attributes: [{url: self.locator_id}]
   end
 end

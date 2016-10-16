@@ -18,7 +18,8 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
       end
     else
-      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
+
+      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize.gsub('Links.url','URL')} #{msg}."}.join(', ')
     end
     redirect_to list
   end
@@ -44,11 +45,18 @@ class ReferencesController < ApplicationController
     end
 
     def set_paper_locator
-      if paper_params.blank?
-        flash['alert'] = 'Bad paper parameters'
+      if paper_params.blank? || paper_params[:locator_type].blank?
+        flash['alert'] = 'No parameters entered'
         redirect_to :back
-      elsif paper_params[:locator_type].blank? || paper_params[:locator_id].blank?
-        flash['alert'] = 'Bad locator parameters'
+      elsif paper_params[:locator_id].blank?
+        flash['alert'] = 'No parameters entered'
+        redirect_to :back
+      elsif paper_params[:locator_type] == 'link' && paper_params[:title].blank?
+        flash['alert'] = 'You must enter a title'
+        flash['alert'] += ' and the URL is invalid' unless URI.parse(paper_params[:locator_id]).kind_of?(URI::HTTP)
+        redirect_to :back
+      elsif paper_params[:locator_type] == 'link' && !(URI.parse(paper_params[:locator_id]).kind_of?(URI::HTTP))
+        flash['alert'] = 'URL is invalid'
         redirect_to :back
       end
 
@@ -59,10 +67,6 @@ class ReferencesController < ApplicationController
       when 'doi'
         @locator = DoiPaperLocator.new locator_id
       when 'link'
-        if paper_params[:title].blank?
-          flash['alert'] = 'You must enter a title'
-          redirect_to :back
-        end
         @locator = LinkPaperLocator.new locator_id, paper_params[:title]
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id
