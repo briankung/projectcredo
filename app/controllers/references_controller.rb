@@ -28,7 +28,7 @@ class ReferencesController < ApplicationController
     reference.destroy
 
     respond_to do |format|
-      format.html { redirect_to reference.list, notice: 'Reference was successfully destroyed.' }
+      format.html { redirect_to user_list_path(reference.list.user, reference.list), notice: 'Reference was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
