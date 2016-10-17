@@ -16,7 +16,7 @@ list_names =[
   "Protein consumption for muscular hypotrophy",
   "Efficacy of vitamin supplements",
   "The effect of probiotics on Irritable Bowel Syndrome",
-  "Factors in second language acquisition",
+  "Factors in second language acquisition 学第二语言的因素",
   "Maintaining mobility in old age",
 ]
 

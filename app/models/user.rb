@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :lists
 
   before_save { self.email.downcase! if self.email }
-  after_create -> { self.create_homepage }
+  after_create :create_homepage
 
   acts_as_voter
 
@@ -29,4 +29,7 @@ class User < ApplicationRecord
     super(conditions)
   end
 
+  def to_param
+    username
+  end
 end

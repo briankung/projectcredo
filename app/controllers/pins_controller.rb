@@ -3,12 +3,12 @@ class PinsController < ApplicationController
   before_action :ensure_current_user
 
   def create
-    @pinned_lists << List.find(list_params[:id])
+    @pinned_lists << List.find_by(slug: list_params[:id])
     redirect_to :back
   end
 
   def destroy
-    @pinned_lists.destroy list_params[:id]
+    @pinned_lists.find_by(slug: list_params[:id]).destroy
     redirect_to :back
   end
 

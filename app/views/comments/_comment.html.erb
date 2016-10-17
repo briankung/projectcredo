@@ -1,6 +1,6 @@
 <div class="comment">
   <p class="text-muted">
-    Added by <strong><%= link_to comment.user.username, profile_path(comment.user.username) %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
+    Added by <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
   </p>
 
   <p><%= comment.content %></p>

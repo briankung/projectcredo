@@ -1,20 +1,17 @@
-<%
-  paper = reference.paper
-  comments_page = current_page?(controller: 'references', action: 'show')
-%>
+<% paper = reference.paper %>
 <div class="row paper-show">
-  <% if not comments_page %>
+  <% if not show_comments %>
     <div class="col-md-1"><%= render 'votes/toggle_like', votable: reference %></div>
   <% end %>
-  <div class="col-md-<%= comments_page ? 12 : 11 %>">
-    <% if comments_page %>
+  <div class="col-md-<%= show_comments ? 12 : 11 %>">
+    <% if show_comments %>
       <%= yield(:paper_title) %>
     <% else %>
-      <h4 class="paper-title"><%= link_to paper.title, reference %></h4>
+      <h4 class="paper-title"><%= link_to paper.title, user_reference_path(reference.list.user, reference.list, reference) %></h4>
     <% end %>
 
     <%= render 'papers/tags', paper: paper %>
     <%= render 'papers/metadata', paper: paper %>
-    <%= render 'papers/tablist', reference: reference, show_comments: comments_page %>
+    <%= render 'papers/tablist', reference: reference, show_comments: show_comments %>
   </div>
 </div>
