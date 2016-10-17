@@ -45,18 +45,14 @@ class ReferencesController < ApplicationController
     end
 
     def set_paper_locator
-      if paper_params.blank? || paper_params[:locator_type].blank?
+      if paper_params[:locator_id].blank?
         flash['alert'] = 'No parameters entered'
         redirect_to :back
-      elsif paper_params[:locator_id].blank?
-        flash['alert'] = 'No parameters entered'
-        redirect_to :back
-      elsif paper_params[:locator_type] == 'link' && paper_params[:title].blank?
-        flash['alert'] = 'You must enter a title'
-        flash['alert'] += ' and the URL is invalid' unless URI.parse(paper_params[:locator_id]).kind_of?(URI::HTTP)
-        redirect_to :back
-      elsif paper_params[:locator_type] == 'link' && !(URI.parse(paper_params[:locator_id]).kind_of?(URI::HTTP))
-        flash['alert'] = 'URL is invalid'
+      elsif paper_params[:locator_type] == 'link'
+        messages = []
+        messages << 'You must enter a title.' if paper_params[:title].blank?
+        messages << "URL is invalid." unless paper_params[:locator_id] =~ URI::regexp(%w(http https))
+        flash['alert'] = messages.join(" ")
         redirect_to :back
       end
 
