@@ -24,13 +24,13 @@
 <div class="collapse paper-detail well" id="details-<%= tab_id_for(paper) %>">
   <ul>
     <li>Published: <%= paper.published_at %></li>
-    <li>DOI: <%= paper.doi %></li>
-    <li>Pubmed ID: <%= paper.pubmed_id %></li>
+    <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
+    <li>Pubmed ID: <%= link_to paper.pubmed_id, "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}", target: '_blank' %></li>
     <li>
       Links:
       <ul>
         <% paper.links.each do |l| %>
-          <li><%= link_to l.url, l.url %></li>
+          <li><%= link_to l.url, l.url, target: '_blank' %></li>
         <% end %>
       </ul>
     </li>
