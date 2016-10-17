@@ -31,7 +31,6 @@ class Crossref
     paper.published_at ||=  imported_data['created']['date-time'].to_date
     paper.doi ||= imported_data['DOI']
     paper.publication ||= imported_data['publisher']
-    paper.links ||= imported_data['link'].first['URL'] if imported_data['link']
 
     return paper
   end
