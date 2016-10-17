@@ -24,9 +24,8 @@ class Crossref
     end
     if paper.links.empty? && imported_data['link']
       links = imported_data['link'].map do |link|
-        Link.create( url: link['URL'] )
+        paper.links.build( url: link['URL'] )
       end
-      paper.links = links
     end
     paper.title ||= imported_data['title'].first
     paper.published_at ||=  imported_data['created']['date-time'].to_date
