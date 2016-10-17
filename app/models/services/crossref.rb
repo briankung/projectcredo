@@ -22,12 +22,15 @@ class Crossref
       new_authors = (names - existing_names).map {|a| Author.create name: a}
       paper.authors = (existing_authors + new_authors)
     end
-
+    if paper.links.empty? && imported_data['link']
+      links = imported_data['link'].map do |link|
+        paper.links.build( url: link['URL'] )
+      end
+    end
     paper.title ||= imported_data['title'].first
     paper.published_at ||=  imported_data['created']['date-time'].to_date
     paper.doi ||= imported_data['DOI']
     paper.publication ||= imported_data['publisher']
-    paper.link ||= imported_data['link'].first['URL'] if imported_data['link']
 
     return paper
   end

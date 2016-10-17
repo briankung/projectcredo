@@ -65,6 +65,14 @@ ActiveRecord::Schema.define(version: 20161017174623) do
     t.index ["homepage_id", "list_id"], name: "index_homepages_lists_on_homepage_id_and_list_id", unique: true, using: :btree
   end
 
+  create_table "links", force: :cascade do |t|
+    t.string   "url"
+    t.integer  "paper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_links_on_url", using: :btree
+  end
+
   create_table "lists", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",                  null: false
@@ -85,12 +93,10 @@ ActiveRecord::Schema.define(version: 20161017174623) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.text     "abstract"
-    t.string   "link"
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
-    t.index ["link", "title"], name: "index_papers_on_link_and_title", unique: true, using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
 
