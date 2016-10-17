@@ -1,13 +1,19 @@
 class Users::ListsController < ApplicationController
+  before_action :set_user
+
   def index
-    @user = User.find_by username: params[:id]
     @lists = @user.lists
     render 'lists/index'
   end
 
   def show
-    @list = List.find_by slug: params[:id]
+    @list = @user.lists.find_by slug: params[:list_slug]
     @references = @list.references
     render 'lists/show'
   end
+
+  private
+    def set_user
+      @user = User.find_by username: params[:username]
+    end
 end

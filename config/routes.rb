@@ -20,8 +20,8 @@ Rails.application.routes.draw do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
 
-  get ':id' => 'users/lists#index', as: :user_profile
-  get ':user_id/:id' => 'users/lists#show', as: :user_list
-  get ':user_id/:id/edit' => 'lists#edit', as: :edit_user_list
-  get ':user_id/:list_id/:id' => 'users/references#show', as: :user_reference
+  get ':username' => 'users/lists#index', as: :user_profile
+  get ':username/:list_slug' => 'users/lists#show', as: :user_list
+  get ':username/:list_slug/edit' => 'lists#edit', as: :edit_user_list
+  get ':username/:list_slug/:reference_id' => 'users/references#show', as: :user_reference
 end
