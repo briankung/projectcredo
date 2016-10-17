@@ -19,7 +19,7 @@ class ReferencesController < ApplicationController
       end
     else
 
-      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize.gsub('Links.url','URL')} #{msg}."}.join(', ')
+      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
     end
     redirect_to list
   end
