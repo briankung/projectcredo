@@ -27,16 +27,12 @@
     <li>DOI: <%= paper.doi %></li>
     <li>Pubmed ID: <%= paper.pubmed_id %></li>
     <li>
-      Link:
-      <% if paper.links.length > 1 %>
-        <ul>
-          <% paper.links.each do |l| %>
-            <li><%= l.url %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <%= paper.links.first.url if paper.links.present? %>
-      <% end %>
+      Links:
+      <ul>
+        <% paper.links.each do |l| %>
+          <li><%= link_to l.url, l.url %></li>
+        <% end %>
+      </ul>
     </li>
   </ul>
 </div>
