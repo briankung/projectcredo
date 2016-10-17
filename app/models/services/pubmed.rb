@@ -109,12 +109,17 @@ class Pubmed
       new_authors = (names - existing_names).map {|a| Author.create name: a}
     end
 
-    doi = imported_data['elocationid']
-    if doi.blank?
-      doi = imported_data['articleids'].find {|id| id['idtype'] == 'doi' }['value']
-    end
+    articleids = imported_data['articleids']
+    doi_hash = articleids.find {|id| id['idtype'] == 'doi' }
 
-    doi = doi.sub(/^doi: /, "")
+    if doi_hash
+      doi = doi_hash['value']
+    elsif imported_data['elocationid'].present?
+      doi = imported_data['elocationid']
+      doi = doi.sub(/.*?doi: /, "")
+    else
+      doi = nil
+    end
 
     paper.pubmed_id ||= imported_data['uid']
     paper.title ||= imported_data['title']

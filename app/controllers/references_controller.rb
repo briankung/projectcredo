@@ -12,7 +12,7 @@ class ReferencesController < ApplicationController
 
     if paper.persisted?
       if Reference.exists? list_id: list.id, paper_id: paper.id
-        flash['notice'] = 'This paper has already been added to this list'
+        flash['notice'] = "#{paper.title}' has already been added to this list"
       else
         Reference.create(list_id: list.id, paper_id: paper.id)
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
