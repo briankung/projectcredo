@@ -23,17 +23,22 @@
 </div>
 <div class="collapse paper-detail well" id="details-<%= reference.id %>">
   <ul>
-    <li>Published: <%= paper.published_at %></li>
-    <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
-    <li>Pubmed ID: <%= link_to paper.pubmed_id, "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}", target: '_blank' %></li>
-    <li>
-      Links:
-      <ul>
-        <% paper.links.each do |l| %>
-          <li><%= link_to l.url, l.url, target: '_blank' %></li>
-        <% end %>
-      </ul>
-    </li>
+    <% if paper.doi.present? %>
+      <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
+    <% end %>
+
+    <% if paper.pubmed_id.present? %>
+      <li>Pubmed ID: <%= link_to paper.pubmed_id, "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}", target: '_blank' %></li>
+    <% end %>
+
+    <% if paper.links.any? %>
+      <li>
+        Links:
+        <ul>
+          <% paper.links.each do |l| %><li><%= link_to l.url, l.url, target: '_blank' %></li><% end %>
+        </ul>
+      </li>
+    <% end %>
   </ul>
 </div>
 <div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= reference.id %>">
