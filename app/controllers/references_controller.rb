@@ -45,14 +45,7 @@ class ReferencesController < ApplicationController
 
     def set_paper_locator
       if paper_params[:locator_id].blank?
-        flash['alert'] = 'No parameters entered'
-        redirect_to :back
-      elsif paper_params[:locator_type] == 'link'
-        messages = []
-        messages << 'You must enter a title.' if paper_params[:title].blank?
-        messages << "URL is invalid." unless paper_params[:locator_id] =~ URI::regexp(%w(http https))
-        flash['alert'] = messages.join(" ")
-        redirect_to :back
+        return redirect_to(:back, alert: 'No parameters entered')
       end
 
       locator_type = paper_params.fetch :locator_type, nil
@@ -62,12 +55,19 @@ class ReferencesController < ApplicationController
       when 'doi'
         @locator = DoiPaperLocator.new locator_id
       when 'link'
+        title, locator_id = paper_params[:title], paper_params[:locator_id]
+        messages = []
+        messages << 'You must enter a title.' if title.blank?
+        messages << "URL is invalid." unless locator_id =~ URI::regexp(%w{http https})
+        if messages.any?
+          return redirect_to(:back, alert: messages.join(' '))
+        end
+
         @locator = LinkPaperLocator.new locator_id, paper_params[:title]
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id
       else
-        flash['alert'] = 'Bad locator parameters'
-        redirect_to :back
+        return redirect_to(:back, alert: 'Bad locator parameters')
       end
     end
 end
