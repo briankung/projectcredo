@@ -23,7 +23,7 @@ class PubmedPaperLocator < BaseLocator
       end
     end
 
-    existing_paper = Paper.where( "title = ? or doi = ? and doi is not null", paper.title, paper.doi ).first
+    existing_paper = Paper.where( "title = ? or (doi = ? and doi is not null)", paper.title, paper.doi ).first
 
     if existing_paper.present?
       return existing_paper
@@ -31,7 +31,7 @@ class PubmedPaperLocator < BaseLocator
       return paper
     else
       paper.errors.delete(:title)
-      paper.errors.add(:locator_id, "is invalid; no paper found for searched DOI: #{self.locator_id}")
+      paper.errors.add(:locator_id, "is invalid; no paper found for searched Pubmed ID: #{self.locator_id}")
       return paper
     end
 

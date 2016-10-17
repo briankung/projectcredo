@@ -12,7 +12,7 @@ class ReferencesController < ApplicationController
 
     if paper.persisted?
       if Reference.exists? list_id: list.id, paper_id: paper.id
-        flash['notice'] = 'This paper has already been added to this list'
+        flash['notice'] = "'#{paper.title}' has already been added to this list"
       else
         Reference.create(list_id: list.id, paper_id: paper.id)
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
@@ -44,12 +44,8 @@ class ReferencesController < ApplicationController
     end
 
     def set_paper_locator
-      if paper_params.blank?
-        flash['alert'] = 'Bad paper parameters'
-        redirect_to :back
-      elsif paper_params[:locator_type].blank? || paper_params[:locator_id].blank?
-        flash['alert'] = 'Bad locator parameters'
-        redirect_to :back
+      if paper_params[:locator_id].blank?
+        return redirect_to(:back, alert: 'No parameters entered')
       end
 
       locator_type = paper_params.fetch :locator_type, nil
@@ -59,16 +55,19 @@ class ReferencesController < ApplicationController
       when 'doi'
         @locator = DoiPaperLocator.new locator_id
       when 'link'
-        if paper_params[:title].blank?
-          flash['alert'] = 'You must enter a title'
-          redirect_to :back
+        title, locator_id = paper_params[:title], paper_params[:locator_id]
+        messages = []
+        messages << 'You must enter a title.' if title.blank?
+        messages << "URL is invalid." unless locator_id =~ URI::regexp(%w{http https})
+        if messages.any?
+          return redirect_to(:back, alert: messages.join(' '))
         end
+
         @locator = LinkPaperLocator.new locator_id, paper_params[:title]
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id
       else
-        flash['alert'] = 'Bad locator parameters'
-        redirect_to :back
+        return redirect_to(:back, alert: 'Bad locator parameters')
       end
     end
 end
