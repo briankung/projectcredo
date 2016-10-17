@@ -6,15 +6,7 @@ class BaseLocator
   end
 
   def find_paper
-    if self.column == 'link'
-      if (link = Link.find_by url: self.locator_id)
-        paper = link.paper
-      end
-    else
-      paper = Paper.find_by self.column => self.locator_id
-    end
-
-    return paper
+    return Paper.find_by self.column => self.locator_id
   end
 
 end
