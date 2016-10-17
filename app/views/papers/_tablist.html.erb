@@ -1,7 +1,7 @@
 <%
   paper = reference.paper
   comments_count = reference.comments.map {|c| c.self_and_descendants.length}.inject(0,&:+)
-  display_count = if comments_count.zero? then "" else "(#{comments_count})" end
+  display_count = comments_count.zero? ? "" : "(#{comments_count})"
 %>
 
 <ul class="nav nav-pills small" role="tablist">
