@@ -8,12 +8,6 @@ class ListsController < ApplicationController
     @lists = List.all
   end
 
-  # GET /lists/1
-  # GET /lists/1.json
-  def show
-    @references = @list.references.joins(:paper).order(params_sort_order)
-  end
-
   # GET /lists/new
   def new
     @list = List.new
