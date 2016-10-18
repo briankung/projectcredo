@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
-  after_filter :store_action
+  after_filter :store_pre_signin_path
 
   protected
 
@@ -13,17 +13,19 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
-  def store_action
-    return unless request.get?
-    if (request.path != "/users/sign_in" &&
-        request.path != "/users/sign_up" &&
-        request.path != "/users/password/new" &&
-        request.path != "/users/password/edit" &&
-        request.path != "/users/confirmation" &&
-        request.path != "/users/sign_out" &&
-        !request.xhr?) # don't store ajax calls
-      store_location_for(:user, request.fullpath)
-    end
+  def store_pre_signin_path
+    return if !request.get? || request.xhr?
+
+    user_paths = [
+      "/users/sign_in",
+      "/users/sign_up",
+      "/users/password/new",
+      "/users/password/edit",
+      "/users/confirmation",
+      "/users/sign_out"
+    ]
+
+    store_location_for(:user, request.fullpath) unless user_paths.include?(request.path)
   end
 
   private
