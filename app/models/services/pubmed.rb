@@ -1,6 +1,6 @@
 class Pubmed
   def initialize(options={})
-    @base_url = 'http://eutils.ncbi.nlm.nih.gov'
+    @base_url = 'https://eutils.ncbi.nlm.nih.gov'
     @search_url = @base_url + "/entrez/eutils/esearch.fcgi"
     @metadata_url = @base_url + "/entrez/eutils/esummary.fcgi"
     @abstract_url = @base_url + "/entrez/eutils/efetch.fcgi"
@@ -38,15 +38,10 @@ class Pubmed
   def get_abstract(uid)
     abstract_uri = generate_uri(@abstract_url, @default_parameters.merge(id: uid, retmode: 'xml'))
     response = Net::HTTP.get(abstract_uri)
-    result = Hash.from_xml(response)
-    abstract = result.dig(
-      'PubmedArticleSet',
-      'PubmedArticle',
-      'MedlineCitation',
-      'Article',
-      'Abstract',
-      'AbstractText'
-    )
+    result = Nokogiri::XML(response)
+    abstract_xml = result.xpath("//Abstract//AbstractText")
+    abstract = abstract_xml.map {|a| "#{a['Label']}: \n #{a.text} \n"}
+
     if abstract.blank?
       uri = generate_uri(@pubmed_scrape_url + uid, @pubmed_scrape_parameters)
       response = Net::HTTP.get(uri)
