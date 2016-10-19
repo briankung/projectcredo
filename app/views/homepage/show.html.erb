@@ -2,14 +2,18 @@
   <h1>Pinned Lists</h1>
   <p><%= link_to "All lists", lists_path %></p>
   <p><%= link_to 'Create New List', new_list_path %></p>
+
   <div class="cards row">
     <%= render @lists %>
   </div>
 <% end %>
 
-<h1>Popular Lists</h1>
-<p><%= link_to "All lists", lists_path %></p>
-<p><%= link_to 'Create New List', new_list_path %></p>
-<div class="cards row">
-  <%= render List.where.not(id: @lists.pluck(:id)).limit(9) %>
-</div>
+<% if (other_lists = List.where.not(id: @lists.pluck(:id)).limit(9)) %>
+  <h1>Popular Lists</h1>
+  <p><%= link_to "All lists", lists_path %></p>
+  <p><%= link_to 'Create New List', new_list_path %></p>
+
+  <div class="cards row">
+    <%= render other_lists %>
+  </div>
+<% end %>
