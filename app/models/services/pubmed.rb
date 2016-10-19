@@ -40,7 +40,7 @@ class Pubmed
     response = Net::HTTP.get(abstract_uri)
     result = Nokogiri::XML(response)
     abstract_xml = result.xpath("//Abstract//AbstractText")
-    abstract = abstract_xml.map {|a| "#{a['Label'].humanize + ':' if a['Label']} #{a.text}"}.join("\n \n")
+    abstract = abstract_xml.map {|node| "#{node['Label'].humanize + ':' if node['Label']} #{node.text}"}.join("\n\n")
 
     if abstract.blank?
       uri = generate_uri(@pubmed_scrape_url + uid, @pubmed_scrape_parameters)
