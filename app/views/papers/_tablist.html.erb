@@ -49,7 +49,5 @@
       <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment
     </h4>
   <% end %>
-  <% reference.comments.order('cached_votes_up DESC, created_at ASC').each do |comment| %>
-      <%= comments_tree_for comment.hash_tree %>
-  <% end %>
+  <%= render 'papers/comments', reference: reference %>
 </div>

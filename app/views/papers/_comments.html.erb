@@ -1,0 +1,3 @@
+  <% reference.comments.order('cached_votes_up DESC, created_at ASC').each do |comment| %>
+      <%= comments_tree_for comment.hash_tree %>
+  <% end %>
