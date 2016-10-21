@@ -1,11 +1,12 @@
 $(document).ready(function() {
-  var showCrossrefResults = debounce(function() {
-    var resultsElement = $('#crossref-results');
+  var resultsElement = $('#crossref-results');
 
-    var hideResults = function() {
-      resultsElement.toggleClass('hidden', true);
-      resultsElement.children().remove();
-    }
+  var hideResults = function() {
+    resultsElement.toggleClass('hidden', true);
+    resultsElement.children().remove();
+  }
+
+  var showCrossrefResults = debounce(function() {
 
     if (this.value === '') {
       hideResults();
@@ -27,6 +28,12 @@ $(document).ready(function() {
       })
     }
   }, 200);
+
+  $(document).on('click', '#crossref-results .list-group-item', function(e) {
+    $('#crossref-search').val(this.innerText).css('background-color', '#eee');
+    $('.crossref span.input-group-addon').addClass('submittable')
+    hideResults();
+  });
 
   $('#crossref-search').on('input', showCrossrefResults);
   $('#crossref-search-form').on('submit', function(e) {e.preventDefault()});
