@@ -1,5 +1,13 @@
-$("#comment-content<%= @comment.id %>").html("<%= escape_javascript(render 'form', comment: @comment, display_comment_field: true) %>");
-$('.toggle-reply').on('click', function(e) {
-  e.preventDefault();
-  $(e.target).parents("ul").next('.comment-reply').toggleClass('hidden');
-});
+$("#comment-content<%= @comment.id %>")
+  .html("<%= escape_javascript(
+                  render 'form',
+                  comment: @comment,
+                  display_comment_field: true
+    )%>")
+  .find(".btn").after( "<small>   <%= escape_javascript(link_to 'Cancel', '#') %></small>" )
+  .next().find("a").on('click', function(e) {
+    e.preventDefault();
+    $(e.target).parents("#comment-content<%= @comment.id %>").html( "<%= escape_javascript(@comment.content) %>" );
+  });
+;
+
