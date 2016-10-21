@@ -1,14 +1,10 @@
-<%
-  paper = reference.paper
-  comments_count = reference.comments.map {|c| c.self_and_descendants.length}.inject(0,&:+)
-  display_count = comments_count.zero? ? "" : "(#{comments_count})"
-%>
+<% paper = reference.paper %>
 
 <ul class="nav nav-pills small" role="tablist">
   <% %i{abstract details}.each do |tab| %>
     <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{reference.id}", class: "paper-detail-tab" %></li>
   <% end %>
-  <li><%= link_to "Comments#{display_count}", '', "data-detail-id" => "comments-#{reference.id}", class: " paper-detail-tab" %></li>
+  <li id="comments-tab-<%= reference.id %>"><%= render 'papers/comments_tab', reference: reference %></li>
   <% if current_user %>
     <li>
       <%= form_for reference, method: :delete do |r| %>

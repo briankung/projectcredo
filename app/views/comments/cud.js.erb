@@ -1,4 +1,5 @@
 $("#comments-<%= @reference.id %>").html("<%= escape_javascript(render 'papers/comments', reference: @reference) %>");
+$("li#comments-tab-<%= @reference.id %>").html("<%= escape_javascript(render 'papers/comments_tab', reference: @reference) %>");
 $('.toggle-reply').on('click', function(e) {
   e.preventDefault();
   $(e.target).parents("ul").next('.comment-reply').toggleClass('hidden');
