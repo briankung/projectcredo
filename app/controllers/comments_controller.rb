@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        @reference = Reference.find(@comment.root.commentable_id)
+        @reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
         format.js { render 'reference_comments.js.erb' }
@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        @reference = Reference.find(@comment.root.commentable_id)
+        @reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
         format.js { render 'reference_comments.js.erb' }
@@ -45,7 +45,7 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @reference = Reference.find(@comment.root.commentable_id)
+    @reference = @comment.root.commentable
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Comment was successfully destroyed.' }
