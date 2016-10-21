@@ -10,6 +10,8 @@
   <%= @list.tag_list %>
 </p>
 
+<%= render 'crossref/search' %>
+
 <%= render 'papers/sort_by' %>
 
 <%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
