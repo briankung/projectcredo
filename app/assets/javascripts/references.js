@@ -29,6 +29,8 @@ $(document).ready(function() {
   }, 200);
 
   $('#crossref-search').on('input', showCrossrefResults);
+  $('#crossref-search-form').on('submit', function(e) {e.preventDefault()});
+  $('#crossref-search-form input.btn').on('click', function(e) {e.preventDefault()});
 
   $('a.delete-reference').on('click', function(e) {
     e.preventDefault();
