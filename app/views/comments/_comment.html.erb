@@ -3,11 +3,11 @@
     Added by <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
   </p>
 
-  <p><%= comment.content %></p>
+  <p id="comment-content<%= comment.id %>"><%= comment.content %></p>
   <ul>
     <li><%= render 'votes/toggle_like', votable: comment %></li>
     <% if current_user %>
-      <li><%= link_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %></li>
+      <li><%= link_to 'edit', edit_comment_path(comment), remote: true, class: "btn btn-link btn-xs" %></li>
       <li><%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', 'data-toggle-hide-id' => comment.id %></li>
       <li><%= link_to 'delete', comment_path(comment), remote: true, class: "btn btn-link btn-xs", method: :delete %><li>
     <% end %>
