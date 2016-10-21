@@ -16,11 +16,11 @@ class CommentsController < ApplicationController
         @reference = Reference.find(@comment.root.commentable_id)
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
-        format.js { render 'cud.js.erb' }
+        format.js { render 'reference_comments.js.erb' }
       else
         format.html { redirect_to :back }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js
+        format.js { render 'reference_comments.js.erb' }
       end
     end
   end
@@ -33,11 +33,11 @@ class CommentsController < ApplicationController
         @reference = Reference.find(@comment.root.commentable_id)
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
-        format.js { render 'cud.js.erb' }
+        format.js { render 'reference_comments.js.erb' }
       else
         format.html { redirect_to :back, notice: 'Comment was not updated.' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js
+        format.js { render 'reference_comments.js.erb' }
       end
     end
   end
@@ -50,7 +50,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
-      format.js { render 'cud.js.erb' }
+      format.js { render 'reference_comments.js.erb' }
     end
   end
 
