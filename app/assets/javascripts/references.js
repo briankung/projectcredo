@@ -2,9 +2,13 @@ $(document).ready(function() {
   var showCrossrefResults = debounce(function() {
     var resultsElement = $('#crossref-results');
 
-    if (this.value === '') {
+    var hideResults = function() {
       resultsElement.toggleClass('hidden', true);
       resultsElement.children().remove();
+    }
+
+    if (this.value === '') {
+      hideResults();
     } else {
       $.get('https://search.crossref.org/dois?sort=score&q=' + this.value).done(function(data) {
         var results, resultsByFullCitation;
@@ -20,10 +24,12 @@ $(document).ready(function() {
           });
 
           resultsElement.children().remove();
-          results = $.map(resultsByFullCitation, function(citation) {return "<li class='list-group-item'>" + citation + "</li>"})
+          results = $.map(resultsByFullCitation, function(citation) {return "<li class='list-group-item'>" + citation + "</li>"});
           resultsElement.append(results.join(''));
           resultsElement.toggleClass('hidden', false);
-        }
+        } else {
+          hideResults();
+        };
       })
     }
   }, 200);
