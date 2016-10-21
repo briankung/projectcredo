@@ -20,7 +20,7 @@ $(document).ready(function() {
           });
 
           resultsElement.children().remove();
-          results = $.map(resultsByFullCitation, function(citation) {return "<li>" + citation + "</li>"})
+          results = $.map(resultsByFullCitation, function(citation) {return "<li class='list-group-item'>" + citation + "</li>"})
           resultsElement.append(results.join(''));
           resultsElement.toggleClass('hidden', false);
         }
