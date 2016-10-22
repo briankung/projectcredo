@@ -31,7 +31,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#crossref-results .list-group-item', function(e) {
     $('#crossref-search').val(this.innerText);
-    $('#crossref_locator_id').val(this.dataset.doi);
+    $('#crossref-locator-id').val(this.dataset.doi);
     $('.crossref').toggleClass('submittable', true);
     hideResults();
   });
@@ -39,7 +39,11 @@ $(document).ready(function() {
   $('#crossref-search').on('input', showCrossrefResults);
   $('#crossref-search').on('input', function() {
     $('.crossref').toggleClass('submittable', false);
-    $('#crossref_locator_id').val('');
+    $('#crossref-locator-id').val('');
+  });
+
+  $('#crossref-submit').on('click', function(e) {
+    $(this).siblings('form#new_reference').submit();
   });
 
   $('a.delete-reference').on('click', function(e) {
