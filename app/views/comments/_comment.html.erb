@@ -3,7 +3,7 @@
     Added by <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
   </p>
 
-  <p><%= comment.content %></p>
+  <p><%= simple_format(comment.content, {}, sanitize: true) %></p>
   <ul>
     <li><%= render 'votes/toggle_like', votable: comment %></li>
     <% if current_user %>
