@@ -30,12 +30,15 @@ $(document).ready(function() {
   }, 200);
 
   $(document).on('click', '#crossref-results .list-group-item', function(e) {
-    $('#crossref-search').val(this.innerText).css('background-color', '#eee');
-    $('.crossref span.input-group-addon').addClass('submittable')
+    $('#crossref-search').val(this.innerText);
+    $('.crossref').toggleClass('submittable', true);
     hideResults();
   });
 
   $('#crossref-search').on('input', showCrossrefResults);
+  $('#crossref-search').on('input', function() {
+    $('.crossref').toggleClass('submittable', false);
+  });
 
   $('a.delete-reference').on('click', function(e) {
     e.preventDefault();
