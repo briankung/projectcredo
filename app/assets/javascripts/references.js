@@ -53,7 +53,7 @@ $(document).ready(function() {
   $('#crossref-submit').on('click', function(e) {
     if ($(this).parent().hasClass('submittable')) {
       $(this).siblings('form#new_reference').submit();
-    }
+    };
   });
 
   $('a.delete-reference').on('click', function(e) {
