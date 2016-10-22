@@ -6,10 +6,15 @@ $(document).ready(function() {
     resultsElement.children().remove();
   }
 
-  var showCrossrefResults = debounce(function() {
+  var hideResultsAndClearSubmittable = function() {
+    hideResults();
+    $('.crossref').toggleClass('submittable', false);
+    $('#crossref-locator-id').val('');
+  }
 
+  var showCrossrefResults = debounce(function() {
     if (this.value === '') {
-      hideResults();
+      hideResultsAndClearSubmittable();
     } else {
       $.get('https://search.crossref.org/dois?sort=score&q=' + this.value).done(function(data) {
         var results;
@@ -23,7 +28,7 @@ $(document).ready(function() {
           resultsElement.append(results.join(''));
           resultsElement.toggleClass('hidden', false);
         } else {
-          hideResults();
+          hideResultsAndClearSubmittable();
         };
       })
     }
@@ -37,9 +42,12 @@ $(document).ready(function() {
   });
 
   $('#crossref-search').on('input', showCrossrefResults);
-  $('#crossref-search').on('input', function() {
-    $('.crossref').toggleClass('submittable', false);
-    $('#crossref-locator-id').val('');
+  $('#crossref-search').on('input', hideResultsAndClearSubmittable);
+  $('#crossref-search').on('keydown', function (e) {
+    if (e.keyCode === 27) {
+      this.value = '';
+      hideResultsAndClearSubmittable();
+    };
   });
 
   $('#crossref-submit').on('click', function(e) {
