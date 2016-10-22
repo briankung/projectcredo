@@ -13,6 +13,8 @@ services:
       - DOCKERIZED=true
     env_file:
       - '.env'
+    tty: true
+    stdin_open: true
   postgres:
     image: postgres:9.5
     ports:
