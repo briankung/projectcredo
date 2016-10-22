@@ -13,14 +13,14 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        @reference = @comment.root.commentable
+        reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
-        format.js { render 'reference_comments.js.erb' }
+        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
       else
         format.html { redirect_to :back }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js { render 'reference_comments.js.erb' }
+        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
       end
     end
   end
@@ -30,14 +30,14 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        @reference = @comment.root.commentable
+        reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
-        format.js { render 'reference_comments.js.erb' }
+        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
       else
         format.html { redirect_to :back, notice: 'Comment was not updated.' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js { render 'reference_comments.js.erb' }
+        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
       end
     end
   end
@@ -45,12 +45,12 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @reference = @comment.root.commentable
+    reference = @comment.root.commentable
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
-      format.js { render 'reference_comments.js.erb' }
+      format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
     end
   end
 
