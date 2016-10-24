@@ -16,7 +16,7 @@ $(document).ready(function() {
     if (this.value === '') {
       hideResultsAndClearSubmittable();
     } else {
-      $.get('https://search.crossref.org/dois?sort=score&q=' + this.value).done(function(data) {
+      $.get('https://search.crossref.org/dois?sort=score&type=Journal+Article&rows=10&q=' + this.value).done(function(data) {
         var results;
 
         if (data.length > 0) {
