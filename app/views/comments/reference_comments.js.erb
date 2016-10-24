@@ -1,2 +1,2 @@
-$("#comments-<%= reference.id %>").html("<%= escape_javascript(render 'papers/comments', reference: reference) %>");
-$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'papers/comments_tab', reference: reference) %>");
+$("#comments-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments', reference: reference) %>");
+$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
