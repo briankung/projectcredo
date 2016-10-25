@@ -1,5 +1,5 @@
 class Users::ListsController < ApplicationController
-  include ListParamsSortable
+  include ListReferenceParamsSortable
 
   before_action :set_user
 

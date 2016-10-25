@@ -1,4 +1,4 @@
-module ListParamsSortable
+module ListReferenceParamsSortable
   extend ActiveSupport::Concern
 
   def params_sort_order
