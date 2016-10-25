@@ -1,4 +1,6 @@
 class ListsController < ApplicationController
+  include ListParamsSortable
+
   before_action :set_list, only: [:show, :edit, :update, :destroy]
   before_action :ensure_current_user, except: [:index, :show]
 
@@ -68,16 +70,5 @@ class ListsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
       params.require(:list).permit(:name, :description, :tag_list)
-    end
-
-    def params_sort_order
-      pub_date_order = 'papers.published_at DESC NULLS LAST'
-      vote_order = 'cached_votes_up DESC'
-
-      if params[:sort] == 'pub_date'
-        pub_date_order
-      else # default to ordering by votes first, then pub date
-        "#{vote_order}, #{pub_date_order}"
-      end
     end
 end
