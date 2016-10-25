@@ -1,6 +1,4 @@
 class Users::ListsController < ApplicationController
-  include ListReferenceParamsSortable
-
   before_action :set_user
 
   def index
@@ -17,5 +15,16 @@ class Users::ListsController < ApplicationController
   private
     def set_user
       @user = User.find_by username: params[:username]
+    end
+
+    def params_sort_order
+      pub_date_order = 'papers.published_at DESC NULLS LAST'
+      vote_order = 'cached_votes_up DESC'
+
+      if params[:sort] == 'pub_date'
+        pub_date_order
+      else # default to ordering by votes first, then pub date
+        "#{vote_order}, #{pub_date_order}"
+      end
     end
 end
