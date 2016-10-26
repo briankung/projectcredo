@@ -54,10 +54,26 @@ class Pubmed
 end
 
 class Pubmed
-  attr_accessor :http
+  class Resource
+    attr_accessor :type, :id, :pubmed
+
+    def initialize type: , id: , pubmed:
+      self.type = type
+      self.id = id
+      self.pubmed = pubmed
+    end
+  end
+end
+
+class Pubmed
+  attr_accessor :http, :resource
 
   def initialize
     self.http = Pubmed::Http.new
+  end
+
+  def build_resource type: , id:
+    self.resource = Pubmed::Resource.new type: type, id: id, pubmed: self
   end
 
   def get_search_result_ids query
