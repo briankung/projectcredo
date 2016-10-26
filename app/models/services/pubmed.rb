@@ -34,10 +34,7 @@ class Pubmed
   end
 
   def get_abstract(uid)
-    result = parse_response(
-      efetch_url(@default_parameters.merge(id: uid, retmode: 'xml')),
-      type: :xml
-    )
+    result = parse_response(efetch_url(id: uid, retmode: 'xml'), type: :xml)
 
     abstract = result.dig *%w{
       PubmedArticleSet
