@@ -17,7 +17,6 @@ class CommentsController < ApplicationController
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
         format.js { render( @comment.parent.nil? ? 'comment_on_reference.js.erb' : 'reply_to_comment.js.erb', locals: {reference: reference} )}
-
       else
         format.html { redirect_to :back }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
