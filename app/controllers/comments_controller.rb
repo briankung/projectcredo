@@ -33,11 +33,11 @@ class CommentsController < ApplicationController
         reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
-        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
+        format.js { render 'update.js.erb', locals: {reference: reference} }
       else
         format.html { redirect_to :back, notice: 'Comment was not updated.' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js { render 'reference_comments.js.erb', locals: {reference: reference} }
+        format.js { render 'update.js.erb', locals: {reference: reference} }
       end
     end
   end
