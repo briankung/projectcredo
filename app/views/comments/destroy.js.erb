@@ -1,0 +1,2 @@
+$("#comments-<%= reference.id %>").find("#comment-<%= @comment.id %>").remove();
+$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
