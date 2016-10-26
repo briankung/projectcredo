@@ -18,13 +18,10 @@ class Users::ListsController < ApplicationController
     end
 
     def params_sort_order
-      pub_date_order = 'papers.published_at DESC NULLS LAST'
-      vote_order = 'cached_votes_up DESC'
-
       if params[:sort] == 'pub_date'
-        pub_date_order
-      else # default to ordering by votes first, then pub date
-        "#{vote_order}, #{pub_date_order}"
+        'papers.published_at DESC NULLS LAST'
+      else # default to ordering by votes first, then create date
+        "cached_votes_up DESC, created_at ASC"
       end
     end
 end
