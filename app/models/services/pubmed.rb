@@ -26,18 +26,15 @@ class Pubmed
   end
 
   def search(query)
-    JSON.parse Net::HTTP.get(
-      metadata_url id: get_search_result_ids(query).join(",")
-    )
+    parse_response(metadata_url id: get_search_result_ids(query).join(","))
   end
 
   def get_uid_metadata(uid)
-    JSON.parse Net::HTTP.get(metadata_url id: uid)
+    parse_response(metadata_url id: uid)
   end
 
   def get_abstract(uid)
-    response = Net::HTTP.get(pubmed_article_url uid, report: 'xml')
-    result = Hash.from_xml(CGI.unescapeHTML response)
+    result = parse_response(pubmed_article_url(uid, report: 'xml'), type: :xml)
     abstract = result.dig *%w{
       pre
       PubmedArticle
@@ -66,4 +63,12 @@ class Pubmed
       URI.parse(url + '?' + URI.encode_www_form(parameters))
     end
 
+    def parse_response uri, type: 'json'
+      response = Net::HTTP.get(uri)
+      if type.to_s == 'xml'
+        return Hash.from_xml(CGI.unescapeHTML response)
+      else
+        return JSON.parse(response)
+      end
+    end
 end
