@@ -73,14 +73,18 @@ class Pubmed
     http.esummary id: get_search_result_ids(query).join(",")
   end
 
-  def get_uid_metadata(uid)
+  def get_summary(uid)
     http.esummary(id: uid)
   end
 
-  def get_abstract(uid)
-    result = http.efetch(id: uid, type: 'xml')
+  def get_full_details(uid)
+    http.efetch(id: uid, type: 'xml')
+  end
 
-    result.dig *%w{
+  def get_abstract(uid)
+    full_details = get_full_details(uid)
+
+    full_details.dig *%w{
       PubmedArticleSet
       PubmedArticle
       MedlineCitation
