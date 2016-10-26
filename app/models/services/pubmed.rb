@@ -45,7 +45,7 @@ class Pubmed
       def parse_response uri, type: 'json'
         response = Net::HTTP.get(uri)
         if type.to_s == 'xml'
-          return Hash.from_xml(CGI.unescapeHTML response)
+          return Hash.from_xml(CGI.unescapeHTML response) # This breaks if unescaped content has ampersands
         else
           return JSON.parse(response)
         end
