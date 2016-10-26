@@ -60,6 +60,15 @@ class Pubmed
     self.http = Pubmed::Http.new
   end
 
+  def get_search_result_ids query
+    query = query.gsub(/\s/, '+')
+    http.esearch(term: query).dig 'esearchresult', 'idlist'
+  end
+
+  def get_uid_from_doi doi
+    http.esearch(term: doi).dig 'esearchresult', 'idlist', 0
+  end
+
   def search(query)
     http.esummary id: get_search_result_ids(query).join(",")
   end
@@ -71,7 +80,7 @@ class Pubmed
   def get_abstract(uid)
     result = http.efetch(id: uid, type: 'xml')
 
-    abstract = result.dig *%w{
+    result.dig *%w{
       PubmedArticleSet
       PubmedArticle
       MedlineCitation
@@ -79,18 +88,5 @@ class Pubmed
       Abstract
       AbstractText
     }
-
-    return abstract
-  end
-
-  def get_search_result_ids query
-    query = query.gsub(/\s/, '+')
-    search_response = http.esearch(term: query)
-    search_response.dig 'esearchresult', 'idlist'
-  end
-
-  def find_uid_by_doi doi
-    search_response = http.esearch(term: doi)
-    search_response.dig 'esearchresult', 'idlist', 0
   end
 end
