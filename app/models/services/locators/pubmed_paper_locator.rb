@@ -3,7 +3,7 @@ class PubmedPaperLocator < BaseLocator
     'pubmed_id'
   end
 
-  def find_paper
+  def find_or_import_paper
     return super if super
 
     paper = Paper.new

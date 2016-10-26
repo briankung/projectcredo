@@ -8,9 +8,8 @@ class ReferencesController < ApplicationController
 
   def create
     list = List.find(reference_params[:list_id])
-    paper = @locator.find_paper
 
-    if paper.persisted?
+    if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
         flash['notice'] = "'#{paper.title}' has already been added to this list"
       else
@@ -18,7 +17,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
       end
     else
-      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
+      flash['alert'] = "Couldn't find or import a paper with those parameters"
     end
     redirect_to :back
   end

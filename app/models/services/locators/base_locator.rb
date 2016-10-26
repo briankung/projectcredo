@@ -5,8 +5,7 @@ class BaseLocator
     self.locator_id = locator_id.strip
   end
 
-  def find_paper
+  def find_or_import_paper
     return Paper.find_by self.column => self.locator_id
   end
-
 end
