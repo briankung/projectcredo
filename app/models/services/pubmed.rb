@@ -50,12 +50,12 @@ class Pubmed
 
   def get_search_result_ids query
     query = query.gsub(/\s/, '+')
-    search_response = JSON.parse Net::HTTP.get(esearch_url term: query)
+    search_response = parse_response(esearch_url term: query)
     search_response.dig 'esearchresult', 'idlist'
   end
 
   def find_uid_by_doi doi
-    search_response = JSON.parse Net::HTTP.get(esearch_url term: doi)
+    search_response = parse_response(esearch_url term: doi)
     search_response.dig 'esearchresult', 'idlist', 0
   end
 
