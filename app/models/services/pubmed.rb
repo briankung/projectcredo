@@ -17,24 +17,37 @@ class Pubmed
     generate_uri(base_url + "/entrez/eutils/esearch.fcgi", default_parameters.merge(params))
   end
 
+  def esearch term:
+    parse_response(esearch_url term: term)
+  end
+
   def esummary_url params = {}
     generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
+  end
+
+  def esummary id:
+    parse_response(esummary_url id: id)
   end
 
   def efetch_url params = {}
     generate_uri(base_url + "/entrez/eutils/efetch.fcgi", default_parameters.merge(params))
   end
 
+  def efetch id: , type:
+    type = type.to_s
+    parse_response(efetch_url(id: id, retmode: type), type: type)
+  end
+
   def search(query)
-    parse_response(esummary_url id: get_search_result_ids(query).join(","))
+    esummary id: get_search_result_ids(query).join(",")
   end
 
   def get_uid_metadata(uid)
-    parse_response(esummary_url id: uid)
+    esummary(id: uid)
   end
 
   def get_abstract(uid)
-    result = parse_response(efetch_url(id: uid, retmode: 'xml'), type: :xml)
+    result = efetch(id: uid, type: 'xml')
 
     abstract = result.dig *%w{
       PubmedArticleSet
@@ -50,12 +63,12 @@ class Pubmed
 
   def get_search_result_ids query
     query = query.gsub(/\s/, '+')
-    search_response = parse_response(esearch_url term: query)
+    search_response = esearch(term: query)
     search_response.dig 'esearchresult', 'idlist'
   end
 
   def find_uid_by_doi doi
-    search_response = parse_response(esearch_url term: doi)
+    search_response = esearch(term: doi)
     search_response.dig 'esearchresult', 'idlist', 0
   end
 
