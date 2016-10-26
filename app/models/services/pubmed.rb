@@ -21,8 +21,8 @@ class Pubmed
     generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
   end
 
-  def pubmed_article_url uid, params = {}
-    generate_uri('https://www.ncbi.nlm.nih.gov/pubmed/' + uid, params)
+  def efetch_url params = {}
+    generate_uri(base_url + "/entrez/eutils/efetch.fcgi", default_parameters.merge(params))
   end
 
   def search(query)
@@ -34,9 +34,13 @@ class Pubmed
   end
 
   def get_abstract(uid)
-    result = parse_response(pubmed_article_url(uid, report: 'xml'), type: :xml)
+    result = parse_response(
+      efetch_url(@default_parameters.merge(id: uid, retmode: 'xml')),
+      type: :xml
+    )
+
     abstract = result.dig *%w{
-      pre
+      PubmedArticleSet
       PubmedArticle
       MedlineCitation
       Article
