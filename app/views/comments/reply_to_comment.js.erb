@@ -1,0 +1,14 @@
+commentParentDiv = $("#comment-<%= @comment.parent_id %>");
+replyDiv = commentParentDiv.children('.reply');
+
+if (replyDiv.length) {
+  replyDiv.children().last().after("<%= escape_javascript(render('comments/comment', comment: @comment)) %>");
+} else {
+  commentParentDiv.children().last().after(
+    "<%= escape_javascript(
+      content_tag( :div, render('comments/comment', comment: @comment), class: 'reply')
+    )%>"
+  );
+};
+$("#reply-form-<%= @comment.parent_id %>").replaceWith("<%= escape_javascript(render 'form', comment: @comment.parent.children.build, display_comment_field: true )%>");
+$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
