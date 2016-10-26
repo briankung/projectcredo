@@ -55,12 +55,27 @@ end
 
 class Pubmed
   class Resource
-    attr_accessor :type, :id, :pubmed
+    attr_accessor :type, :id, :pubmed, :details
 
     def initialize type: , id: , pubmed:
-      self.type = type
-      self.id = id
+      self.type = type.to_s
+      self.id = id.to_s
       self.pubmed = pubmed
+      self.details()
+    end
+
+    def details
+      return @details if @details
+
+      if type == 'doi'
+        self.details = pubmed.get_full_details(
+          pubmed.get_uid_from_doi(id)
+        )
+      elsif type == 'pubmed'
+        self.details = pubmed.get_full_details(id)
+      else
+        self.details = nil
+      end
     end
   end
 end
