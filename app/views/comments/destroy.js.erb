@@ -1,6 +1,5 @@
 commentDiv = $("#comments-<%= reference.id %>").find("#comment-<%= @comment.id %>");
-replyDiv = commentDiv.parent(".reply");
-if (commentDiv.siblings().length == 0) { replyDiv.remove()};
+if (commentDiv.siblings().length == 0) { commentDiv.parent(".reply").remove() };
 commentDiv.remove();
 
 $("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
