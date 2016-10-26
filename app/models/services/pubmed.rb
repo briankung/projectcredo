@@ -13,11 +13,11 @@ class Pubmed
     'https://eutils.ncbi.nlm.nih.gov'
   end
 
-  def search_url params = {}
+  def esearch_url params = {}
     generate_uri(base_url + "/entrez/eutils/esearch.fcgi", default_parameters.merge(params))
   end
 
-  def metadata_url params = {}
+  def esummary_url params = {}
     generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
   end
 
@@ -26,11 +26,11 @@ class Pubmed
   end
 
   def search(query)
-    parse_response(metadata_url id: get_search_result_ids(query).join(","))
+    parse_response(esummary_url id: get_search_result_ids(query).join(","))
   end
 
   def get_uid_metadata(uid)
-    parse_response(metadata_url id: uid)
+    parse_response(esummary_url id: uid)
   end
 
   def get_abstract(uid)
@@ -49,12 +49,12 @@ class Pubmed
 
   def get_search_result_ids query
     query = query.gsub(/\s/, '+')
-    search_response = JSON.parse Net::HTTP.get(search_url term: query)
+    search_response = JSON.parse Net::HTTP.get(esearch_url term: query)
     search_response.dig 'esearchresult', 'idlist'
   end
 
   def find_uid_by_doi doi
-    search_response = JSON.parse Net::HTTP.get(search_url term: doi)
+    search_response = JSON.parse Net::HTTP.get(esearch_url term: doi)
     search_response.dig 'esearchresult', 'idlist', 0
   end
 
