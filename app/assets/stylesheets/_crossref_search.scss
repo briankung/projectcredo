@@ -1,0 +1,27 @@
+#crossref-results {
+  padding: 0;
+  position: relative;
+  top: -1px;
+
+  li {
+    list-style: none;
+    border-width: 1px;
+
+  }
+
+  li:hover {
+    background-color: $state-info-bg;
+  }
+}
+
+.submittable {
+  span.input-group-addon {
+    background-color: $brand-primary;
+    color: white;
+    cursor: pointer;
+  }
+
+  #crossref-search {
+    background-color: $gray-lighter;
+  }
+}
