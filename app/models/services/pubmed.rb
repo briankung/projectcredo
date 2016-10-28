@@ -57,7 +57,7 @@ class Pubmed
   class Resource
     attr_accessor :type, :id, :pubmed, :details
 
-    def initialize type: , id: , pubmed:
+    def initialize type: , id: , pubmed: Pubmed.new
       self.type = type.to_s
       self.id = id.to_s
       self.pubmed = pubmed
@@ -78,12 +78,24 @@ class Pubmed
       end
     end
 
-    def paper_attributes legend, parsed_data
+    def paper_attributes legend: default_legend, parsed_data: details
       @paper_attributes ||= legend.inject({}) do |memo, _|
         attribute, hash_path = _[0], _[1]
         memo[attribute] = parsed_data.dig *hash_path
         memo
       end
+    end
+
+    def default_legend
+      {
+        title:          %w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle},
+        published_at:   %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate},
+        abstract:       %w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText},
+        doi:            %w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID},
+        pubmed_id:      %w{PubmedArticleSet PubmedArticle MedlineCitation PMID},
+        publication:    %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title},
+        authors:        %w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList}
+      }
     end
   end
 end
