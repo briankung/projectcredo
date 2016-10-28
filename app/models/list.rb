@@ -21,7 +21,11 @@ class List < ApplicationRecord
             }
 
   def to_slug
-    self.name.downcase.gsub(/[^\p{N}\p{L}]/, '-').gsub(/-{2,}/, '-')
+    self.name
+      .downcase
+      .gsub("'", '')                # Remove apostrophes
+      .gsub(/[^\p{N}\p{L}]/, '-')   # Replace non-number, non-letter characters with a dash
+      .gsub(/-{2,}/, '-')           # Combine any contiguous dashes
   end
 
   def set_slug
