@@ -97,7 +97,14 @@ class Pubmed
   end
 
   def get_uid_from_doi doi
-    http.esearch(term: doi).dig 'esearchresult', 'idlist', 0
+    results = http.esearch(term: doi)
+    doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
+
+    if doi_not_found
+      return nil
+    else
+      return results.dig 'esearchresult', 'idlist', 0
+    end
   end
 
   def search(query)
@@ -109,6 +116,8 @@ class Pubmed
   end
 
   def get_full_details(uid)
+    return nil if uid.nil?
+
     http.efetch(id: uid, type: 'xml')
   end
 
