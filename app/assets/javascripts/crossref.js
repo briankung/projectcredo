@@ -6,14 +6,14 @@ $(document).ready(function() {
     resultsElement.children().remove();
   }
 
-  var hideResultsAndClearSearchField = function() {
+  var hideResultsAndClearSearchValue = function() {
     hideResults();
     $('#crossref-locator-id').val('');
   }
 
   var showCrossrefResults = debounce(function() {
     if (this.value === '') {
-      hideResultsAndClearSearchField();
+      hideResultsAndClearSearchValue();
     } else {
       $.get('https://search.crossref.org/dois?sort=score&type=Journal+Article&rows=10&q=' + this.value).done(function(data) {
         var results;
@@ -27,7 +27,7 @@ $(document).ready(function() {
           resultsElement.append(results.join(''));
           resultsElement.toggleClass('hidden', false);
         } else {
-          hideResultsAndClearSearchField();
+          hideResultsAndClearSearchValue();
         };
       })
     }
@@ -42,11 +42,11 @@ $(document).ready(function() {
   });
 
   $('#crossref-search').on('input', showCrossrefResults);
-  $('#crossref-search').on('input', hideResultsAndClearSearchField);
+  $('#crossref-search').on('input', hideResultsAndClearSearchValue);
   $('#crossref-search').on('keydown', function (e) {
     if (e.keyCode === 27) {
       this.value = '';
-      hideResultsAndClearSearchField();
+      hideResultsAndClearSearchValue();
     };
   });
 });
