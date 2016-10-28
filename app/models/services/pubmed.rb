@@ -77,6 +77,14 @@ class Pubmed
         self.details = nil
       end
     end
+
+    def paper_attributes legend, parsed_data
+      @paper_attributes ||= legend.inject({}) do |memo, _|
+        attribute, hash_path = _[0], _[1]
+        memo[attribute] = parsed_data.dig *hash_path
+        memo
+      end
+    end
   end
 end
 
