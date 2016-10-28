@@ -50,8 +50,8 @@ list_names.each do |d|
   l = List.new(name: d, description: d, user: u)
   l.tag_list.add(d.split)
   l.save
-  r1 = l.references.create(paper: p1)
-  r2 = l.references.create(paper: p2)
+  r1 = l.references.create(paper: p1, user: u)
+  r2 = l.references.create(paper: p2, user: u)
 
   r1.comments.find_or_create_by_path comments
   r2.comments.find_or_create_by_path comments
