@@ -7,6 +7,6 @@ commentDiv.append("<div id= " + commentsDivID + "></div>");
 replyForm = "<%= escape_javascript(render('form', comment: new_comment, display_comment_field: display_comment))%>"
 $("#reply-form-<%= @comment.parent_id %>").replaceWith(replyForm);
 
-commentsCountSpan = $("li#comments-tab-<%= reference.id %> a span");
+commentsCountSpan = $("span#comments-count-<%= reference.id %>");
 commentsCount = parseInt(commentsCountSpan.text());
 commentsCountSpan.text(parseInt(commentsCount) + 1);
