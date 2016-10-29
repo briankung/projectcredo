@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 20161029210539) do
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
-    t.json     "data_from_import"
+    t.jsonb    "data_from_import"
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
