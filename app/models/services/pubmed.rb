@@ -1,43 +1,43 @@
 class Pubmed
   class Http
-    def default_parameters
-      {
-        db: 'pubmed',
-        retmode: 'json',
-        retmax: 20
-      }
-    end
+    class << self
+      def default_parameters
+        {
+          db: 'pubmed',
+          retmode: 'json',
+          retmax: 20
+        }
+      end
 
-    def base_url
-      'https://eutils.ncbi.nlm.nih.gov'
-    end
+      def base_url
+        'https://eutils.ncbi.nlm.nih.gov'
+      end
 
-    def esearch_url params = {}
-      generate_uri(base_url + "/entrez/eutils/esearch.fcgi", default_parameters.merge(params))
-    end
+      def esearch_url params = {}
+        generate_uri(base_url + "/entrez/eutils/esearch.fcgi", default_parameters.merge(params))
+      end
 
-    def esummary_url params = {}
-      generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
-    end
+      def esummary_url params = {}
+        generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
+      end
 
-    def efetch_url params = {}
-      generate_uri(base_url + "/entrez/eutils/efetch.fcgi", default_parameters.merge(params))
-    end
+      def efetch_url params = {}
+        generate_uri(base_url + "/entrez/eutils/efetch.fcgi", default_parameters.merge(params))
+      end
 
-    def esearch term:
-      parse_response(esearch_url term: term)
-    end
+      def esearch term:
+        parse_response(esearch_url term: term)
+      end
 
-    def esummary id:
-      parse_response(esummary_url id: id)
-    end
+      def esummary id:
+        parse_response(esummary_url id: id)
+      end
 
-    def efetch id: , type:
-      type = type.to_s
-      parse_response(efetch_url(id: id, retmode: type), type: type)
-    end
+      def efetch id: , type:
+        type = type.to_s
+        parse_response(efetch_url(id: id, retmode: type), type: type)
+      end
 
-    private
       def generate_uri(url, parameters)
         URI.parse(url + '?' + URI.encode_www_form(parameters))
       end
@@ -50,6 +50,7 @@ class Pubmed
           return JSON.parse(response)
         end
       end
+    end
   end
 end
 
@@ -113,11 +114,7 @@ class Pubmed
 end
 
 class Pubmed
-  attr_accessor :http, :resource
-
-  def initialize
-    self.http = Pubmed::Http.new
-  end
+  attr_accessor :resource
 
   def build_resource type: , id:
     self.resource = Pubmed::Resource.new type: type, id: id, pubmed: self
@@ -125,11 +122,11 @@ class Pubmed
 
   def get_search_result_ids query
     query = query.gsub(/\s/, '+')
-    http.esearch(term: query).dig 'esearchresult', 'idlist'
+    Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
   end
 
   def get_uid_from_doi doi
-    results = http.esearch(term: doi)
+    results = Pubmed::Http.esearch(term: doi)
     doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
 
     if doi_not_found
@@ -140,17 +137,17 @@ class Pubmed
   end
 
   def search(query)
-    http.esummary id: get_search_result_ids(query).join(",")
+    Pubmed::Http.esummary id: get_search_result_ids(query).join(",")
   end
 
   def get_summary(uid)
-    http.esummary(id: uid)
+    Pubmed::Http.esummary(id: uid)
   end
 
   def get_full_details(uid)
     return nil if uid.nil?
 
-    http.efetch(id: uid, type: 'xml')
+    Pubmed::Http.efetch(id: uid, type: 'xml')
   end
 
   def get_abstract(uid)
