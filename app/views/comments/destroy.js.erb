@@ -1,5 +1,7 @@
-commentDiv = $("#comments-<%= reference.id %>").find("#comment-<%= @comment.id %>");
-if (commentDiv.siblings().length == 0) { commentDiv.parent(".reply").remove() };
-commentDiv.remove();
+comments = $("#comment-<%= @comment.id %>").find(".comment").length + 1;
+console.log(comments);
+$("#comment-<%= @comment.id %>").remove();
 
-$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
+commentsCountSpan = $("li#comments-tab-<%= reference.id %> a span");
+commentsCount = parseInt(commentsCountSpan.text());
+commentsCountSpan.text(parseInt(commentsCount - comments));
