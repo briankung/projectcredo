@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
   before_action :set_list, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_current_user, except: [:index, :show]
+  before_action :ensure_current_user, except: [:index]
 
   # GET /lists
   # GET /lists.json
@@ -62,7 +62,7 @@ class ListsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_list
-      @list = List.find_by(slug: params[:id])
+      @list = List.find_by(slug: params[:list_slug])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
