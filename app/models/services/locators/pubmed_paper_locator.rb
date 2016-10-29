@@ -6,10 +6,11 @@ class PubmedPaperLocator < BaseLocator
   def find_or_import_paper
     return super if super
 
-    pubmed = Pubmed.new
-    result = pubmed.get_uid_metadata(self.locator_id)['result']
-    if (data = result[self.locator_id])
-      return Paper.create pubmed.mapper.paper_attributes
+    pubmed = Pubmed.new type: 'pubmed', id: locator_id
+    paper_attributes = pubmed.paper_attributes
+
+    if paper_attributes
+      return Paper.create paper_attributes
     else
       return nil
     end
