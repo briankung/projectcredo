@@ -78,23 +78,41 @@ class Pubmed
       end
     end
 
-    def paper_attributes legend: default_legend, parsed_data: details
-      @paper_attributes ||= legend.inject({}) do |memo, _|
-        attribute, hash_path = _[0], _[1]
-        memo[attribute] = parsed_data.dig *hash_path
+    def paper_attributes
+      @paper_attributes ||= map_attributes
+    end
+
+    def map_attributes mapper: mapper(), data: details()
+      mapper.inject({}) do |memo, _|
+        attribute, mapping = _[0], _[1]
+        if mapping.respond_to? :call
+          memo[attribute] = mapping.call(data)
+        else
+          memo[attribute] = data.dig *mapping
+        end
         memo
       end
     end
 
-    def default_legend
+    def mapper
       {
-        title:          %w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle},
-        published_at:   %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate},
-        abstract:       %w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText},
-        doi:            %w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID},
-        pubmed_id:      %w{PubmedArticleSet PubmedArticle MedlineCitation PMID},
-        publication:    %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title},
-        authors:        %w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList}
+        title:              %w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle},
+        publication:        %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title},
+        abstract:           %w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText},
+        doi:                %w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID},
+        pubmed_id:          %w{PubmedArticleSet PubmedArticle MedlineCitation PMID},
+
+        published_at:       lambda do |data|
+          pubdate = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate}
+          Date.parse pubdate.values_at("Year", "Month", "Day").join(' ')
+        end,
+
+        authors_attributes: lambda do |data|
+          authors = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList Author}
+          authors.map do |author|
+            {name: author.values_at("ForeName", "LastName").join(' ')}
+          end
+        end
       }
     end
   end
