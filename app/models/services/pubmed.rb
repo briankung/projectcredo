@@ -85,34 +85,28 @@ class Pubmed
     def map_attributes mapper: mapper(), data: details()
       mapper.inject({}) do |memo, _|
         attribute, mapping = _[0], _[1]
-        if mapping.respond_to? :call
-          memo[attribute] = mapping.call(data)
-        else
-          memo[attribute] = data.dig *mapping
-        end
+        memo[attribute] = mapping.call(data)
         memo
       end
     end
 
     def mapper
       {
-        title:              %w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle},
-        publication:        %w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title},
-        abstract:           %w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText},
-        doi:                %w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID},
-        pubmed_id:          %w{PubmedArticleSet PubmedArticle MedlineCitation PMID},
-
-        published_at:       lambda do |data|
+        title:              lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle}},
+        publication:        lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title}},
+        abstract:           lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText}},
+        doi:                lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID}},
+        pubmed_id:          lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation PMID}},
+        published_at:       lambda {|data|
           pubdate = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate}
           Date.parse pubdate.values_at("Year", "Month", "Day").join(' ')
-        end,
-
-        authors_attributes: lambda do |data|
+        },
+        authors_attributes: lambda {|data|
           authors = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList Author}
           authors.map do |author|
             {name: author.values_at("ForeName", "LastName").join(' ')}
           end
-        end
+        }
       }
     end
   end
