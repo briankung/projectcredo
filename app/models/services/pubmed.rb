@@ -82,6 +82,7 @@ class Pubmed
     end
 
     def map_attributes mapper: mapper(), data: details()
+      return nil unless data
       mapper.inject({}) do |memo, _|
         attribute, mapping = _[0], _[1]
         memo[attribute] = mapping.call(data)
