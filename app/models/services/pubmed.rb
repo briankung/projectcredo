@@ -92,19 +92,26 @@ class Pubmed
       {
         title:              lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle}},
         publication:        lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title}},
-        abstract:           lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText}},
         doi:                lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID}},
         pubmed_id:          lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation PMID}},
+
+        abstract:           lambda {|data|
+          abstract = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText}
+          if abstract.respond_to?(:join) then abstract.join("\n\n") else abstract end
+        },
+
         published_at:       lambda {|data|
           pubdate = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate}
           Date.parse pubdate.values_at("Year", "Month", "Day").join(' ')
         },
+
         authors_attributes: lambda {|data|
           authors = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList Author}
           authors.map do |author|
             {name: author.values_at("ForeName", "LastName").join(' ')}
           end
         },
+
         data_from_import:   lambda {|data| data}
       }
     end
