@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017174623) do
+ActiveRecord::Schema.define(version: 20161029210539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,12 +90,13 @@ ActiveRecord::Schema.define(version: 20161017174623) do
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.date     "published_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.text     "abstract"
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
+    t.json     "data_from_import"
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
@@ -106,8 +107,10 @@ ActiveRecord::Schema.define(version: 20161017174623) do
     t.integer  "cached_votes_up", default: 0
     t.integer  "list_id",                     null: false
     t.integer  "paper_id",                    null: false
+    t.integer  "user_id"
     t.index ["cached_votes_up", "created_at"], name: "index_references_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
     t.index ["list_id", "paper_id"], name: "index_references_on_list_id_and_paper_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_references_on_user_id", using: :btree
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -168,4 +171,5 @@ ActiveRecord::Schema.define(version: 20161017174623) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
   end
 
+  add_foreign_key "references", "users"
 end
