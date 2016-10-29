@@ -118,11 +118,11 @@ class Pubmed
     end
 
     def self.search(query)
-      Pubmed::Core.get_summaries get_search_result_ids(query).join(",")
+      Pubmed::Core.get_summaries *get_search_result_ids(query)
     end
 
-    def self.get_summaries(uid)
-      Pubmed::Http.esummary(id: uid)
+    def self.get_summaries(*uids)
+      Pubmed::Http.esummary(id: uids.join(','))
     end
 
     def self.get_details(uid)
