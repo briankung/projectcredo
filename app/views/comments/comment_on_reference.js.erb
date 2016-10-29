@@ -1,7 +1,0 @@
-referenceCommentsDiv = $("#comments-<%= reference.id %>");
-replyForm = referenceCommentsDiv.children().first();
-lastChild = referenceCommentsDiv.children().last();
-
-lastChild.after("<%= escape_javascript(render('comments/comment', comment: @comment)) %>");
-replyForm.replaceWith("<%= escape_javascript(render 'form', comment: reference.comments.build, display_comment_field: true )%>");
-$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");

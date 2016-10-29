@@ -2,14 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.reply {
-  margin-left: 30px;
-}
-
-.reply .reply .reply .reply .reply {
-  margin-left: 0;
-}
-
 .comment-box {
   height: 100px;
   overflow: auto;
@@ -17,6 +9,14 @@
 
 .comment {
   border-top: 1px solid gray;
+
+  .comment {
+    margin-left: 30px;
+  }
+
+  .comment .comment .comment .comment .comment {
+    margin-left: 0;
+  }
 
   .btn-link {
     padding: 0;

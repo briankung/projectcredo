@@ -7,5 +7,5 @@ commentSubmitButton.after("<small>   <%= escape_javascript(link_to 'Cancel', '#'
 cancelLink = commentSubmitButton.next().find("a");
 cancelLink.on('click', function(e) {
   e.preventDefault();
-  commentContentP.html("<%= escape_javascript(@comment.content) %>");
+  commentContentP.html("<%= escape_javascript(simple_format(@comment.content, {}, sanitize: true) ) %>");
 });
