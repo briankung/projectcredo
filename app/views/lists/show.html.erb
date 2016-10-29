@@ -2,15 +2,13 @@
 <% if @list.user == current_user %>
   [ <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %> ]
 <% end %>
-<h1 class= "list-title"><%= @list.name %></h1>
+<h2 class= "list-title"><%= @list.name %></h2>
+<p>
+  <%= @list.tag_list %>
+</p>
 <p>
   <strong>Description:</strong>
-  <%= @list.description %>
-</p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= @list.tag_list %>
+  <%= simple_format(@list.description) %>
 </p>
 
 <%= render 'crossref/search', list: @list %>
