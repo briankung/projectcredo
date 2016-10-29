@@ -67,11 +67,9 @@ class Pubmed
       return @details if @details
 
       if type == 'doi'
-        self.details = pubmed.get_full_details(
-          pubmed.get_uid_from_doi(id)
-        )
+        self.details = Pubmed::Core.get_details_from_doi(id)
       elsif type == 'pubmed'
-        self.details = pubmed.get_full_details(id)
+        self.details = Pubmed::Core.get_details(id)
       else
         self.details = nil
       end
@@ -113,52 +111,56 @@ class Pubmed
 end
 
 class Pubmed
-  attr_accessor :resource
+  class Core
+    def self.get_search_result_ids query
+      query = query.gsub(/\s/, '+')
+      Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
+    end
 
-  def build_resource type: , id:
-    self.resource = Pubmed::Resource.new type: type, id: id, pubmed: self
-  end
+    def self.get_uid_from_doi doi
+      results = Pubmed::Http.esearch(term: doi)
+      doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
 
-  def get_search_result_ids query
-    query = query.gsub(/\s/, '+')
-    Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
-  end
+      if doi_not_found
+        return nil
+      else
+        return results.dig 'esearchresult', 'idlist', 0
+      end
+    end
 
-  def get_uid_from_doi doi
-    results = Pubmed::Http.esearch(term: doi)
-    doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
+    def self.search(query)
+      Pubmed::Core.get_summaries get_search_result_ids(query).join(",")
+    end
 
-    if doi_not_found
-      return nil
-    else
-      return results.dig 'esearchresult', 'idlist', 0
+    def self.get_summaries(uid)
+      Pubmed::Http.esummary(id: uid)
+    end
+
+    def self.get_details(uid)
+      return nil if uid.nil?
+      Pubmed::Http.efetch(id: uid, type: 'xml')
+    end
+
+    def self.get_details_from_doi(doi)
+      return nil if doi.nil?
+
+      Pubmed::Http.efetch(
+        id: Pubmed::Core.get_uid_from_doi(doi),
+        type: 'xml'
+      )
     end
   end
+end
 
-  def search(query)
-    Pubmed::Http.esummary id: get_search_result_ids(query).join(",")
+class Pubmed
+  attr_reader :type, :id
+
+  def initialize  type: nil, id: nil
+    @type, @id = type, id
   end
 
-  def get_summary(uid)
-    Pubmed::Http.esummary(id: uid)
-  end
-
-  def get_full_details(uid)
-    return nil if uid.nil?
-
-    Pubmed::Http.efetch(id: uid, type: 'xml')
-  end
-
-  def get_abstract(uid)
-    full_details = get_full_details(uid)
-
-    full_details.dig *%w{
-      PubmedArticleSet
-      PubmedArticle
-      MedlineCitation
-      Article
-      Abstract
-      AbstractText
-    }
+  def paper_attributes type: type(), id: id()
+    resource = Pubmed::Resource.new type: type, id: id
+    resource.paper_attributes
   end
 end
