@@ -1,4 +1,1 @@
-commentDiv = $("#comments-<%= reference.id %>").find("#comment-<%= @comment.id %>");
-commentDiv.replaceWith("<%= escape_javascript(render('comments/comment', comment: @comment)) %>")
-
-$("li#comments-tab-<%= reference.id %>").html("<%= escape_javascript(render 'references/comments_tab', reference: reference) %>");
+$("#comment-<%= @comment.id %>").replaceWith("<%= escape_javascript(render('comments/comment', comment: @comment)) %>")
