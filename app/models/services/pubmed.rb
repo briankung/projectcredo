@@ -117,17 +117,6 @@ class Pubmed
       Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
     end
 
-    def self.get_uid_from_doi doi
-      results = Pubmed::Http.esearch(term: doi)
-      doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
-
-      if doi_not_found
-        return nil
-      else
-        return results.dig 'esearchresult', 'idlist', 0
-      end
-    end
-
     def self.search(query)
       Pubmed::Core.get_summaries get_search_result_ids(query).join(",")
     end
@@ -148,6 +137,17 @@ class Pubmed
         id: Pubmed::Core.get_uid_from_doi(doi),
         type: 'xml'
       )
+    end
+
+    def self.get_uid_from_doi doi
+      results = Pubmed::Http.esearch(term: doi)
+      doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
+
+      if doi_not_found
+        return nil
+      else
+        return results.dig 'esearchresult', 'idlist', 0
+      end
     end
   end
 end
