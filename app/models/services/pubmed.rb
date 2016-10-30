@@ -43,12 +43,10 @@ class Pubmed
     def initialize type: , id:
       self.type = type.to_s
       self.id = id.to_s
-      self.details()
+      self.set_details
     end
 
-    def details
-      return @details if @details
-
+    def set_details
       if type == 'doi'
         self.details = Pubmed::Core.get_details_from_doi(id)
       elsif type == 'pubmed'
