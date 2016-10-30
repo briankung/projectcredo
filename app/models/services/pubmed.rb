@@ -161,7 +161,7 @@ class Pubmed
 end
 
 class Pubmed
-  attr_reader :type, :id
+  attr_accessor :type, :id
 
   def initialize  type: nil, id: nil
     @type, @id = type, id
