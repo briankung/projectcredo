@@ -1,15 +1,16 @@
+[ <%= link_to 'Home', root_path %> ]
 [ <%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> ]
 <% if @list.user == current_user %>
   [ <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %> ]
 <% end %>
 <h2 class= "list-title"><%= @list.name %></h2>
 <p>
-  <%= @list.tag_list %>
+  <% @list.tag_list.each do |tag| %>
+    <a class="btn btn-default btn-xs"><%= tag %></a>
+  <% end %>
 </p>
-<p>
-  <strong>Description:</strong>
-  <%= simple_format(@list.description) %>
-</p>
+<strong>Description:</strong>
+<%= simple_format(@list.description) %>
 
 <%= render 'crossref/search', list: @list %>
 
