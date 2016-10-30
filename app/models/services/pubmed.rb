@@ -33,6 +33,48 @@ class Pubmed
 end
 
 class Pubmed
+  class Core
+    def self.get_search_result_ids query
+      query = query.gsub(/\s/, '+')
+      Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
+    end
+
+    def self.search(query)
+      Pubmed::Core.get_summaries *get_search_result_ids(query)
+    end
+
+    def self.get_summaries(*uids)
+      Pubmed::Http.esummary(id: uids.join(','))
+    end
+
+    def self.get_details(uid)
+      return nil if uid.nil?
+      Pubmed::Http.efetch(id: uid, type: 'xml')
+    end
+
+    def self.get_details_from_doi(doi)
+      return nil if doi.nil?
+
+      Pubmed::Http.efetch(
+        id: Pubmed::Core.get_uid_from_doi(doi),
+        type: 'xml'
+      )
+    end
+
+    def self.get_uid_from_doi doi
+      results = Pubmed::Http.esearch(term: doi)
+      doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
+
+      if doi_not_found
+        return nil
+      else
+        return results.dig 'esearchresult', 'idlist', 0
+      end
+    end
+  end
+end
+
+class Pubmed
   class Resource
     attr_accessor :type, :id, :details
 
@@ -91,48 +133,6 @@ class Pubmed
 
         data_from_import:   lambda {|data| data}
       }
-    end
-  end
-end
-
-class Pubmed
-  class Core
-    def self.get_search_result_ids query
-      query = query.gsub(/\s/, '+')
-      Pubmed::Http.esearch(term: query).dig 'esearchresult', 'idlist'
-    end
-
-    def self.search(query)
-      Pubmed::Core.get_summaries *get_search_result_ids(query)
-    end
-
-    def self.get_summaries(*uids)
-      Pubmed::Http.esummary(id: uids.join(','))
-    end
-
-    def self.get_details(uid)
-      return nil if uid.nil?
-      Pubmed::Http.efetch(id: uid, type: 'xml')
-    end
-
-    def self.get_details_from_doi(doi)
-      return nil if doi.nil?
-
-      Pubmed::Http.efetch(
-        id: Pubmed::Core.get_uid_from_doi(doi),
-        type: 'xml'
-      )
-    end
-
-    def self.get_uid_from_doi doi
-      results = Pubmed::Http.esearch(term: doi)
-      doi_not_found = results.dig *%w{esearchresult errorlist phrasesnotfound}
-
-      if doi_not_found
-        return nil
-      else
-        return results.dig 'esearchresult', 'idlist', 0
-      end
     end
   end
 end
