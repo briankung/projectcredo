@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161030193033) do
+ActiveRecord::Schema.define(version: 20161030205356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_import_responses", force: :cascade do |t|
+    t.text     "xml"
+    t.jsonb    "json"
+    t.text     "source_uri", null: false
+    t.integer  "paper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paper_id"], name: "index_api_import_responses_on_paper_id", using: :btree
+  end
 
   create_table "authors", force: :cascade do |t|
     t.string   "name"
@@ -170,5 +180,6 @@ ActiveRecord::Schema.define(version: 20161030193033) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
   end
 
+  add_foreign_key "api_import_responses", "papers"
   add_foreign_key "references", "users"
 end
