@@ -8,10 +8,6 @@ class Pubmed
       }
     end
 
-    def self.base_url
-      'https://eutils.ncbi.nlm.nih.gov'
-    end
-
     def self.esearch options = {}
       uri = generate_uri("/entrez/eutils/esearch.fcgi", default_parameters.merge(options))
 
@@ -31,7 +27,7 @@ class Pubmed
     end
 
     def self.generate_uri(url, parameters)
-      URI.parse("#{base_url}#{url}?" + URI.encode_www_form(parameters))
+      URI.parse("https://eutils.ncbi.nlm.nih.gov#{url}?" + URI.encode_www_form(parameters))
     end
   end
 end
