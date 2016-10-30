@@ -9,7 +9,9 @@
     <% else %>
       <h4 class="paper-title">
         <%= link_to paper.title, user_reference_path(reference.list.user, reference.list, reference) %>
-        <small>contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %></small>
+        <% if reference.user_id != reference.list.user_id %>
+          <small>contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %></small>
+        <% end %>
       </h4>
     <% end %>
 

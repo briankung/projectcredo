@@ -1,8 +1,11 @@
-[ <%= link_to 'Home', root_path %> ]
-[ <%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> ]
-<% if @list.user == current_user %>
-  [ <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %> ]
-<% end %>
+<div class="list-nav">
+  [ <%= link_to 'Home', root_path %> ]
+  [ <%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> ]
+  <% if @list.user == current_user %>
+    [ <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %> ]
+  <% end %>
+  created by <%= link_to @list.user.username, user_profile_path(@list.user) %>
+</div>
 <h2 class= "list-title"><%= @list.name %></h2>
 <p>
   <% @list.tag_list.each do |tag| %>
@@ -13,11 +16,9 @@
 <%= simple_format(@list.description) %>
 
 <%= render 'crossref/search', list: @list %>
-
+<%= render 'lists/add_reference', list: @list %>
 <%= render 'papers/sort_by' %>
 
 <%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
-<%= render 'lists/add_reference', list: @list %>
 
- |
-<%= link_to 'Back', lists_path %>
+
