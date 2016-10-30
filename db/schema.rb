@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161029210539) do
+ActiveRecord::Schema.define(version: 20161030193033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,13 +90,12 @@ ActiveRecord::Schema.define(version: 20161029210539) do
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.date     "published_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.text     "abstract"
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
-    t.jsonb    "data_from_import"
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
