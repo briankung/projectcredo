@@ -38,12 +38,11 @@ end
 
 class Pubmed
   class Resource
-    attr_accessor :type, :id, :pubmed, :details
+    attr_accessor :type, :id, :details
 
-    def initialize type: , id: , pubmed: Pubmed.new
+    def initialize type: , id:
       self.type = type.to_s
       self.id = id.to_s
-      self.pubmed = pubmed
       self.details()
     end
 
