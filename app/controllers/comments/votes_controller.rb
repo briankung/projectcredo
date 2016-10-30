@@ -4,14 +4,14 @@ class Comments::VotesController < ApplicationController
 
   def create
     current_user.likes @comment
-    order_siblings @comment
+    @comment.order_siblings
 
     redirect_to :back
   end
 
   def destroy
     current_user.unlike @comment
-    order_siblings @comment
+    @comment.order_siblings
 
     redirect_to :back
   end
@@ -23,9 +23,5 @@ class Comments::VotesController < ApplicationController
 
     def set_comment
       @comment = Comment.find(votable_params[:id])
-    end
-
-    def order_siblings comment
-      comment.order_siblings if comment.child?
     end
 end
