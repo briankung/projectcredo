@@ -3,7 +3,7 @@ class Pubmed
     def self.default_parameters
       {
         db: 'pubmed',
-        retmode: 'json',
+        retmode: 'xml',
         retmax: 20
       }
     end
@@ -12,42 +12,26 @@ class Pubmed
       'https://eutils.ncbi.nlm.nih.gov'
     end
 
-    def self.esearch_url params = {}
-      generate_uri(base_url + "/entrez/eutils/esearch.fcgi", default_parameters.merge(params))
+    def self.esearch options = {}
+      uri = generate_uri("/entrez/eutils/esearch.fcgi", default_parameters.merge(options))
+
+      Net::HTTP.get_response(uri)
     end
 
-    def self.esummary_url params = {}
-      generate_uri(base_url + "/entrez/eutils/esummary.fcgi", default_parameters.merge(params))
+    def self.esummary options = {}
+      uri = generate_uri("/entrez/eutils/esummary.fcgi", default_parameters.merge(options))
+
+      Net::HTTP.get_response(uri)
     end
 
-    def self.efetch_url params = {}
-      generate_uri(base_url + "/entrez/eutils/efetch.fcgi", default_parameters.merge(params))
-    end
+    def self.efetch options = {}
+      uri = generate_uri("/entrez/eutils/efetch.fcgi", default_parameters.merge(options))
 
-    def self.esearch term:
-      parse_response(esearch_url term: term)
-    end
-
-    def self.esummary id:
-      parse_response(esummary_url id: id)
-    end
-
-    def self.efetch id: , type:
-      type = type.to_s
-      parse_response(efetch_url(id: id, retmode: type), type: type)
+      Net::HTTP.get_response(uri)
     end
 
     def self.generate_uri(url, parameters)
-      URI.parse(url + '?' + URI.encode_www_form(parameters))
-    end
-
-    def self.parse_response uri, type: 'json'
-      response = Net::HTTP.get(uri)
-      if type.to_s == 'xml'
-        return Hash.from_xml(CGI.unescapeHTML response) # This breaks if unescaped content has ampersands
-      else
-        return JSON.parse(response)
-      end
+      URI.parse("#{base_url}#{url}?" + URI.encode_www_form(parameters))
     end
   end
 end
