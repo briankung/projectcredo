@@ -19,10 +19,12 @@ class CommentsController < ApplicationController
           parent_id = @comment.parent_id
           new_comment = @comment.parent.children.build
           display_comment = false
+          comments_class = "comment-comments"
         else
-          parent_id = "r#{reference.id}"
+          parent_id = reference.id
           new_comment = reference.comments.build
           display_comment = true
+          comments_class ="reference-comments"
         end
 
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
@@ -34,7 +36,8 @@ class CommentsController < ApplicationController
               reference: reference,
               parent_id: parent_id,
               new_comment: new_comment,
-              display_comment: display_comment
+              display_comment: display_comment,
+              comments_class: comments_class
             }
           )
         }
