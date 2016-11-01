@@ -13,21 +13,21 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        reference = @comment.root.commentable
-
-        if @comment.parent
-          parent_id = @comment.parent_id
-          new_comment = @comment.parent.children.build
-          display_comment = false
-        else
-          parent_id = "r#{reference.id}"
-          new_comment = reference.comments.build
-          display_comment = true
-        end
-
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
-        format.js {
+        format.js do
+          reference = @comment.root.commentable
+
+          if @comment.parent
+            parent_id = @comment.parent_id
+            new_comment = @comment.parent.children.build
+            display_comment = false
+          else
+            parent_id = "r#{reference.id}"
+            new_comment = reference.comments.build
+            display_comment = true
+          end
+
           render(
             'create.js.erb',
             locals: {
@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
               display_comment: display_comment
             }
           )
-        }
+        end
       else
         format.html { redirect_to :back }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
