@@ -1,25 +1,30 @@
 <%= form_for list.references.build, html: {class: 'form-inline'} do |f| %>
   <%= f.hidden_field :list_id, value: list.id %>
-  <div class="form-group add-paper">
+  <div class="add-paper">
+    <i>
+      Or add a paper by
+      <%= link_to "DOI", '#', id: "add-doi" %>,
+      <%= link_to "Pubmed ID", '#', id: "add-pubmed" %>,
+      or <%= link_to "URL", '#', id: "add-link" %>
+    </i>
     <%= f.fields_for Paper.new do |p| %>
-      <%= p.label :locator_type, 'or by DOI, Pubmed ID, or URL' %>
-      <%= p.select :locator_type,
-        options_for_select({"URL" => 'link',
-                            "DOI" => 'doi',
-                            "Pubmed ID" => 'pubmed'}),
-        {prompt: 'Choose one'},
-        {class: 'form-control'}
-      %>
-      <%= p.text_field  :locator_id,
-                        placeholder: 'URL, DOI, or Pubmed',
-                        class: "form-control hidden paper-locator",
-                        disabled: true %>
+      <div class="form-group">
+        <%= p.hidden_field :locator_type, value: '', id: 'add_locator_type' %>
+        <%= p.text_field  :locator_id,
+                          placeholder: 'URL, DOI, or Pubmed',
+                          class: "form-control hidden paper-locator input-sm",
+                          size: 50,
+                          disabled: true %>
 
-      <%= p.text_field  :title,
-                        placeholder: 'Paper title',
-                        class: "form-control hidden paper-title",
-                        disabled: true %>
+        <%= p.text_field  :title,
+                          placeholder: 'Required - Paper Title ex: Regulation of the Neural Circuitry of Emotion',
+                          class: "form-control hidden paper-title input-sm",
+                          size: 70,
+                          disabled: true %>
+      </div>
     <% end %>
-    <%= f.submit "Submit", class: "btn btn-primary btn-sm" %>
+      <%= f.submit "Submit", class: "btn btn-primary btn-xs hidden", id: 'add_locator_submit' %>
+      <%= link_to "cancel", '#', id: "cancel-add-locator", class: "hidden" %>
+    </div>
   </div>
 <% end %>
