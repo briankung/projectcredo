@@ -1,5 +1,4 @@
 comments = $("#comment-<%= @comment.id %>").find(".comment").length + 1;
-console.log(comments);
 $("#comment-<%= @comment.id %>").remove();
 
 commentsCountSpan = $("span#comments-count-<%= reference.id %>");
