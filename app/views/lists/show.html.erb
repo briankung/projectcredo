@@ -17,8 +17,11 @@
 
 <%= render 'crossref/search', list: @list %>
 <%= render 'lists/add_reference', list: @list %>
-<%= render 'papers/sort_by' %>
-
+<% reference_count = @list.references.count %>
+<% if reference_count > 0 %>
+  <%= render 'papers/sort_by' %>
+  <i><%= reference_count%> papers added to this list</i>
+<% end %>
 <%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
 
 
