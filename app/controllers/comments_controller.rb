@@ -17,8 +17,13 @@ class CommentsController < ApplicationController
         format.json { render :show, status: :created, location: @comment }
         format.js do
           reference = @comment.root.commentable
+          is_top_level = !!@comment.commentable
 
-          render('create.js.erb', locals: { reference: reference })
+          if is_top_level
+            render('references/comments/create.js.erb', locals: { reference: reference })
+          else
+            render('comments/create.js.erb', locals: { reference: reference })
+          end
         end
       else
         format.html { redirect_to :back }
