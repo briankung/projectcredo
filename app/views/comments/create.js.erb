@@ -1,11 +1,13 @@
-childCommentsDiv = $("div#child-comments-<%= parent_id %>");
-childCommentsDiv.prepend("<%= escape_javascript(render('comments/comment', comment: @comment)) %>");
-commentDiv = childCommentsDiv.children().first();
-commentsDivID = "child-comments-<%= @comment.id %>";
-commentDiv.append("<div id=" + commentsDivID + "></div>");
+<%
+  comment_and_comments_container = render('comments/comment', comment: @comment) do
+    render('form', comment: @comment.children.build)
+    content_tag(:div, '', class: 'comments', 'data-commentable-id' => @comment.id)
+  end
+%>
 
-replyForm = "<%= escape_javascript(render('form', comment: new_comment))%>"
-$("#reply-form-<%= @comment.parent_id %>").replaceWith(replyForm);
+commentsContainer = $("div#comment-<%= @comment.parent_id %> > .comments");
+commentsContainer.prepend("<%= escape_javascript(comment_and_comments_container) %>");
+$('#comment-<%= @comment.parent_id %> > form').hide();
 
 commentsCountSpan = $("span#comments-count-<%= reference.id %>");
 commentsCount = parseInt(commentsCountSpan.text());

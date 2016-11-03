@@ -18,22 +18,7 @@ class CommentsController < ApplicationController
         format.js do
           reference = @comment.root.commentable
 
-          if @comment.parent
-            parent_id = @comment.parent_id
-            new_comment = @comment.parent.children.build
-          else
-            parent_id = "r#{reference.id}"
-            new_comment = reference.comments.build
-          end
-
-          render(
-            'create.js.erb',
-            locals: {
-              reference: reference,
-              parent_id: parent_id,
-              new_comment: new_comment
-            }
-          )
+          render('create.js.erb', locals: { reference: reference })
         end
       else
         format.html { redirect_to :back }
