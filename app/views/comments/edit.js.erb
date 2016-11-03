@@ -1,11 +1,16 @@
-commentContentP = $("#comment-content-<%= @comment.id %>");
-commentContentP.html("<%= escape_javascript(render 'form', comment: @comment, hidden: true )%>");
+newForm = "<%= escape_javascript(render 'form', comment: @comment, hidden: false) %>"
+cancelLinkHtml = " <small><%= escape_javascript(link_to 'Cancel', '#', class: 'cancel-link') %></small>"
 
-commentSubmitButton = commentContentP.find(".btn")
-commentSubmitButton.after("<small>   <%= escape_javascript(link_to 'Cancel', '#') %></small>")
+commentContent = $("#comment-<%= @comment.id %> > .content");
+undoContent = commentContent.html()
 
-cancelLink = commentSubmitButton.next().find("a");
+commentContent.html(newForm);
+
+commentSubmitButton = commentContent.find(".btn")
+commentSubmitButton.after(cancelLinkHtml)
+
+cancelLink = commentSubmitButton.next().find(".cancel-link");
 cancelLink.on('click', function(e) {
   e.preventDefault();
-  commentContentP.html("<%= escape_javascript(simple_format(@comment.content, {}, sanitize: true) ) %>");
+  commentContent.html(undoContent);
 });
