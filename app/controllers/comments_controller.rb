@@ -38,7 +38,6 @@ class CommentsController < ApplicationController
       else
         format.html { redirect_to :back, notice: 'Comment was not updated.' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
-        format.js { render 'update.js.erb', locals: {reference: reference} }
       end
     end
   end
