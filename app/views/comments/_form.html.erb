@@ -1,6 +1,6 @@
 <% hidden ||= false %>
 
-<%= form_for comment, html: {id: "reply-form-#{comment.parent_id}", class: "comment-reply #{'hidden' if hidden}"}, remote: true do |f| %>
+<%= form_for comment, html: {class: "comment-reply #{'hidden' if hidden}"}, remote: true do |f| %>
   <div class="form-group">
     <%= f.text_area :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
   </div>
