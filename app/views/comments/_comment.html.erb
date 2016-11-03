@@ -4,7 +4,7 @@
     <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.updated_at, format: '%B, %d %Y %H:%M:%S') %>
   </p>
   <% comment_content = simple_format(comment.content, {}, sanitize: true) %>
-  <%= content_tag(:span, comment_content, id: "comment-content-#{comment.id}") %>
+  <%= content_tag(:span, comment_content, class: "content") %>
   <ul>
     <li><%= render 'votes/toggle_like', votable: comment %></li>
     <li><%= (link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', 'data-parent-comment-id' => comment.id) if current_user %></li>

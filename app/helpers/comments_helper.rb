@@ -5,7 +5,8 @@ module CommentsHelper
         content_tag(
           :div,
           comments_tree_for(nested_comments),
-          id: "child-comments-#{comment.id}"
+          class: "comments",
+          'data-commentable-id' => comment.id
         )
       end
     end.join.html_safe

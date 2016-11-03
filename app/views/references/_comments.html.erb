@@ -6,7 +6,7 @@
   </h4>
 <% end %>
 
-<div id="child-comments-r<%= reference.id %>">
+<div class="reference comments" data-commentable-id="<%= reference.id %>">
   <% reference.comments.order('cached_votes_up DESC, created_at ASC').each do |comment| %>
     <%= comments_tree_for comment.hash_tree %>
   <% end %>
