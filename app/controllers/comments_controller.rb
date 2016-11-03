@@ -32,10 +32,9 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        reference = @comment.root.commentable
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
-        format.js { render 'update.js.erb', locals: {reference: reference} }
+        format.js { render 'update.js.erb', locals: {reference: @comment.root.commentable} }
       else
         format.html { redirect_to :back, notice: 'Comment was not updated.' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
