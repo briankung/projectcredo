@@ -21,11 +21,9 @@ class CommentsController < ApplicationController
           if @comment.parent
             parent_id = @comment.parent_id
             new_comment = @comment.parent.children.build
-            display_comment = false
           else
             parent_id = "r#{reference.id}"
             new_comment = reference.comments.build
-            display_comment = true
           end
 
           render(
@@ -33,8 +31,7 @@ class CommentsController < ApplicationController
             locals: {
               reference: reference,
               parent_id: parent_id,
-              new_comment: new_comment,
-              display_comment: display_comment
+              new_comment: new_comment
             }
           )
         end

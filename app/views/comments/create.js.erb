@@ -4,7 +4,7 @@ commentDiv = childCommentsDiv.children().first();
 commentsDivID = "child-comments-<%= @comment.id %>";
 commentDiv.append("<div id=" + commentsDivID + "></div>");
 
-replyForm = "<%= escape_javascript(render('form', comment: new_comment, display_comment_field: display_comment))%>"
+replyForm = "<%= escape_javascript(render('form', comment: new_comment))%>"
 $("#reply-form-<%= @comment.parent_id %>").replaceWith(replyForm);
 
 commentsCountSpan = $("span#comments-count-<%= reference.id %>");

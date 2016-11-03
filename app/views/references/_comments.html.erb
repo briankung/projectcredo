@@ -1,5 +1,5 @@
 <% if current_user %>
-  <%= render 'comments/form', comment: reference.comments.build, display_comment_field: true %>
+  <%= render 'comments/form', comment: reference.comments.build, hidden: false %>
 <% else %>
   <h4>
     <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to comment

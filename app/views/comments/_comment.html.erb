@@ -13,7 +13,7 @@
       <li><%= link_to 'delete', comment_path(comment), remote: true, class: "btn btn-link btn-xs", method: :delete %><li>
     <% end %>
   </ul>
-  <%= (render 'comments/form', comment: comment.children.build, display_comment_field: false) if current_user %>
+  <%= render('comments/form', comment: comment.children.build, hidden: true) if current_user %>
 
   <%= yield %>
 </div>
