@@ -7,6 +7,7 @@
 
 commentsContainer = $("div.reference.comments[data-commentable-id=<%= reference.id %>]");
 commentsContainer.prepend("<%= escape_javascript(comment_and_comments_container) %>");
+$('#comments-<%= reference.id %> form#new_comment textarea').val('');
 
 commentsCountSpan = $("span#comments-count-<%= reference.id %>");
 commentsCount = parseInt(commentsCountSpan.text());
