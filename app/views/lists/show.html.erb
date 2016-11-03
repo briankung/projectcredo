@@ -1,14 +1,15 @@
 <h1><%= @list.name %></h1>
+<p>
+  <strong>Tags:</strong>
+  <%= @list.tag_list %>
+</p>
 
 <p>
   <strong>Description:</strong>
   <%= @list.description %>
 </p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= @list.tag_list %>
-</p>
+<%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> |
+<%= link_to 'Back', lists_path %>
 
 <%= render 'crossref/search', list: @list %>
 
@@ -17,5 +18,3 @@
 <%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
 <%= render 'lists/add_reference', list: @list %>
 
-<%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> |
-<%= link_to 'Back', lists_path %>

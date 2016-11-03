@@ -1,18 +1,19 @@
-<div class="comment">
+<div class="comment" id="comment-<%= comment.id %>">
   <p class="text-muted">
-    Added by <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %>
+    <%= if comment.created_at == comment.updated_at then 'Added by' else 'Updated by' end %>
+    <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.updated_at, format: '%B, %d %Y %H:%M:%S') %>
   </p>
-
-  <p><%= simple_format(comment.content, {}, sanitize: true) %></p>
+  <% comment_content = simple_format(comment.content, {}, sanitize: true) %>
+  <%= content_tag(:span, comment_content, class: "content") %>
   <ul>
     <li><%= render 'votes/toggle_like', votable: comment %></li>
-    <% if current_user %>
-      <li><%= link_to 'edit', edit_comment_path(comment), class: "btn btn-link btn-xs" %></li>
-      <li><%= link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', 'data-toggle-hide-id' => comment.id %></li>
-      <li><%= link_to 'delete', comment_path(comment), class: "btn btn-link btn-xs", method: :delete %><li>
+    <li><%= (link_to 'reply', "#", class: 'toggle-reply btn btn-link btn-xs', 'data-parent-comment-id' => comment.id) if current_user %></li>
+    <% if current_user == comment.user %>
+      <li><%= link_to 'edit', edit_comment_path(comment), remote: true, class: "edit-comment btn btn-link btn-xs" %></li>
+      <li><%= link_to 'delete', comment_path(comment), remote: true, class: "btn btn-link btn-xs", method: :delete %><li>
     <% end %>
   </ul>
-  <%= (render 'comments/form', comment: comment.children.build, display_comment_field: false) if current_user %>
+  <%= render('comments/form', comment: comment.children.build, hidden: true) if current_user %>
 
   <%= yield %>
 </div>
