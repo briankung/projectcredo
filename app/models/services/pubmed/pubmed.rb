@@ -1,3 +1,5 @@
+require 'resource'
+
 class Pubmed
   attr_accessor :resource
 

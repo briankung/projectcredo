@@ -10,9 +10,9 @@ class Pubmed
 
     def get_response
       if type == 'doi'
-        self.response = Pubmed::Core.get_details_from_doi(id)
+        self.response = get_details_from_doi(id)
       elsif type == 'pubmed'
-        self.response = Pubmed::Core.get_details(id)
+        self.response = get_details(id)
       else
         self.response = nil
       end
@@ -57,6 +57,28 @@ class Pubmed
 
         data_from_import:   lambda {|data| data}
       }
+    end
+
+    def get_uid_from_doi doi
+      response = Pubmed::Http.esearch(term: doi)
+      parsed_data = Hash.from_xml(response.body)
+      doi_not_found = parsed_data.dig "eSearchResult", "ErrorList", "PhraseNotFound"
+
+      return nil if doi_not_found
+
+      parsed_data.dig 'eSearchResult', 'IdList', 'Id', 0
+    end
+
+    def get_details(uid)
+      return nil if uid.nil?
+      Pubmed::Http.efetch(id: uid)
+    end
+
+    def get_details_from_doi(doi)
+      return nil if doi.nil?
+
+      uid = get_uid_from_doi(doi)
+      Pubmed::Http.efetch(id: uid)
     end
   end
 end
