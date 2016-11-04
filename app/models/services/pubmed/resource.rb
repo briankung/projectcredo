@@ -19,7 +19,7 @@ class Pubmed
     end
 
     def paper_attributes
-      @paper_attributes ||= map_attributes mapper(), Hash.from_xml(response.try(:body))
+      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.try(:body))
     end
 
     def map_attributes mapper, data
@@ -33,22 +33,15 @@ class Pubmed
 
     def mapper
       {
-        title:              lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ArticleTitle}},
-        publication:        lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal Title}},
-        doi:                lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article ELocationID}},
-        pubmed_id:          lambda {|data| data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation PMID}},
-        abstract:           lambda {|data|
-          abstract = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Abstract AbstractText}
-          if abstract.respond_to?(:join) then abstract.join("\n\n") else abstract end
-        },
-        published_at:       lambda {|data|
-          pubdate = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article Journal JournalIssue PubDate}
-          Date.parse pubdate.values_at("Year", "Month", "Day").join(' ')
-        },
-        authors_attributes: lambda {|data|
-          authors = data.dig *%w{PubmedArticleSet PubmedArticle MedlineCitation Article AuthorList Author}
+        title:              lambda {|data| data.xpath('//ArticleTitle').text },
+        publication:        lambda {|data| data.xpath('//Journal/Title').text },
+        doi:                lambda {|data| data.xpath('//ELocationID').text },
+        pubmed_id:          lambda {|data| data.xpath('//PMID').text },
+        abstract:           lambda {|data| data.xpath('//AbstractText').map(&:text).join("\n\n") },
+        published_at:       lambda {|data| Date.parse data.xpath('//PubDate').map(&:text).join(' ') },
+        authors_attributes: lambda {|data| authors = data.xpath('//AuthorList/Author')
           authors.map do |author|
-            {name: author.values_at("ForeName", "LastName").join(' ')}
+            {name: [author.xpath("ForeName"), author.xpath("LastName")].join(' ')}
           end
         }
       }
