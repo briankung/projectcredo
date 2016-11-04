@@ -69,12 +69,12 @@ class Pubmed
       parsed_data.dig 'eSearchResult', 'IdList', 'Id', 0
     end
 
-    def get_details(uid)
+    def get_details uid
       return nil if uid.nil?
       Pubmed::Http.efetch(id: uid)
     end
 
-    def get_details_from_doi(doi)
+    def get_details_from_doi doi
       return nil if doi.nil?
 
       uid = get_uid_from_doi(doi)
