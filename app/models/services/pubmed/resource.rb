@@ -19,10 +19,10 @@ class Pubmed
     end
 
     def paper_attributes
-      @paper_attributes ||= map_attributes
+      @paper_attributes ||= map_attributes mapper(), Hash.from_xml(response.body)
     end
 
-    def map_attributes mapper: mapper(), data: response()
+    def map_attributes mapper, data
       return nil unless data
       mapper.inject({}) do |memo, _|
         attribute, mapping = _[0], _[1]
