@@ -53,9 +53,7 @@ class Pubmed
           authors.map do |author|
             {name: author.values_at("ForeName", "LastName").join(' ')}
           end
-        },
-
-        data_from_import:   lambda {|data| data}
+        }
       }
     end
 
