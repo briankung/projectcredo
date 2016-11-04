@@ -49,12 +49,12 @@ class Pubmed
 
     def get_uid_from_doi doi
       response = Pubmed::Http.esearch(term: doi)
-      parsed_data = Hash.from_xml(response.body)
-      doi_not_found = parsed_data.dig "eSearchResult", "ErrorList", "PhraseNotFound"
+      data = Nokogiri::XML(response.body)
+      doi_not_found = data.xpath("//PhraseNotFound").any?
 
       return nil if doi_not_found
 
-      parsed_data.dig 'eSearchResult', 'IdList', 'Id', 0
+      data.xpath('//IdList/Id').first.text
     end
 
     def get_details uid
