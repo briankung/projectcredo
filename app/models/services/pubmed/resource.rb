@@ -19,7 +19,7 @@ class Pubmed
     end
 
     def paper_attributes
-      @paper_attributes ||= map_attributes mapper(), Hash.from_xml(response.body)
+      @paper_attributes ||= map_attributes mapper(), Hash.from_xml(response.try(:body))
     end
 
     def map_attributes mapper, data
