@@ -2,7 +2,7 @@ class Pubmed
   class Resource
     attr_accessor :type, :id, :response
 
-    def initialize type: , id:
+    def initialize type, id
       self.type = type.to_s
       self.id = id.to_s
       self.get_response
