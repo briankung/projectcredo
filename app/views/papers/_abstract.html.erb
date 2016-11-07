@@ -1,0 +1,7 @@
+<% if paper.abstract.present? %>
+  <%= simple_format(paper.abstract) %>
+<% elsif current_user %>
+ <%= render 'papers/abstract_form', reference: reference, paper: paper %>
+<% else %>
+  No abstract found. <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to add one.
+<% end %>

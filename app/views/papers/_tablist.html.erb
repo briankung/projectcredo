@@ -15,7 +15,7 @@
   <% end %>
 </ul>
 <div class="collapse paper-detail well" id="abstract-<%= reference.id %>">
-  <p><%= simple_format(paper.abstract) %></p>
+  <%= render 'papers/abstract', reference: reference, paper: paper %>
 </div>
 <div class="collapse paper-detail well" id="details-<%= reference.id %>">
   <ul>
