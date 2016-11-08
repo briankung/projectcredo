@@ -18,4 +18,9 @@ class PubmedPaperLocator < BaseLocator
       return nil
     end
   end
+
+  def valid?
+    only_numbers = /^[0-9]+$/
+    return locator.match(only_numbers)
+  end
 end
