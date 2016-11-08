@@ -22,15 +22,15 @@ class Pubmed
 
     def mapper
       {
-        title:              lambda {|data| data.xpath('//ArticleTitle').text },
-        publication:        lambda {|data| data.xpath('//Journal/Title').text },
-        doi:                lambda {|data| data.xpath('//ELocationID').text },
-        pubmed_id:          lambda {|data| data.xpath('//PMID').text },
-        abstract:           lambda {|data| data.xpath('//AbstractText').map(&:text).join("\n\n") },
-        published_at:       lambda {|data| Date.parse data.xpath('//PubDate').map(&:text).join(' ') },
-        authors_attributes: lambda {|data| authors = data.xpath('//AuthorList/Author')
+        title:              lambda {|data| data.css('ArticleTitle').text },
+        publication:        lambda {|data| data.css('Journal Title').text },
+        doi:                lambda {|data| data.css('ArticleId[IdType=doi]').text },
+        pubmed_id:          lambda {|data| data.css('PMID').text },
+        abstract:           lambda {|data| data.css('AbstractText').map(&:text).join("\n\n") },
+        published_at:       lambda {|data| Date.parse data.css('PubDate').map(&:text).join(' ') },
+        authors_attributes: lambda {|data| authors = data.css('AuthorList Author')
           authors.map do |author|
-            {name: [author.xpath("ForeName"), author.xpath("LastName")].join(' ')}
+            {name: [author.css("ForeName"), author.css("LastName")].join(' ')}
           end
         }
       }
