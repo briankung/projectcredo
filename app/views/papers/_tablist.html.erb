@@ -18,8 +18,8 @@
   <%= render 'papers/abstract', reference: reference, paper: paper %>
 </div>
 <div class="collapse paper-detail well" id="details-<%= reference.id %>">
-  <ul>
-    Links:
+  Links:
+  <ul class="links">
     <% if paper.doi.present? %>
       <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
     <% end %>
