@@ -8,7 +8,7 @@ class Pubmed
     end
 
     def paper_attributes
-      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.try(:body))
+      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.try(:body), &:noblanks)
     end
 
     def map_attributes mapper, data
