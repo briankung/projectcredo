@@ -12,7 +12,7 @@ class PubmedPaperLocator < BaseLocator
     if paper_attributes
       response = pubmed.resource.response
       paper = Paper.create paper_attributes
-      ApiImportResponse.create(xml: response.body, source_uri: response.uri.to_s, paper: paper)
+      paper.api_import_responses.create(xml: response.body, source_uri: response.uri.to_s)
       return paper
     else
       return nil
