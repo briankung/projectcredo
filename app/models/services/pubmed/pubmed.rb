@@ -2,7 +2,7 @@ class Pubmed
   attr_accessor :resource
 
   def initialize locator_id: nil
-    @resource = Pubmed::Resource.new locator_id
+    self.resource = Pubmed::Resource.new locator_id
   end
 
   def self.get_uid_from_doi doi
