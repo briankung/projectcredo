@@ -7,7 +7,7 @@ class Users::ListsController < ApplicationController
   end
 
   def show
-    @list = @user.lists.find_by slug: params[:list_slug]
+    @list = @user.lists.find_by slug: params[:id]
     @references = @list.references.joins(:paper).order(params_sort_order)
     render 'lists/show'
   end
