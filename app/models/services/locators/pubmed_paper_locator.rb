@@ -6,7 +6,7 @@ class PubmedPaperLocator < BaseLocator
   def find_or_import_paper
     return super if super
 
-    pubmed = Pubmed.new locator_type: 'pubmed', locator_id: locator_id
+    pubmed = Pubmed.new locator_id: locator_id
     paper_attributes = pubmed.resource.paper_attributes
 
     if paper_attributes
