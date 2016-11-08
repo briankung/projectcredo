@@ -4,7 +4,7 @@ class Pubmed
 
     def initialize id
       self.id = id.to_s
-      self.response = get_details(id)
+      self.response = get_response(id)
     end
 
     def paper_attributes
@@ -36,7 +36,7 @@ class Pubmed
       }
     end
 
-    def get_details uid
+    def get_response uid
       return nil if uid.nil?
       Pubmed::Http.efetch(id: uid)
     end
