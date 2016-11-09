@@ -28,11 +28,12 @@ class Pubmed
         pubmed_id:          lambda {|data| data.css('PMID').text },
         abstract:           lambda {|data| data.css('AbstractText').map(&:text).join("\n\n") },
         published_at:       lambda {|data| Date.parse data.css('PubDate').map(&:text).join(' ') },
-        authors_attributes: lambda {|data| authors = data.css('AuthorList Author')
+        authors_attributes: lambda do |data|
+          authors = data.css('AuthorList Author')
           authors.map do |author|
             {name: [author.css("ForeName"), author.css("LastName")].join(' ')}
           end
-        }
+        end
       }
     end
 
