@@ -1,10 +1,10 @@
 <h2 class= "list-title"><%= @list.name %></h2>
 <div class="list-nav">
-  <%= link_to 'Edit', edit_user_list_path(@list.user, @list) %>
-  <% if @list.user == current_user %>
-    - <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %>
-  <% end %>
   created by <%= link_to @list.user.username, user_profile_path(@list.user) %>
+  <%= link_to ' - Edit', edit_user_list_path(@list.user, @list) %>
+  <% if @list.user == current_user %>
+    <%= link_to ' - Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %>
+  <% end %>
 </div>
 <p>
   <% @list.tag_list.each do |tag| %>
