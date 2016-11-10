@@ -4,7 +4,7 @@ class Crossref
 
     def initialize id
       self.id = id.to_s
-      endpoint = URI.parse("http://api.crossref.org/works/#{self.id}")
+      endpoint = URI.parse("https://api.crossref.org/works/#{self.id}")
       self.response = Net::HTTP.get_response endpoint
     end
 
