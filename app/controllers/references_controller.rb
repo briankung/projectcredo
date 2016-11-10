@@ -17,6 +17,7 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
       end
     else
+      logger.debug "No paper found for: #{paper_params.inspect}"
       flash['alert'] = "Couldn't find or import a paper with those parameters"
     end
     redirect_to :back
