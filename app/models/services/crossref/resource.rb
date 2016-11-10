@@ -32,7 +32,10 @@ class Crossref
         publication:        lambda {|data| data.dig 'message', 'short-container-title', 0 },
         doi:                lambda {|data| self.id },
         pubmed_id:          lambda {|data| Pubmed.get_uid_from_doi(id) },
-        published_at:       lambda {|data| Date.parse data.dig('message', 'published-print', 'date-parts', 0).join('/') },
+        published_at:       lambda do |data|
+          date = data.dig('message', 'published-print', 'date-parts', 0)
+          Date.parse(date.join('/')) if date
+        end,
         authors_attributes: lambda do |data|
           authors = data.dig 'message', 'author'
           authors.map do |author|
