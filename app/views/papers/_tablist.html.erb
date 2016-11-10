@@ -19,7 +19,7 @@
   <% end %>
 </ul>
 <div class="collapse paper-detail well" id="abstract-<%= reference.id %>">
-  <p><%= simple_format(paper.abstract, {}, sanitize: true) %></p>
+  <p><%= wrap_on_line_breaks paper.abstract %></p>
 </div>
 <div class="collapse paper-detail well" id="details-<%= reference.id %>">
   <ul>
