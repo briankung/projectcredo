@@ -3,7 +3,9 @@ class Crossref
     attr_accessor :id, :response
 
     def initialize id
-      self.response = Net::HTTP.get_response URI.parse("https://api.crossref.org/works/#{self.id}")
+      self.id = id.to_s
+      endpoint = URI.parse("https://api.crossref.org/works/#{self.id}")
+      self.response = Net::HTTP.get_response endpoint
     end
 
     def paper_attributes
