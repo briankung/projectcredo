@@ -44,3 +44,17 @@ body {
     margin: 0;
     display: inline;
 }
+
+.add-reference {
+  .paper-locator {
+    width: 25%;
+  }
+
+  .paper-title {
+    width: 30%;
+  }
+  input[placeholder] {
+      text-overflow: ellipsis;
+  }
+}
+
