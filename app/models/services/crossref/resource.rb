@@ -37,8 +37,7 @@ class Crossref
           Date.parse(date.join('/')) if date
         end,
         authors_attributes: lambda do |data|
-          authors = data.dig 'message', 'author'
-          if authors
+          if (authors = data.dig 'message', 'author')
             authors.map do |author|
               {name: author.values_at('given', 'family').join(' ')}
             end
