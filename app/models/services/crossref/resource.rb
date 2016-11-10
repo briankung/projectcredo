@@ -33,8 +33,14 @@ class Crossref
         doi:                lambda {|data| self.id },
         pubmed_id:          lambda {|data| Pubmed.get_uid_from_doi(id) },
         published_at:       lambda do |data|
-          date = data.dig('message', 'published-print', 'date-parts', 0)
-          Date.parse(date.join('/')) if date
+          if (date_parts = data.dig('message', 'published-print', 'date-parts', 0))
+            year, month, day = date_parts
+
+            return nil unless year
+
+            date = "#{year}/#{month || 1}/#{day || 1}"
+            Date.parse(date)
+          end
         end,
         authors_attributes: lambda do |data|
           if (authors = data.dig 'message', 'author')
