@@ -8,9 +8,8 @@ class ReferencesController < ApplicationController
 
   def create
     list = List.find(reference_params[:list_id])
-    paper = @locator.find_paper
 
-    if paper.persisted?
+    if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
         flash['notice'] = "'#{paper.title}' has already been added to this list"
       else
@@ -18,7 +17,8 @@ class ReferencesController < ApplicationController
         flash['notice'] = "You added '#{paper.title}' to '#{list.name}'"
       end
     else
-      flash['alert'] = paper.errors.map {|e,msg| "#{e.to_s.humanize} #{msg}."}.join(', ')
+      logger.debug "No paper found for: #{paper_params.inspect}"
+      flash['alert'] = "Couldn't find or import a paper with those parameters"
     end
     redirect_to :back
   end
@@ -44,26 +44,19 @@ class ReferencesController < ApplicationController
     end
 
     def set_paper_locator
-      if paper_params[:locator_id].blank?
-        return redirect_to(:back, alert: 'No parameters entered')
-      end
+      locator_type, locator_id, title = paper_params.values_at(:locator_type, :locator_id, :title)
 
-      locator_type = paper_params.fetch :locator_type, nil
-      locator_id = paper_params.fetch :locator_id, nil
+      return redirect_to(:back, alert: 'No parameters entered') if locator_id.blank?
 
       case locator_type
       when 'doi'
         @locator = DoiPaperLocator.new locator_id
       when 'link'
-        title, locator_id = paper_params[:title], paper_params[:locator_id]
         messages = []
         messages << 'You must enter a title.' if title.blank?
         messages << "URL is invalid." unless locator_id =~ URI::regexp(%w{http https})
-        if messages.any?
-          return redirect_to(:back, alert: messages.join(' '))
-        end
-
-        @locator = LinkPaperLocator.new locator_id, paper_params[:title]
+        return redirect_to(:back, alert: messages.join(' ')) if messages.any?
+        @locator = LinkPaperLocator.new locator_id, title
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id
       else

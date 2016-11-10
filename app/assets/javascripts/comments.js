@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  $('.toggle-reply').on('click', function(e) {
+  $(document).on('click', '.toggle-reply', function(e) {
     e.preventDefault();
-    $(e.target).parents("ul").next('.comment-reply').toggleClass('hidden');
+    commentId = $(e.target).data('parent-comment-id');
+    $("#comment-"+commentId+" > form").toggleClass('hidden');
   });
-})
+});

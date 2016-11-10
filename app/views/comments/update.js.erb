@@ -1,0 +1,2 @@
+commentContent = $("#comment-<%= @comment.id %> > .content")
+commentContent.html("<%= simple_format(@comment.content, {}, sanitize: true) %>")

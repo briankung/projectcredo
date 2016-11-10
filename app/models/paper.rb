@@ -1,5 +1,6 @@
 class Paper < ApplicationRecord
   attr_accessor :locator_id, :locator_type
+
   acts_as_taggable
   acts_as_taggable_on :biases, :methodologies
 
@@ -7,11 +8,11 @@ class Paper < ApplicationRecord
   has_many :lists, through: :references
   has_many :references, dependent: :destroy
   has_many :links, dependent: :destroy
+  has_many :api_import_responses, dependent: :destroy
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
-  validates_associated :authors
   accepts_nested_attributes_for :links
-  validates :title, uniqueness: true, presence: true
+  validates :title, presence: true
   validate :allowed_biases, :allowed_methodologies
 
   before_save :downcase_name
@@ -53,5 +54,21 @@ class Paper < ApplicationRecord
       'cross-sectional survey',
       'case report'
     ]
+  end
+
+  # Skips validations, fallthrough to autosave methods for easy import
+  def validate_associated_records_for_authors; true; end
+  def validate_associated_records_for_links; true; end
+
+  def autosave_associated_records_for_authors
+    self.authors = authors.map do |author|
+      Author.find_or_create_by name: author.name
+    end
+  end
+
+  def autosave_associated_records_for_links
+    self.links = links.map do |link|
+      Link.find_or_create_by name: link.name
+    end
   end
 end

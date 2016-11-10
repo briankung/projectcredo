@@ -10,7 +10,7 @@ class LinkPaperLocator < BaseLocator
     'link'
   end
 
-  def find_paper
+  def find_or_import_paper
     if (link = Link.find_by url: self.locator_id)
       return link.paper
     else

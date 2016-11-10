@@ -1,10 +1,12 @@
-<%= form_for comment, html: {class: "comment-reply #{'hidden' unless display_comment_field}"} do |f| %>
+<% hidden ||= false %>
+
+<%= form_for comment, html: {class: "comment-reply #{'hidden' if hidden}"}, remote: true do |f| %>
   <div class="form-group">
     <%= f.text_area :content, class: 'form-control comment-box', placeholder: 'Write a reply...' %>
   </div>
   <%= f.hidden_field :parent_id, value: comment.parent_id %>
-  <%= f.hidden_field :commentable_type, value: comment.commentable_type if display_comment_field %>
-  <%= f.hidden_field :commentable_id, value: comment.commentable_id if display_comment_field %>
+  <%= f.hidden_field :commentable_type, value: comment.commentable_type %>
+  <%= f.hidden_field :commentable_id, value: comment.commentable_id %>
   <div class="form-group">
     <%= submit_tag "Submit", class: "btn btn-primary btn-xs" %>
   </div>
