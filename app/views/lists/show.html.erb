@@ -12,7 +12,7 @@
   <% end %>
 </p>
 <strong>Description</strong>
-<%= simple_format(@list.description) %>
+<%= simple_format(@list.description, {}, sanitize: true) %>
 
 <%= render 'crossref/search', list: @list %>
 <%= render 'lists/add_reference', list: @list %>
