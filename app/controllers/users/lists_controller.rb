@@ -1,6 +1,11 @@
 class Users::ListsController < ApplicationController
   before_action :set_user
 
+  def edit
+    @list = @user.lists.find_by slug: params[:id]
+    render 'lists/edit'
+  end
+
   def index
     @lists = @user.lists
     render 'lists/index'

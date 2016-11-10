@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   get ':username' => 'users/lists#index', as: :user_profile
   get ':username/:id' => 'users/lists#show', as: :user_list
-  get ':username/:id/edit' => 'lists#edit', as: :edit_user_list
+  get ':username/:id/edit' => 'users/lists#edit', as: :edit_user_list
   get ':username/:id/destroy' => 'lists#destroy', as: :destroy_user_list
   get ':username/:list_id/:id' => 'users/references#show', as: :user_reference
 end
