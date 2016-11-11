@@ -9,7 +9,7 @@ class ReferencesController < ApplicationController
   def create
     list = List.find(reference_params[:list_id])
 
-    return redirect_to(:back, alert: @locator.validation_errors.join(' ')) unless @locator.valid?
+    return redirect_to(:back, alert: @locator.errors.join(' ')) unless @locator.valid?
 
     if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id

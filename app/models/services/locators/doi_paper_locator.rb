@@ -1,9 +1,9 @@
 class DoiPaperLocator
-  attr_accessor :locator_id, :validation_errors
+  attr_accessor :locator_id, :errors
 
   def initialize locator_id:
     self.locator_id = locator_id.strip
-    self.validation_errors = []
+    self.errors = []
   end
 
   def find_or_import_paper
@@ -27,7 +27,7 @@ class DoiPaperLocator
     # Stolen from http://blog.crossref.org/2015/08/doi-regular-expressions.html
     is_doi = locator_id.match(/^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i)
 
-    validation_errors << "\"#{locator_id}\" does not match DOI format. Ex: \"10.1371/journal.pone.0001897\"" unless is_doi
+    errors << "\"#{locator_id}\" does not match DOI format. Ex: \"10.1371/journal.pone.0001897\"" unless is_doi
 
     is_doi
   end

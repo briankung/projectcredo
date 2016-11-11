@@ -1,9 +1,9 @@
 class PubmedPaperLocator
-  attr_accessor :locator_id, :validation_errors
+  attr_accessor :locator_id, :errors
 
   def initialize locator_id:
     self.locator_id = locator_id.strip
-    self.validation_errors = []
+    self.errors = []
   end
 
   def find_or_import_paper
@@ -26,7 +26,7 @@ class PubmedPaperLocator
   def valid?
     only_numbers = !!locator_id.match(/^[0-9]+$/)
 
-    validation_errors << "\"#{locator_id}\" does not match Pubmed ID format. Ex: \"18365029\"" unless only_numbers
+    errors << "\"#{locator_id}\" does not match Pubmed ID format. Ex: \"18365029\"" unless only_numbers
 
     only_numbers
   end
