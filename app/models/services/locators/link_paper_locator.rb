@@ -1,9 +1,10 @@
 class LinkPaperLocator
-  attr_accessor :locator_id, :paper_title
+  attr_accessor :locator_id, :paper_title, :validation_errors
 
   def initialize locator_id: , paper_title:
     self.locator_id = locator_id.strip
     self.paper_title = paper_title.strip
+    self.validation_errors = []
   end
 
   def find_or_import_paper
@@ -15,6 +16,12 @@ class LinkPaperLocator
   end
 
   def valid?
-    !!locator_id.match(URI::regexp(%w(http https)))
+    is_url = !!locator_id.match(URI::regexp(%w(http https)))
+    title_present = paper_title.present?
+
+    validation_errors << 'You must enter a title.' unless title_present
+    validation_errors << "\"#{locator_id}\" does not match URL format. Ex: \"http://example.org/article\"." unless is_url
+
+    is_url && title_present
   end
 end

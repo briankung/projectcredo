@@ -9,7 +9,7 @@ class ReferencesController < ApplicationController
   def create
     list = List.find(reference_params[:list_id])
 
-    return redirect_to(:back, alert: 'Placeholder') unless @locator.valid?
+    return redirect_to(:back, alert: @locator.validation_errors.join(' ')) unless @locator.valid?
 
     if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
@@ -48,7 +48,7 @@ class ReferencesController < ApplicationController
     def set_paper_locator
       locator_type, locator_id, paper_title = paper_params.values_at(:locator_type, :locator_id, :title)
 
-      return redirect_to(:back, alert: 'No parameters entered') if locator_id.blank?
+      return redirect_to(:back, alert: 'You must enter an ID.') if locator_id.blank?
 
       case locator_type
       when 'doi'
