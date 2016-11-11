@@ -1,5 +1,7 @@
-<div class="input-group crossref">
-  <span class="input-group-addon" id="crossref-submit">add paper</span>
+<strong>Search for a paper to add</strong>
+<div class="input-group input-group-sm crossref">
+
+  <span class="input-group-addon" id="crossref-submit"><i class="glyphicon glyphicon-search"></i></span>
   <%= text_field_tag 'crossref-search', nil, class: 'form-control', placeholder: 'Search for a paper' %>
   <%= form_for list.references.build, html: {class: 'hidden'} do |f| %>
     <%= f.hidden_field :list_id, value: list.id %>

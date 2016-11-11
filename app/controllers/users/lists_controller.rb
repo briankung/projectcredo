@@ -1,13 +1,18 @@
 class Users::ListsController < ApplicationController
   before_action :set_user
 
+  def edit
+    @list = @user.lists.find_by slug: params[:id]
+    render 'lists/edit'
+  end
+
   def index
     @lists = @user.lists
     render 'lists/index'
   end
 
   def show
-    @list = @user.lists.find_by slug: params[:list_slug]
+    @list = @user.lists.find_by slug: params[:id]
     @references = @list.references.joins(:paper).order(params_sort_order)
     render 'lists/show'
   end

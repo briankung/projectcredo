@@ -22,6 +22,8 @@
 @import "votes";
 @import "crossref_search";
 @import "reference";
+@import "list";
+
 
 body {
   line-height: 1.5;
@@ -44,3 +46,19 @@ body {
     margin: 0;
     display: inline;
 }
+
+.add-reference {
+  padding: 0;
+
+  .paper-locator {
+    width: 25%;
+  }
+
+  .paper-title {
+    width: 35%;
+  }
+  input[placeholder] {
+      text-overflow: ellipsis;
+  }
+}
+

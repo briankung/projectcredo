@@ -1,5 +1,5 @@
 <% if paper.abstract.present? %>
-  <%= simple_format(paper.abstract) %>
+  <p><%= wrap_on_line_breaks paper.abstract %></p>
 <% elsif current_user %>
  <%= render 'papers/abstract_form', reference: reference, paper: paper %>
 <% else %>

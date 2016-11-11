@@ -1,20 +1,25 @@
-<h1><%= @list.name %></h1>
+<h2 class= "list-title"><%= @list.name %></h2>
+<div class="list-nav">
+  created by <%= link_to @list.user.username, user_profile_path(@list.user) %>
+   - <%= link_to 'Edit', edit_user_list_path(@list.user, @list) %>
+  <% if @list.user == current_user %>
+     - <%= link_to 'Delete List', destroy_user_list_path(@list.user, @list), data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</div>
 <p>
-  <strong>Tags:</strong>
-  <%= @list.tag_list %>
+  <% @list.tag_list.each do |tag| %>
+    <a class="btn btn-default btn-xs"><%= tag %></a>
+  <% end %>
 </p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @list.description %>
-</p>
-<%= link_to 'Edit', edit_user_list_path(@list.user, @list) %> |
-<%= link_to 'Back', lists_path %>
-
+<strong>Description</strong>
+<%= wrap_on_line_breaks @list.description %>
 <%= render 'crossref/search', list: @list %>
-
-<%= render 'papers/sort_by' %>
-
-<%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
 <%= render 'lists/add_reference', list: @list %>
+<% reference_count = @list.references.count %>
+<% if reference_count > 0 %>
+  <%= render 'papers/sort_by' %>
+  <i><%= reference_count%> papers added to this list</i>
+<% end %>
+<%= render partial: 'references/reference', collection: @references, locals: {show_comments: false} %>
+
 
