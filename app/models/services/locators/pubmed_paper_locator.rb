@@ -24,6 +24,6 @@ class PubmedPaperLocator
 
   def valid?
     only_numbers = /^[0-9]+$/
-    return locator.match(only_numbers)
+    !!locator_id.match(only_numbers)
   end
 end

@@ -21,4 +21,10 @@ class DoiPaperLocator
       return nil
     end
   end
+
+  def valid?
+    # Stolen from http://blog.crossref.org/2015/08/doi-regular-expressions.html
+    doi_regex = /^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i
+    !!locator_id.match(doi_regex)
+  end
 end

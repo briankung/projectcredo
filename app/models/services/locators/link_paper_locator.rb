@@ -13,4 +13,8 @@ class LinkPaperLocator
       return Paper.create title: paper_title, links_attributes: [{url: locator_id}]
     end
   end
+
+  def valid?
+    !!locator_id.match(URI::regexp(%w(http https)))
+  end
 end

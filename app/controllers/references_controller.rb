@@ -9,6 +9,8 @@ class ReferencesController < ApplicationController
   def create
     list = List.find(reference_params[:list_id])
 
+    return redirect_to(:back, alert: 'Placeholder') unless @locator.valid?
+
     if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
         flash['notice'] = "'#{paper.title}' has already been added to this list"
