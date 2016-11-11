@@ -1,12 +1,13 @@
-class DoiPaperLocator < BaseLocator
-  def column
-    'doi'
+class DoiPaperLocator
+  attr_accessor :locator_id
+
+  def initialize locator_id:
+    self.locator_id = locator_id.strip
   end
 
   def find_or_import_paper
-    return super if super
-
-    paper = Paper.new
+    existing_paper = Paper.find_by doi: locator_id
+    return existing_paper if existing_paper
 
     crossref = Crossref.new locator_id: locator_id
     paper_attributes = crossref.resource.paper_attributes

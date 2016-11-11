@@ -1,10 +1,13 @@
-class PubmedPaperLocator < BaseLocator
-  def column
-    'pubmed_id'
+class PubmedPaperLocator
+  attr_accessor :locator_id
+
+  def initialize locator_id:
+    self.locator_id = locator_id.strip
   end
 
   def find_or_import_paper
-    return super if super
+    existing_paper = Paper.find_by pubmed_id: locator_id
+    return existing_paper if existing_paper
 
     pubmed = Pubmed.new locator_id: locator_id
     paper_attributes = pubmed.resource.paper_attributes
