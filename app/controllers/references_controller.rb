@@ -54,10 +54,6 @@ class ReferencesController < ApplicationController
       when 'doi'
         @locator = DoiPaperLocator.new locator_id: locator_id
       when 'link'
-        messages = []
-        messages << 'You must enter a title.' if paper_title.blank?
-        messages << "URL is invalid." unless locator_id =~ URI::regexp(%w{http https})
-        return redirect_to(:back, alert: messages.join(' ')) if messages.any?
         @locator = LinkPaperLocator.new locator_id: locator_id, paper_title: paper_title
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id: locator_id
