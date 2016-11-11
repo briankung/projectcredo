@@ -68,7 +68,7 @@ class Paper < ApplicationRecord
 
   def autosave_associated_records_for_links
     self.links = links.map do |link|
-      Link.find_or_create_by name: link.name
+      Link.find_or_create_by url: link.url
     end
   end
 end
