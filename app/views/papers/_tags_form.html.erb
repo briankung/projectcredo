@@ -1,0 +1,10 @@
+<div class="tags-form hidden">
+  <%= form_for(paper, html: {class: 'form-inline'}) do |f| %>
+    <div class="form-group">
+      <%= f.text_field :tag_list, value: paper.tag_list.join(","), placeholder: "Seperate tags with commas", class: "form-control input-sm" %>
+      <%= f.submit 'Add tags', class: "btn btn-xs btn-primary" %>
+      <%= link_to "Cancel", '#', class: "cancel-add-tag" %>
+    </div>
+  <% end %>
+  <i>Tags should be seperated by commas.</i>
+</div>
