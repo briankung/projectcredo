@@ -1,6 +1,6 @@
 class Pubmed
   class Http
-    def self.default_parameters
+    def self.eutils_params
       {
         db: 'pubmed',
         retmode: 'xml',
@@ -8,14 +8,16 @@ class Pubmed
       }
     end
 
-    def self.esearch options = {}
-      uri = generate_uri("/entrez/eutils/esearch.fcgi", default_parameters.merge(options))
-
-      Net::HTTP.get_response(uri)
+    def self.id_params
+      {
+        tool: 'projectcredo',
+        email: 'accounts@projectcredo.com'
+      }
     end
 
-    def self.esummary options = {}
-      uri = generate_uri("/entrez/eutils/esummary.fcgi", default_parameters.merge(options))
+    def self.default_params
+      id_params.merge eutils_params
+    end
 
       Net::HTTP.get_response(uri)
     end
