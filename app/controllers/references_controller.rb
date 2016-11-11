@@ -48,7 +48,7 @@ class ReferencesController < ApplicationController
     def set_paper_locator
       locator_type, locator_id, paper_title = paper_params.values_at(:locator_type, :locator_id, :title)
 
-      return redirect_to(:back, alert: 'You must enter an ID.') if locator_id.blank?
+      return redirect_to(:back, alert: "Identifier can't be blank.") if locator_id.blank?
 
       case locator_type
       when 'doi'
