@@ -35,6 +35,6 @@ class PapersController < ApplicationController
     def paper_params
       params.require(:paper).permit(
         :title, :abstract, :link, :doi, :pubmed_id, :published_at, :publication,
-        :tag_list, bias_list: [], methodology_list: [], authors_attributes: [:id, :name])
+        :tag_list, bias_list: [], methodology_list: [], authors_attributes: [:id, :first_name, :last_name])
     end
 end
