@@ -62,7 +62,7 @@ class Paper < ApplicationRecord
 
   def autosave_associated_records_for_authors
     self.authors = authors.map do |author|
-      Author.find_or_create_by name: author.name
+      Author.find_or_create_by first_name: author.first_name, last_name: author.last_name
     end
   end
 
