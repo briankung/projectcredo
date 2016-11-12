@@ -61,7 +61,6 @@ $(document).ready(function() {
   });
 
   cancelAddLocator.on('click', function() {
-    // When cancel is clicked, remove all add reference fields
     paperLocator.toggleClass('hidden', true).prop('disabled', true).val('');
     paperType.val('');
     paperSubmit.toggleClass('hidden', true);
