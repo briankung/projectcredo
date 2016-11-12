@@ -23,7 +23,7 @@
 @import "crossref_search";
 @import "reference";
 @import "list";
-
+@import "paper";
 
 body {
   line-height: 1.5;
@@ -37,13 +37,7 @@ body {
   margin-top: 4px;
 }
 
-.paper-show {
-    border-bottom: thin solid #ddd;
-    margin-bottom: 10px;
-}
-
-.paper-title {
-    margin: 0;
-    display: inline;
+input[placeholder] {
+    text-overflow: ellipsis;
 }
 
