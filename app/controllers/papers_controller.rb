@@ -19,7 +19,7 @@ class PapersController < ApplicationController
         format.html { redirect_back(fallback_location: root_path, notice: 'Paper was successfully updated.') }
         format.json { render :show, status: :ok, location: @paper }
       else
-        format.html { render :edit }
+        format.html { redirect_back(fallback_location: root_path, alert: 'Paper failed to update') }
         format.json { render json: @paper.errors, status: :unprocessable_entity }
       end
     end
