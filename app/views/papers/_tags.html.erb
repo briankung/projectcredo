@@ -2,6 +2,6 @@
   <% paper.tag_list.each do |tag| %>
     <a class="btn btn-default btn-xs"><%= tag %></a>
   <% end %>
-  <%= link_to "Add a tag", '#', class: "add-tag" %>
+  <%= link_to "edit tags", '#', class: "add-tag" %>
 </div>
 <%=  render 'papers/tags_form', paper: paper %>

@@ -6,12 +6,22 @@ $(document).ready(function() {
 
   $('a.add-tag').on('click', function(e) {
     e.preventDefault();
-    tagsList = $(e.target).parent('.tags-list');
+
+    tagsList = $(e.target).closest('.tags-list');
     tagsForm = tagsList.next('.tags-form');
 
     tagsList.toggleClass('hidden', true);
     tagsForm.toggleClass('hidden', false);
+  });
 
+  $('a.cancel-add-tag').on('click', function(e) {
+    e.preventDefault();
+
+    tagsForm = $(e.target).closest('.tags-form');
+    tagsList = tagsForm.prev('.tags-list');
+
+    tagsList.toggleClass('hidden', false);
+    tagsForm.toggleClass('hidden', true);
   });
 
   paperType = $('#add_locator_type');
@@ -22,6 +32,7 @@ $(document).ready(function() {
 
   $('.add-paper a#add-doi').on('click', function() {
     // When DOI clicked, expose locator field and hide the paper title field if exposed    paperLocator.toggleClass('hidden', false).attr("placeholder", "DOI ex: '10.1371/journal.pone.0001897'");
+    paperLocator.toggleClass('hidden', false).attr("placeholder", "DOI ex: '10.1371/journal.pone.0001897'");
     paperType.val('doi');
     paperSubmit.toggleClass('hidden', false);
     cancelAddLocator.toggleClass('hidden', false);
