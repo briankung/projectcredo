@@ -10,7 +10,7 @@ class Paper < ApplicationRecord
   has_many :links, dependent: :destroy
   has_many :api_import_responses, dependent: :destroy
 
-  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
+  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['last_name'].blank? }
   accepts_nested_attributes_for :links
   validates :title, presence: true
   validate :allowed_biases, :allowed_methodologies
