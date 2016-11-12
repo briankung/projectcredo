@@ -16,6 +16,9 @@ class DoiPaperLocator
     if paper_attributes
       response = crossref.resource.response
       paper = Paper.create paper_attributes
+
+      return nil if paper.errors.any?
+
       paper.api_import_responses.create(json: JSON.parse(response.body), source_uri: response.uri.to_s)
       return paper
     else
