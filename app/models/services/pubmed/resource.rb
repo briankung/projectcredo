@@ -31,7 +31,7 @@ class Pubmed
         authors_attributes: lambda do |data|
           authors = data.css('AuthorList Author')
           authors.map do |author|
-            {name: [author.css("ForeName"), author.css("LastName")].join(' ')}
+            {first_name: author.css("ForeName"), last_name: author.css("LastName")}
           end
         end
       }
