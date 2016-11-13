@@ -12,6 +12,7 @@ class Paper < ApplicationRecord
 
   accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
   accepts_nested_attributes_for :links
+  validates_associated :links
   validates :title, presence: true
   validate :allowed_biases, :allowed_methodologies
 
@@ -66,9 +67,4 @@ class Paper < ApplicationRecord
     end
   end
 
-  def autosave_associated_records_for_links
-    self.links = links.map do |link|
-      Link.find_or_create_by url: link.url
-    end
-  end
 end
