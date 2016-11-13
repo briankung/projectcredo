@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161030205356) do
+ActiveRecord::Schema.define(version: 20161113173357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,8 +78,9 @@ ActiveRecord::Schema.define(version: 20161030205356) do
   create_table "links", force: :cascade do |t|
     t.string   "url"
     t.integer  "paper_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "link_editable", default: true
     t.index ["url"], name: "index_links_on_url", using: :btree
   end
 
@@ -100,12 +101,14 @@ ActiveRecord::Schema.define(version: 20161030205356) do
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.date     "published_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.text     "abstract"
     t.string   "doi"
     t.string   "pubmed_id"
     t.string   "publication"
+    t.boolean  "abstract_editable", default: true
+    t.boolean  "paper_editable",    default: true
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
