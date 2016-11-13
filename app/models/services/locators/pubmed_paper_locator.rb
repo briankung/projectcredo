@@ -1,10 +1,14 @@
-class PubmedPaperLocator < BaseLocator
-  def column
-    'pubmed_id'
+class PubmedPaperLocator
+  attr_accessor :locator_id, :errors
+
+  def initialize locator_id:
+    self.locator_id = locator_id.strip
+    self.errors = []
   end
 
   def find_or_import_paper
-    return super if super
+    existing_paper = Paper.find_by pubmed_id: locator_id
+    return existing_paper if existing_paper
 
     pubmed = Pubmed.new locator_id: locator_id
     paper_attributes = pubmed.resource.paper_attributes
@@ -20,7 +24,10 @@ class PubmedPaperLocator < BaseLocator
   end
 
   def valid?
-    only_numbers = /^[0-9]+$/
-    return locator.match(only_numbers)
+    only_numbers = !!locator_id.match(/^[0-9]+$/)
+
+    errors << "\"#{locator_id}\" does not match Pubmed ID format. Ex: \"18365029\"" unless only_numbers
+
+    only_numbers
   end
 end
