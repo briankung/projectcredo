@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161030205356) do
+ActiveRecord::Schema.define(version: 20161114041708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "api_import_responses", force: :cascade do |t|
     t.text     "xml"
@@ -26,10 +27,13 @@ ActiveRecord::Schema.define(version: 20161030205356) do
   end
 
   create_table "authors", force: :cascade do |t|
-    t.string   "name"
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "first_name"
+    t.text     "last_name"
+    t.citext   "full_name"
+    t.index ["full_name"], name: "index_authors_on_full_name", unique: true, using: :btree
   end
 
   create_table "authors_papers", id: false, force: :cascade do |t|
@@ -81,6 +85,16 @@ ActiveRecord::Schema.define(version: 20161030205356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["url"], name: "index_links_on_url", using: :btree
+  end
+
+  create_table "list_memberships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_list_memberships_on_list_id", using: :btree
+    t.index ["user_id", "list_id"], name: "index_list_memberships_on_user_id_and_list_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_list_memberships_on_user_id", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
@@ -181,5 +195,7 @@ ActiveRecord::Schema.define(version: 20161030205356) do
   end
 
   add_foreign_key "api_import_responses", "papers"
+  add_foreign_key "list_memberships", "lists"
+  add_foreign_key "list_memberships", "users"
   add_foreign_key "references", "users"
 end
