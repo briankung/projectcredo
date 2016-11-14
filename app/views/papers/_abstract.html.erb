@@ -1,6 +1,13 @@
 <% if paper.abstract.present? %>
-  <i class = 'help-block'> This abstract is user generated and can be <%= link_to('editted', '#') if paper.abstract_editable %></i>
-  <p><%= wrap_on_line_breaks paper.abstract %></p>
+  <div class='edit-abstract' id="edit-abstract-<%=reference.id%>">
+    <% if paper.abstract_editable %>
+      <i class='help-block'>
+        This abstract is user generated and can be
+        <%= link_to 'edited', edit_abstract_path(reference.list.user, reference.list, reference), remote: true %>
+      </i>
+    <% end %>
+    <%= wrap_on_line_breaks paper.abstract %>
+  </div>
 <% elsif current_user %>
  <%= render 'papers/abstract_form', paper: paper %>
 <% else %>

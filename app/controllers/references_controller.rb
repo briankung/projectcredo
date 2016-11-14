@@ -1,9 +1,9 @@
 class ReferencesController < ApplicationController
   before_action :ensure_current_user, except: :show
   before_action :set_paper_locator, only: :create
+  before_action :set_reference, only: [:show, :edit_abstract]
 
   def show
-    @reference = Reference.find(params[:id])
   end
 
   def create
@@ -35,7 +35,20 @@ class ReferencesController < ApplicationController
     end
   end
 
+  # GET /username/references/1/edit_abstract
+  def edit_abstract
+    list = @reference.list
+    respond_to do |format|
+      format.html { redirect_to @reference }
+      format.js { render 'references/edit_abstract.js.erb' }
+    end
+  end
+
   private
+    def set_reference
+      @reference = Reference.find(params[:id])
+    end
+
     def reference_params
       params.require(:reference).permit(
         :list_id, :paper_id, :id, paper: [:locator_id, :locator_type, :title])

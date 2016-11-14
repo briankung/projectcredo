@@ -1,0 +1,16 @@
+newForm = "<%= escape_javascript(render('papers/abstract_form', paper: @reference.paper)) %>"
+cancelLinkHtml = " <small><%= escape_javascript(link_to 'Cancel', '#', class: 'cancel-link') %></small>"
+
+editAbstractDiv = $("#edit-abstract-<%= @reference.id %>")
+undoForm = editAbstractDiv.html()
+
+editAbstractDiv.html(newForm);
+
+abstractSubmitButton = editAbstractDiv.find(".btn")
+abstractSubmitButton.after(cancelLinkHtml)
+
+cancelLink = abstractSubmitButton.next().find(".cancel-link");
+cancelLink.on('click', function(e) {
+  e.preventDefault();
+  editAbstractDiv.html(undoForm);
+});

@@ -1,5 +1,6 @@
 newForm = "<%= escape_javascript(render 'form', comment: @comment, hidden: false) %>"
-cancelLinkHtml = " <small><%= escape_javascript(link_to 'Cancel', '#', class: 'cancel-link') %></small>"
+<% 'cancel-comment-form-<%= @comment.id %>' %>
+cancelLinkHtml = " <small><%= escape_javascript(link_to 'Cancel', '#', id:  %></small>"
 
 commentContent = $("#comment-<%= @comment.id %> > .content");
 undoContent = commentContent.html()
@@ -9,7 +10,7 @@ commentContent.html(newForm);
 commentSubmitButton = commentContent.find(".btn")
 commentSubmitButton.after(cancelLinkHtml)
 
-cancelLink = commentSubmitButton.next().find(".cancel-link");
+cancelLink = $("#cancel-comment-form-<%= @comment.id %>");
 cancelLink.on('click', function(e) {
   e.preventDefault();
   commentContent.html(undoContent);
