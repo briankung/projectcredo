@@ -8,6 +8,8 @@ class List < ApplicationRecord
 
   has_and_belongs_to_many :homepages
   belongs_to :user
+  has_many :list_memberships
+  has_many :contributors, through: :list_memberships, source: :user
 
   has_many :papers, through: :references
   has_many :references, dependent: :destroy

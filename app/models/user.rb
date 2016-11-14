@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_one :homepage, dependent: :destroy
   has_many :lists
+  has_many :list_memberships
 
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage
