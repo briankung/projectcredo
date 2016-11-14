@@ -1,4 +1,6 @@
 class List < ApplicationRecord
+  enum visibility: {public: 10, private: 20, contributors: 30}, _prefix: :visible_to
+
   acts_as_taggable
   acts_as_votable
 
