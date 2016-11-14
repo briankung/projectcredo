@@ -88,13 +88,11 @@ ActiveRecord::Schema.define(version: 20161114041708) do
   end
 
   create_table "list_memberships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "list_id"
+    t.integer  "user_id",    null: false
+    t.integer  "list_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["list_id"], name: "index_list_memberships_on_list_id", using: :btree
     t.index ["user_id", "list_id"], name: "index_list_memberships_on_user_id_and_list_id", unique: true, using: :btree
-    t.index ["user_id"], name: "index_list_memberships_on_user_id", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
@@ -195,7 +193,5 @@ ActiveRecord::Schema.define(version: 20161114041708) do
   end
 
   add_foreign_key "api_import_responses", "papers"
-  add_foreign_key "list_memberships", "lists"
-  add_foreign_key "list_memberships", "users"
   add_foreign_key "references", "users"
 end
