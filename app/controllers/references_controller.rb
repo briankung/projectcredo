@@ -9,6 +9,8 @@ class ReferencesController < ApplicationController
   def create
     list = List.find(reference_params[:list_id])
 
+    return redirect_to(:back, alert: @locator.errors.join(' ')) unless @locator.valid?
+
     if (paper = @locator.find_or_import_paper)
       if Reference.exists? list_id: list.id, paper_id: paper.id
         flash['notice'] = "'#{paper.title}' has already been added to this list"
@@ -46,16 +48,12 @@ class ReferencesController < ApplicationController
     def set_paper_locator
       locator_type, locator_id, paper_title = paper_params.values_at(:locator_type, :locator_id, :title)
 
-      return redirect_to(:back, alert: 'No parameters entered') if locator_id.blank?
+      return redirect_to(:back, alert: "Identifier can't be blank.") if locator_id.blank?
 
       case locator_type
       when 'doi'
         @locator = DoiPaperLocator.new locator_id: locator_id
       when 'link'
-        messages = []
-        messages << 'You must enter a title.' if paper_title.blank?
-        messages << "URL is invalid." unless locator_id =~ URI::regexp(%w{http https})
-        return redirect_to(:back, alert: messages.join(' ')) if messages.any?
         @locator = LinkPaperLocator.new locator_id: locator_id, paper_title: paper_title
       when 'pubmed'
         @locator = PubmedPaperLocator.new locator_id: locator_id

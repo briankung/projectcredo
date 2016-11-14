@@ -16,10 +16,10 @@ class PapersController < ApplicationController
   def update
     respond_to do |format|
       if @paper.update(paper_params)
-        format.html { redirect_to @paper, notice: 'Paper was successfully updated.' }
+        format.html { redirect_back(fallback_location: root_path, notice: 'Paper was successfully updated.') }
         format.json { render :show, status: :ok, location: @paper }
       else
-        format.html { render :edit }
+        format.html { redirect_back(fallback_location: root_path, alert: 'Paper failed to update') }
         format.json { render json: @paper.errors, status: :unprocessable_entity }
       end
     end
@@ -34,7 +34,11 @@ class PapersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def paper_params
       params.require(:paper).permit(
-        :title, :abstract, :link, :doi, :pubmed_id, :published_at, :publication,
-        :tag_list, bias_list: [], methodology_list: [], authors_attributes: [:id, :first_name, :last_name])
+        :title, :abstract, :doi, :pubmed_id, :published_at, :publication,
+        :tag_list,
+        bias_list: [],
+        methodology_list: [],
+        links_attributes: [:id, :url],
+        authors_attributes: [:id, :first_name, :last_name])
     end
 end
