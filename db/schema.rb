@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112195802) do
+ActiveRecord::Schema.define(version: 20161114011810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "api_import_responses", force: :cascade do |t|
     t.text     "xml"
@@ -31,6 +32,8 @@ ActiveRecord::Schema.define(version: 20161112195802) do
     t.datetime "updated_at", null: false
     t.text     "first_name"
     t.text     "last_name"
+    t.citext   "full_name"
+    t.index ["full_name"], name: "index_authors_on_full_name", unique: true, using: :btree
   end
 
   create_table "authors_papers", id: false, force: :cascade do |t|
