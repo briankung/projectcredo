@@ -14,8 +14,9 @@ class User < ApplicationRecord
             format: {with: /\A[\p{N}\p{L}_]{3,}\z/}
 
   has_one :homepage, dependent: :destroy
-  has_many :lists
+  has_many :authored_lists, class_name: 'List'
   has_many :list_memberships
+  has_many :lists, through: :list_memberships, source: :list
 
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage
