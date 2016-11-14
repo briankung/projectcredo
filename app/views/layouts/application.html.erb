@@ -36,5 +36,6 @@
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
     <%= yield %>
+    <%= console if Rails.env.development? %>
   </body>
 </html>
