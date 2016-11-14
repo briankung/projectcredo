@@ -4,7 +4,7 @@ class List < ApplicationRecord
   acts_as_taggable
   acts_as_votable
 
-  default_scope { order( cached_votes_up: :desc, updated_at: :desc ) }
+  scope :default_sort, -> { order(cached_votes_up: :desc, updated_at: :desc) }
 
   before_create :set_slug
 

@@ -7,7 +7,7 @@ class Users::ListsController < ApplicationController
   end
 
   def index
-    @lists = @user.lists
+    @lists = @user.lists.default_sort
     render 'lists/index'
   end
 
