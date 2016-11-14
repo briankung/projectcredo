@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114195132) do
+ActiveRecord::Schema.define(version: 20161114214352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,10 +88,11 @@ ActiveRecord::Schema.define(version: 20161114195132) do
   end
 
   create_table "list_memberships", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "list_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",                 null: false
+    t.integer  "list_id",                 null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "role",       default: 10, null: false
     t.index ["user_id", "list_id"], name: "index_list_memberships_on_user_id_and_list_id", unique: true, using: :btree
   end
 
