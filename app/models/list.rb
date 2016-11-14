@@ -15,9 +15,9 @@ class List < ApplicationRecord
   validates :name,
             presence: true,
             uniqueness: {
-                scope: :user,
-                case_sensitive: false,
-                message: "must be unique for lists you own."
+              scope: :user,
+              case_sensitive: false,
+              message: "must be unique for lists you own."
             }
 
   def to_slug
