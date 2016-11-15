@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_one :homepage, dependent: :destroy
   has_many :authored_lists, class_name: 'List'
   has_many :list_memberships, dependent: :destroy
-  has_many :lists, through: :list_memberships, source: :list do
+  has_many :lists, through: :list_memberships do
     # Adds owner id to lists when created through join table
     def add_user_id attributes
       if attributes.is_a?(Array)
