@@ -8,7 +8,7 @@
       <%= yield(:paper_title) %>
     <% else %>
       <h4 class="paper-title">
-        <%= link_to paper.title, user_reference_path(reference.list.user, reference.list, reference) %>
+        <%= link_to paper.title, user_reference_path(reference.list.owner, reference.list, reference) %>
         <small>contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %></small>
       </h4>
     <% end %>
