@@ -5,7 +5,7 @@
 
 <p>
   <strong>Authors:</strong>
-  <%= @paper.authors.map(&:name).join(', ') %>
+  <%= @paper.authors.map(&:full_name).join(', ') %>
 </p>
 
 <p>
