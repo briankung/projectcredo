@@ -17,6 +17,8 @@
       <%= render 'papers/metadata', paper: paper %>
       <%= render 'papers/tags', paper: paper %>
     </div>
-    <%= render 'papers/tablist', reference: reference, show_comments: show_comments %>
+    <%= render 'papers/tablist', reference: reference %>
+    <%= render 'papers/detail_wells', reference: reference, show_comments: show_comments %>
+
   </div>
 </div>

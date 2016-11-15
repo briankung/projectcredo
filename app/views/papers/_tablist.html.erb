@@ -1,9 +1,8 @@
 <% paper = reference.paper %>
 
 <ul class="nav nav-pills small" role="tablist">
-  <% %i{abstract details}.each do |tab| %>
-    <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{reference.id}", class: "paper-detail-tab" %></li>
-  <% end %>
+  <li><%= link_to 'Abstract', '', "data-detail-id" => "abstract-#{reference.id}", class: "paper-detail-tab" %></li>
+  <li><%= link_to 'Details', '', "data-detail-id" => "details-#{reference.id}", class: "paper-detail-tab" %></li>
   <li><%= render 'references/comments_tab', reference: reference %></li>
   <% if current_user %>
     <li>
@@ -14,37 +13,5 @@
     </li>
   <% end %>
 </ul>
-<div class="collapse paper-detail well" id="abstract-<%= reference.id %>">
-  <%= render 'papers/abstract', reference: reference, paper: paper %>
-</div>
-<div class="collapse paper-detail well" id="details-<%= reference.id %>">
-  Links:
-  <ul class="links">
-    <% if paper.doi.present? %>
-      <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
-    <% end %>
 
-    <% if paper.pubmed_id.present? %>
-      <li>Pubmed ID: <%= link_to paper.pubmed_id, "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}", target: '_blank' %></li>
-    <% end %>
 
-    <% if paper.links.any? %>
-      <% paper.links.each do |l| %>
-        <li>
-          <%= link_to l.url, l.url, target: '_blank' %>
-          <% if l.link_editable %>
-            <%= link_to '',
-              destroy_link_path(l),
-              class: 'btn-icon remove-button',
-              data: { confirm: 'Are you want to delete this link?' }
-            %>
-          <% end %>
-        </li>
-      <% end %>
-    <% end %>
-    <%= render 'papers/links_form', paper: paper %>
-  </ul>
-</div>
-<div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= reference.id %>">
-  <%= render 'references/comments', reference: reference %>
-</div>
