@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115184623) do
+ActiveRecord::Schema.define(version: 20161114220431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20161115184623) do
     t.integer  "cached_votes_up", default: 0
     t.string   "slug"
     t.integer  "visibility",      default: 10, null: false
+    t.integer  "user_id"
     t.index ["cached_votes_up", "created_at"], name: "index_lists_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
     t.index ["slug"], name: "index_lists_on_slug", using: :btree
   end
