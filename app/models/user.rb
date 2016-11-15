@@ -28,11 +28,11 @@ class User < ApplicationRecord
     end
 
     def build(attributes = {}, &block)
-      @association.build(add_user_id(attributes), &block)
+      super(add_user_id(attributes), &block)
     end
 
     def create(attributes = {}, &block)
-      @association.create(add_user_id(attributes), &block)
+      super(add_user_id(attributes), &block)
     end
   end
 
