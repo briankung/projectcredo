@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114220431) do
+ActiveRecord::Schema.define(version: 20161115184623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,13 +102,10 @@ ActiveRecord::Schema.define(version: 20161114220431) do
     t.datetime "updated_at",                   null: false
     t.string   "description"
     t.integer  "cached_votes_up", default: 0
-    t.integer  "user_id",                      null: false
     t.string   "slug"
     t.integer  "visibility",      default: 10, null: false
     t.index ["cached_votes_up", "created_at"], name: "index_lists_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
     t.index ["slug"], name: "index_lists_on_slug", using: :btree
-    t.index ["user_id", "name"], name: "index_lists_on_user_id_and_name", using: :btree
-    t.index ["user_id"], name: "index_lists_on_user_id", using: :btree
   end
 
   create_table "papers", force: :cascade do |t|
