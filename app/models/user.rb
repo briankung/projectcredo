@@ -16,7 +16,25 @@ class User < ApplicationRecord
   has_one :homepage, dependent: :destroy
   has_many :authored_lists, class_name: 'List'
   has_many :list_memberships
-  has_many :lists, through: :list_memberships, source: :list
+  has_many :lists, through: :list_memberships, source: :list do
+    # Adds owner id to lists when created through join table
+    def add_user_id attributes
+      if attributes.is_a?(Array)
+        attributes.each {|attrs| attrs[:user_id] = @association.owner.id }
+      else
+        attributes[:user_id] = @association.owner.id
+      end
+      attributes
+    end
+
+    def build(attributes = {}, &block)
+      @association.build(add_user_id(attributes), &block)
+    end
+
+    def create(attributes = {}, &block)
+      @association.create(add_user_id(attributes), &block)
+    end
+  end
 
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage
