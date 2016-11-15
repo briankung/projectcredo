@@ -1,5 +1,5 @@
 class ListMembership < ApplicationRecord
-  enum role: {owner: 10, moderator: 20, subscriber: 30, contributor: 40}
+  enum role: {owner: 10, moderator: 20, contributor: 30, subscriber: 40 }
 
   belongs_to :user
   belongs_to :list
