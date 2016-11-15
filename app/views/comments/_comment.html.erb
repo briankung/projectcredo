@@ -1,4 +1,4 @@
-<div class="comment" id="comment-<%= comment.id %>">
+<div class="comment" id="comment-<%= comment.id %>" >
   <p class="text-muted">
     <%= if comment.created_at == comment.updated_at then 'Added by' else 'Updated by' end %>
     <strong><%= link_to comment.user.username, user_profile_path(comment.user.username) %></strong> on <%= l(comment.updated_at, format: '%B, %d %Y %H:%M:%S') %>
