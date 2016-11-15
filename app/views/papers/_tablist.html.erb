@@ -29,18 +29,14 @@
     <% end %>
 
     <% if paper.links.any? %>
-      <% paper.links.each do |l| %><li><%= link_to l.url, l.url, target: '_blank' %></li><% end %>
+      <% paper.links.each do |l| %>
+        <li>
+          <%= link_to l.url, l.url, target: '_blank' %>
+          <%= link_to 'remove', link_path(l), method: :delete, data: { confirm: 'Are you sure?' }   %>
+        </li>
+      <% end %>
     <% end %>
-
-    <%= form_for(paper, html: {class: "form-inline"}) do |p| %>
-      <div class="form-group">
-        <%= p.fields_for :links, paper.links.build do |l| %>
-          <%= l.text_field :url, class: "form-control", size: 50%>
-        <% end %>
-        <%= p.submit 'Add Link', class: "btn btn-xs btn-primary" %>
-        <i class="help-block"> Add a primary source link for this paper that represents the paper itself </i>
-      </div>
-    <% end %>
+    <%= render 'papers/links_form', paper: paper %>
   </ul>
 </div>
 <div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= reference.id %>">
