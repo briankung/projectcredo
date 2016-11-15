@@ -24,6 +24,10 @@ class List < ApplicationRecord
                 message: "must be unique for lists you own."
             }
 
+  def owner
+    members.find_by("list_memberships.role = ?", ListMembership.roles[:owner])
+  end
+
   def to_slug
     self.name
       .downcase

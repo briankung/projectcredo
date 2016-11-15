@@ -18,9 +18,8 @@ class User < ApplicationRecord
   has_many :list_memberships, dependent: :destroy
   has_many :lists, through: :list_memberships
 
-    def create(attributes = {}, &block)
-      super(add_user_id(attributes), &block)
-    end
+  def authored_lists
+    lists.where("list_memberships.role = ?", ListMembership.roles[:owner])
   end
 
   def visible_lists
