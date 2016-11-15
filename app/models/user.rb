@@ -36,6 +36,12 @@ class User < ApplicationRecord
     end
   end
 
+  def visible_lists
+    public_lists = List.where(visibility: :public).pluck(:id)
+    member_lists = self.lists.pluck(:id)
+    List.where(id: public_lists + member_lists)
+  end
+
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage
 

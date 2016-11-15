@@ -5,12 +5,10 @@ class ListsController < ApplicationController
   # GET /lists
   # GET /lists.json
   def index
-    @lists = List.where(visibility: :public)
-
     if current_user
-      public_lists = @lists.pluck(:id)
-      member_lists = current_user.lists.pluck(:id)
-      @lists = List.where(id: public_lists + member_lists).default_sort
+      @lists = current_user.visible_lists
+    else
+      @lists = List.where(visibility: :public)
     end
 
     @lists.default_sort
