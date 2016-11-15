@@ -3,9 +3,10 @@ class LinksController < ApplicationController
 
   def destroy
     link = Link.find(link_params[:id])
+    url = link.url
     link.destroy
     respond_to do |format|
-      format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
+      format.html { redirect_to :back, notice: "'#{url}' has been successfully removed" }
     end
   end
 

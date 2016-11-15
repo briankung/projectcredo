@@ -34,9 +34,8 @@
           <%= link_to l.url, l.url, target: '_blank' %>
           <% if l.link_editable %>
             <%= link_to '',
-              link_path(l),
+              destroy_link_path(l),
               class: 'btn-icon remove-button',
-              method: :delete,
               data: { confirm: 'Are you want to delete this link?' }
             %>
           <% end %>
