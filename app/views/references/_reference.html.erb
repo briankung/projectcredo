@@ -1,4 +1,14 @@
 <% paper = reference.paper %>
+<% direct_link =
+  if paper.doi.present?
+    "http://dx.doi.org/#{paper.doi}"
+  elsif paper.pubmed_id.present?
+    "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}"
+  else
+    paper.links.first.url
+  end
+%>
+
 <div class="row paper-show">
   <% if not show_comments %>
     <div class="col-md-1"><%= render 'votes/toggle_like', votable: reference %></div>
@@ -8,8 +18,11 @@
       <%= yield(:paper_title) %>
     <% else %>
       <h4 class="paper-title">
-        <%= link_to paper.title, user_reference_path(reference.list.user, reference.list, reference) %>
-        <small>contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %></small>
+        <%= link_to paper.title, direct_link, target: '_blank' %>
+        <small>
+          contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %>
+          - <%= link_to 'permalink', user_reference_path(reference.list.user, reference.list, reference) %>
+        </small>
       </h4>
     <% end %>
 
