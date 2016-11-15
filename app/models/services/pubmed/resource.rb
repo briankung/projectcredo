@@ -25,7 +25,7 @@ class Pubmed
         title:              lambda {|data| data.css('ArticleTitle').text },
         publication:        lambda {|data| data.css('Journal Title').text },
         doi:                lambda {|data| data.css('ArticleId[IdType=doi]').text },
-        pubmed_id:          lambda {|data| data.css('PMID').text },
+        pubmed_id:          lambda {|data| data.css('ArticleIdList ArticleId[IdType=pubmed]').text },
         abstract:           lambda {|data| data.css('AbstractText').map(&:text).join("\n\n") },
         published_at:       lambda {|data| Date.parse data.css('PubDate').map(&:text).join(' ') },
         authors_attributes: lambda do |data|
