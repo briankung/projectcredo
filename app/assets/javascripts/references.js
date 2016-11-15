@@ -1,9 +1,18 @@
 $(document).ready(function() {
+  //Delete referene from a list
   $('a.delete-reference').on('click', function(e) {
     e.preventDefault();
     $(e.target).siblings('form').submit();
   });
 
+  //Cancel abstract form
+  $(document).on('click', '.cancel-abstract-form', function(e) {
+    e.preventDefault();
+    abstractDiv = $(e.target).closest(".edit-abstract");
+    abstractDiv.html(abstractDiv.data("undo-form"));
+  });
+
+  //Unhide and hide tags form
   $('a.add-tag').on('click', function(e) {
     e.preventDefault();
 
@@ -24,6 +33,7 @@ $(document).ready(function() {
     tagsForm.toggleClass('hidden', true);
   });
 
+  //Add reference by DOI, Pubmed ID, and URL
   paperType = $('#add_locator_type');
   paperLocator = $('#reference_paper_locator_id');
   paperTitle = $('#reference_paper_title');

@@ -1,16 +1,7 @@
-newForm = "<%= escape_javascript(render('papers/abstract_form', paper: @reference.paper)) %>"
-cancelLinkHtml = " <small><%= escape_javascript(link_to 'Cancel', '#', id: %Q[cancel-abstract-form-#{@reference.id}]) %></small>"
+newForm = "<%= escape_javascript(render('papers/abstract_form', paper: @reference.paper)) %>";
+abstractDiv = $("#edit-abstract-<%= @reference.id %>");
+abstractDiv.data("undo-form", abstractDiv.html());
 
-editAbstractDiv = $("#edit-abstract-<%= @reference.id %>")
-undoForm = editAbstractDiv.html()
-
-editAbstractDiv.html(newForm);
-
-abstractSubmitButton = editAbstractDiv.find(".btn")
-abstractSubmitButton.after(cancelLinkHtml)
-
-cancelLink = $("#cancel-abstract-form-<%= @reference.id %>");
-cancelLink.on('click', function(e) {
-  e.preventDefault();
-  editAbstractDiv.html(undoForm);
-});
+abstractDiv.html(newForm);
+cancelLink = abstractDiv.find("a.cancel-abstract-form");
+cancelLink.toggleClass('hidden', false);
