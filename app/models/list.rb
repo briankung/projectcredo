@@ -16,7 +16,13 @@ class List < ApplicationRecord
   has_many :papers, through: :references
   has_many :references, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name,
+            presence: true,
+            uniqueness: {
+                scope: :user,
+                case_sensitive: false,
+                message: "must be unique for lists you own."
+            }
 
   def owner
     members.find_by("list_memberships.role = ?", ListMembership.roles[:owner])
