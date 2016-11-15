@@ -10,8 +10,6 @@ class ListsController < ApplicationController
     else
       @lists = List.where(visibility: :public)
     end
-
-    @lists.default_sort
   end
 
   # GET /lists/new

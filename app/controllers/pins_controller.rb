@@ -15,7 +15,7 @@ class PinsController < ApplicationController
 
   private
     def set_pinned_lists
-      @pinned_lists = current_user.homepage.lists.default_sort
+      @pinned_lists = current_user.homepage.lists
     end
 
     def list_params
