@@ -22,16 +22,16 @@
 
     <%= f.fields_for :authors, paper.authors do |a| %>
       <div class="form-group">
-        <%= a.label :first_name, 'Author First Name', class: "col-md-2 control-label" %>
+        <%= a.label :given_name, 'Author Given Name', class: "col-md-2 control-label" %>
         <div class="col-md-10">
-          <%= a.text_field :first_name, class: "form-control"  %>
+          <%= a.text_field :given_name, class: "form-control"  %>
         </div>
       </div>
 
       <div class="form-group">
-        <%= a.label :last_name, 'Author Last Name', class: "col-md-2 control-label" %>
+        <%= a.label :family_name, 'Author Family Name', class: "col-md-2 control-label" %>
         <div class="col-md-10">
-          <%= a.text_field :last_name, class: "form-control"  %>
+          <%= a.text_field :family_name, class: "form-control"  %>
         </div>
       </div>
     <% end %>

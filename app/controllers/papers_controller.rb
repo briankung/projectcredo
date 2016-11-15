@@ -39,6 +39,6 @@ class PapersController < ApplicationController
         bias_list: [],
         methodology_list: [],
         links_attributes: [:id, :url],
-        authors_attributes: [:id, :first_name, :last_name])
+        authors_attributes: [:id, :given_name, :family_name])
     end
 end
