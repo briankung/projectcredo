@@ -50,6 +50,8 @@ list_names.each do |d|
   l = u.lists.build(name: d, description: d)
   l.tag_list.add(d.split)
   l.save
+  l.list_memberships.create(user: u)
+
   r1 = l.references.create(paper: p1, user: u)
   r2 = l.references.create(paper: p2, user: u)
 
