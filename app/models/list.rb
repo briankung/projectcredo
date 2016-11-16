@@ -8,6 +8,8 @@ class List < ApplicationRecord
 
   before_create :set_slug
 
+  belongs_to :user
+
   has_and_belongs_to_many :homepages
 
   has_many :list_memberships, dependent: :destroy
