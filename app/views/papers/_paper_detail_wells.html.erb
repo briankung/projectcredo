@@ -3,7 +3,10 @@
 </div>
 
 <div class="collapse paper-detail well" id="details-<%= reference.id %>">
-  <%= render 'papers/links', reference: reference %>
+  Links:
+  <ul class="links">
+    <%= render 'papers/links', reference: reference %>
+  </ul>
 </div>
 
 <div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= reference.id %>">
