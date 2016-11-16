@@ -15,6 +15,7 @@ class PubmedPaperLocator
 
     if paper_attributes
       response = pubmed.resource.response
+      (paper_attributes[:abstract_editable] = false) if paper_attributes[:abstract].present?
       paper = Paper.create paper_attributes
       paper.api_import_responses.create(xml: response.body, source_uri: response.uri.to_s)
       return paper
