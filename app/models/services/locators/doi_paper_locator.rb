@@ -15,7 +15,6 @@ class DoiPaperLocator
 
     if paper_attributes
       response = crossref.resource.response
-      (paper_attributes[:links_attributes].map {|l| l[:link_editable] = false}) if paper_attributes[:links_attributes].present?
       paper = Paper.create paper_attributes
 
       return nil if paper.errors.any?
