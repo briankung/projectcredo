@@ -6,8 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-u = User.create(email: 'user@example.com', password: 'password', username: 'testuser')
-
 list_names =[
   "Allergies and immigrant families",
   "Crop co-cultivation methods",
@@ -43,16 +41,20 @@ comments = [
   {content: 'Third', user_id: u.id, commentable_id: nil, commentable_type: nil}
 ]
 
-p1 = Paper.create papers[0]
-p2 = Paper.create papers[1]
+ActiveRecord::Base.transaction do
+  u = User.create(email: 'user@example.com', password: 'password', username: 'testuser')
 
-list_names.each do |d|
-  l = u.lists.create(name: d, description: d)
-  l.tag_list.add(d.split)
+  p1 = Paper.create papers[0]
+  p2 = Paper.create papers[1]
 
-  r1 = l.references.create(paper: p1, user: u)
-  r2 = l.references.create(paper: p2, user: u)
+  list_names.each do |d|
+    l = u.lists.create(name: d, description: d)
+    l.tag_list.add(d.split)
 
-  r1.comments.find_or_create_by_path comments
-  r2.comments.find_or_create_by_path comments
+    r1 = l.references.create(paper: p1, user: u)
+    r2 = l.references.create(paper: p2, user: u)
+
+    r1.comments.find_or_create_by_path comments
+    r2.comments.find_or_create_by_path comments
+  end
 end
