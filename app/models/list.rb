@@ -13,7 +13,11 @@ class List < ApplicationRecord
   has_and_belongs_to_many :homepages
 
   has_many :list_memberships, dependent: :destroy
-  has_many :members, through: :list_memberships, source: :user
+  has_many :members, through: :list_memberships, source: :user do
+    def [] role
+      where("list_memberships.role = ?", ListMembership.roles[role])
+    end
+  end
 
   has_many :papers, through: :references
   has_many :references, dependent: :destroy
@@ -27,7 +31,7 @@ class List < ApplicationRecord
             }
 
   def owner
-    members.find_by("list_memberships.role = ?", ListMembership.roles[:owner])
+    members[:owner].first
   end
 
   def owner= user
