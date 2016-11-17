@@ -6,6 +6,8 @@ class List < ApplicationRecord
 
   default_scope { order(cached_votes_up: :desc, updated_at: :desc) }
 
+  scope :publicly_visible, -> { where(visibility: :public) }
+
   after_create ->{ list_memberships.find_or_create_by(list: self, user: user) }
   before_create :set_slug
 

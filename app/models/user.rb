@@ -41,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def visible_lists
-    public_lists = List.where(visibility: :public).pluck(:id)
+    public_lists = List.publicly_visible.pluck(:id)
     member_lists = self.lists.pluck(:id)
     List.where(id: public_lists + member_lists)
   end

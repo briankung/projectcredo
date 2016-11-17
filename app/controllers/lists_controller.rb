@@ -8,7 +8,7 @@ class ListsController < ApplicationController
     if current_user
       @lists = current_user.visible_lists
     else
-      @lists = List.where(visibility: :public)
+      @lists = List.publicly_visible
     end
   end
 
