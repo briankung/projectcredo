@@ -27,7 +27,7 @@ class List < ApplicationRecord
 
     def add user, role: nil
       attrs = {list: @association.owner, user: user}
-      attrs.merge role: role unless role.nil?
+      attrs.merge!(role: role) if role
       ListMembership.create(attrs)
     end
   end
