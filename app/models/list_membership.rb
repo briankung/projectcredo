@@ -1,6 +1,11 @@
 class ListMembership < ApplicationRecord
   enum role: {owner: 10, moderator: 20, contributor: 30, subscriber: 40 }
 
+  validates_uniqueness_of :role,
+    if: ->{role == "owner"},
+    scope: :list,
+    message: "must be transferred with current list owner's permission"
+
   belongs_to :user
   belongs_to :list
 
