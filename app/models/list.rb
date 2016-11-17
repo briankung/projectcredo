@@ -15,7 +15,7 @@ class List < ApplicationRecord
   has_many :list_memberships, dependent: :destroy
   has_many :members, through: :list_memberships, source: :user do
     def [] role
-      where("list_memberships.role = ?", ListMembership.roles[role])
+      where("list_memberships.role = ?", ListMembership.roles.fetch(role))
     end
   end
 
