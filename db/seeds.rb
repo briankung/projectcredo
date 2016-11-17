@@ -35,14 +35,15 @@ papers = [
   }
 ]
 
-comments = [
-  {content: 'First', user_id: u.id},
-  {content: 'Second', user_id: u.id, commentable_id: nil, commentable_type: nil},
-  {content: 'Third', user_id: u.id, commentable_id: nil, commentable_type: nil}
-]
 
 ActiveRecord::Base.transaction do
   u = User.create(email: 'user@example.com', password: 'password', username: 'testuser')
+
+  comments = [
+    {content: 'First', user_id: u.id},
+    {content: 'Second', user_id: u.id, commentable_id: nil, commentable_type: nil},
+    {content: 'Third', user_id: u.id, commentable_id: nil, commentable_type: nil}
+  ]
 
   p1 = Paper.create papers[0]
   p2 = Paper.create papers[1]

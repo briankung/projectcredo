@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 20161117045644) do
 
   create_table "authors", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "first_name"
-    t.text     "last_name"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.text     "given_name"
+    t.text     "family_name"
     t.citext   "full_name"
     t.index ["full_name"], name: "index_authors_on_full_name", unique: true, using: :btree
   end
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20161117045644) do
     t.integer  "list_id",                 null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.integer  "role",       default: 10, null: false
+    t.integer  "role",       default: 40, null: false
     t.index ["user_id", "list_id"], name: "index_list_memberships_on_user_id_and_list_id", unique: true, using: :btree
   end
 
@@ -102,11 +102,13 @@ ActiveRecord::Schema.define(version: 20161117045644) do
     t.datetime "updated_at",                   null: false
     t.string   "description"
     t.integer  "cached_votes_up", default: 0
+    t.integer  "user_id",                      null: false
     t.string   "slug"
-    t.integer  "visibility",      default: 40, null: false
-    t.integer  "user_id"
+    t.integer  "visibility",      default: 30, null: false
     t.index ["cached_votes_up", "created_at"], name: "index_lists_on_cached_votes_up_and_created_at", order: {"cached_votes_up"=>:desc, "created_at"=>:desc}, using: :btree
     t.index ["slug"], name: "index_lists_on_slug", using: :btree
+    t.index ["user_id", "name"], name: "index_lists_on_user_id_and_name", using: :btree
+    t.index ["user_id"], name: "index_lists_on_user_id", using: :btree
   end
 
   create_table "papers", force: :cascade do |t|
