@@ -5,7 +5,7 @@ class Users::ListsController < ApplicationController
   before_action :ensure_editable, only: [:edit, :update, :destroy]
 
   def index
-    @lists = @user.lists
+    @lists = @user.authored_lists.uniq
     render 'lists/index'
   end
 
