@@ -1,9 +1,9 @@
-**Problem:** 
+**Problem:**
 
-**Solution:** 
+**Solution:**
 
-**Complications:** 
+**Complications:**
 
-**Changelog:** 
+**Feature Changelog:**
 
 - Enter high level description of changes here.

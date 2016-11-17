@@ -45,7 +45,7 @@ class Crossref
         authors_attributes: lambda do |data|
           if (authors = data.dig 'message', 'author')
             authors.map do |author|
-              {name: author.values_at('given', 'family').join(' ')}
+              {given_name: author['given'], family_name: author['family']}
             end
           else
             []

@@ -10,7 +10,7 @@ class Paper < ApplicationRecord
   has_many :links, dependent: :destroy
   has_many :api_import_responses, dependent: :destroy
 
-  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['name'].blank? }
+  accepts_nested_attributes_for :authors, reject_if: proc { |attributes| attributes['family_name'].blank? }
   accepts_nested_attributes_for :links
   validates_associated :links
   validates :title, presence: true
@@ -63,7 +63,7 @@ class Paper < ApplicationRecord
 
   def autosave_associated_records_for_authors
     self.authors = authors.map do |author|
-      Author.find_or_create_by name: author.name
+      Author.find_or_create_by given_name: author.given_name, family_name: author.family_name
     end
   end
 
