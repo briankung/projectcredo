@@ -4,7 +4,7 @@ class List < ApplicationRecord
   acts_as_votable
 
   # Attributes
-  enum visibility: {public: 10, private: 20, contributors: 30}, _prefix: :visible_to
+  enum visibility: {private: 10, contributors: 20, public: 30}, _prefix: :visible_to
 
   # Scopes
   default_scope { joins(:list_memberships).order(cached_votes_up: :desc, updated_at: :desc) }

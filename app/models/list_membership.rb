@@ -1,5 +1,5 @@
 class ListMembership < ApplicationRecord
-  enum role: {owner: 10, moderator: 20, contributor: 30, subscriber: 40 }
+  enum role: {subscriber: 10, contributor: 20, moderator: 30, owner: 40 }
 
   validates_uniqueness_of :role,
     if: ->{role == "owner"},
