@@ -17,4 +17,8 @@ class ListMembership < ApplicationRecord
     when 'subscriber'   then ['read']
     end
   end
+
+  def can_edit?
+    owner? || moderator? || contributor?
+  end
 end
