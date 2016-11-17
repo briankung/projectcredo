@@ -37,8 +37,13 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Current contributors</label>
       <div class="col-md-10">
-        <% list.members.each do |member| %>
-          <div class="form-control"><%= link_to member.username, user_lists_path(member) %></div>
+        <% non_members = list.members.where.not(id: list.owner.id) %>
+        <% if non_members.any? %>
+          <% non_members.each do |member| %>
+            <div class="form-control"><%= link_to member.username, user_lists_path(member) %></div>
+          <% end %>
+        <% else %>
+          <div class="form-control">None</div>
         <% end %>
       </div>
     </div>
@@ -46,7 +51,7 @@
     <div class="form-group">
       <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
       <div class="col-md-10">
-        <%= f.select :members, User.pluck(:username), {}, class: "form-control"  %>
+        <%= f.select :members, (User.all - @list.members).map(&:username), {include_blank: 'None'}, {class: "form-control"}  %>
       </div>
     </div>
 

@@ -19,9 +19,13 @@ class Users::ListsController < ApplicationController
   end
 
   def update
+    member = User.find_by username: params[:list].delete(:members)
+
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to user_list_path(@list.user, @list), notice: 'List was successfully updated.' }
+        @list.members.add(member, role: :contributor) if member
+
+        format.html { redirect_back(fallback_location: user_list_path(@list.user, @list), notice: 'List was successfully updated.') }
         format.json { render :show, status: :ok, location: @list }
       else
         format.html { render :edit }
@@ -57,7 +61,7 @@ class Users::ListsController < ApplicationController
     end
 
     def list_params
-      params.require(:list).permit(:name, :description, :tag_list)
+      params.require(:list).permit(:name, :description, :tag_list, :members)
     end
 
     def ensure_editable
