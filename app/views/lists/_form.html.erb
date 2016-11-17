@@ -1,4 +1,6 @@
-<%= form_for(list) do |f| %>
+<% url = if list.persisted? then user_list_path(list.user, list) else lists_path end  %>
+
+<%= form_for(list, url: url) do |f| %>
   <% if list.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(list.errors.count, "error") %> prohibited this list from being saved:</h2>
