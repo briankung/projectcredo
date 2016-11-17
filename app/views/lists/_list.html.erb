@@ -16,7 +16,7 @@
       <% end %>
       <h2>
         <%= link_to list.name, user_list_path(list.user, list) %><br>
-        <small> by <%= link_to list.user.username, user_profile_path(list.user) %></small>
+        <small> by <%= link_to list.user.username, user_lists_path(list.user) %></small>
       </h2>
       <p><%= list.description %></p>
       <small>Tags:<i><%= list.tag_list %></i></br></small>
