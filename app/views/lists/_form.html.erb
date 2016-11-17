@@ -35,6 +35,22 @@
     </div>
 
     <div class="form-group">
+      <label class="col-md-2 control-label">Current contributors</label>
+      <div class="col-md-10">
+        <% list.members.each do |member| %>
+          <div class="form-control"><%= link_to member.username, user_lists_path(member) %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <%= f.select :members, User.pluck(:username), {}, class: "form-control"  %>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <%= f.submit button_name, class: "btn btn-primary" %>
       </div>
