@@ -26,8 +26,12 @@ class Pubmed
         publication:        lambda {|data| data.css('Journal Title').text },
         doi:                lambda {|data| data.css('ArticleId[IdType=doi]').text },
         pubmed_id:          lambda {|data| data.css('PMID').text },
-        abstract:           lambda {|data| data.css('AbstractText').map(&:text).join("\n\n") },
-        abstract_editable:  lambda {|data| false if data.css('AbstractText').present? },
+        abstract:           lambda do |data|
+          data.css('AbstractText').map do |a|
+            [a['Label'],a.text]
+          end.join("\n\n")
+        end,
+        abstract_editable:  lambda {|data| data.css('AbstractText').blank? },
         published_at:       lambda {|data| Date.parse data.css('PubDate').map(&:text).join(' ') },
         authors_attributes: lambda do |data|
           authors = data.css('AuthorList Author')
