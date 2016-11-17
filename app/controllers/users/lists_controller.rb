@@ -9,13 +9,13 @@ class Users::ListsController < ApplicationController
     render 'lists/index'
   end
 
-  def edit
-    render 'lists/edit'
-  end
-
   def show
     @references = @list.references.joins(:paper).order(params_sort_order)
     render 'lists/show'
+  end
+
+  def edit
+    render 'lists/edit'
   end
 
   def update
