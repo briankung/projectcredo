@@ -54,4 +54,8 @@ class Users::ListsController < ApplicationController
         "cached_votes_up DESC, created_at ASC"
       end
     end
+
+    def list_params
+      params.require(:list).permit(:name, :description, :tag_list)
+    end
 end
