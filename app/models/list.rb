@@ -4,7 +4,7 @@ class List < ApplicationRecord
   acts_as_taggable
   acts_as_votable
 
-  default_scope { order(cached_votes_up: :desc, updated_at: :desc) }
+  default_scope { joins(:list_memberships).order(cached_votes_up: :desc, updated_at: :desc) }
 
   scope :publicly_visible, -> { where(visibility: :public) }
 
