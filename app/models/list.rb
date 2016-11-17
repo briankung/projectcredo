@@ -30,6 +30,13 @@ class List < ApplicationRecord
     members.find_by("list_memberships.role = ?", ListMembership.roles[:owner])
   end
 
+  def owner= user
+    List.transaction do
+      list_memberships.find_by(role: :owner).update_column :role, :moderator
+      list_memberships.find_by(user: user).update_column :role, :owner
+    end
+  end
+
   def to_slug
     self.name
       .downcase
