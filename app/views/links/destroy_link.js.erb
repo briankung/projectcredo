@@ -1,4 +1,4 @@
-linksList = "<%= escape_javascript(render('papers/links', reference: reference)) %>";
+linksList = "<%= escape_javascript(render('links/links', reference: reference)) %>";
 linksUL = $("#details-<%= reference.id %>").find('.links');
 
 linksUL.html(linksList);

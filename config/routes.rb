@@ -20,13 +20,12 @@ Rails.application.routes.draw do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
 
-  get ':reference_id/:id/delete' => 'links#destroy', as: :destroy_link
-  get ':username/:list_id/:id/update' => 'references#edit_abstract', as: :edit_abstract
+  resources :links, only: [:destroy]
 
   get ':username/:id' => 'users/lists#show', as: :user_list
   get ':username/:id/edit' => 'users/lists#edit', as: :edit_user_list
-  get ':username/:id/delete' => 'lists#destroy', as: :destroy_user_list
   get ':username/:list_id/:id' => 'users/references#show', as: :user_reference
+  get ':username/:list_id/:id/edit_abstract' => 'references#edit_abstract', as: :edit_abstract
   get ':username' => 'users/lists#index', as: :user_profile
 
 end

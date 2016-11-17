@@ -14,7 +14,8 @@
       <%= link_to l.url, l.url, target: '_blank' %>
       <% if l.link_editable %>
         <%= link_to '',
-          destroy_link_path(reference, l),
+          link_path(l, reference: reference),
+          method: 'delete',
           class: 'btn-icon remove-button',
           data: { confirm: 'Are you want to delete this link?' },
           remote: true
@@ -25,4 +26,4 @@
     </li>
   <% end %>
 <% end %>
-<%= render 'papers/links_form', paper: paper %>
+<%= render 'links/links_form', paper: paper %>
