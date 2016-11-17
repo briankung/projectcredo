@@ -42,7 +42,11 @@
           <% members.each do |member| %>
             <div class="form-control">
               <%= link_to member.username, user_lists_path(member) %>
-              <%= link_to 'Remove', {}, class: 'text-danger pull-right' %>
+              <%= link_to 'Remove',
+                    list_member_path(list.id, member.id),
+                    "data-username" => member.username,
+                    class: "remove-member text-danger pull-right",
+                    method: :delete %>
             </div>
           <% end %>
         <% else %>
