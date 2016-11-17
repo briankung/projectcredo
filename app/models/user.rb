@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_one :homepage, dependent: :destroy
 
+  has_many :authored_lists, class_name: 'List'
   has_many :list_memberships, dependent: :destroy
   has_many :lists, through: :list_memberships do
     # Adds owner id to lists when created through join table
@@ -36,14 +37,14 @@ class User < ApplicationRecord
     end
   end
 
-  def authored_lists
-    lists.where("list_memberships.role = ?", ListMembership.roles[:owner])
-  end
-
   def visible_lists
-    public_lists = List.publicly_visible.pluck(:id)
-    member_lists = self.lists.pluck(:id)
-    List.where(id: public_lists + member_lists)
+    public_lists = List.publicly_visible.joins(:list_memberships)
+    shared_guest_lists = List.joins(:list_memberships).where(
+      'list_memberships.user_id = ? AND NOT lists.visibility = ?',
+      id, List.visibilities[:private]
+    )
+
+    public_lists.or(shared_guest_lists)
   end
 
   before_save { self.email.downcase! if self.email }

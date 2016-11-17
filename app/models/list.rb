@@ -20,6 +20,12 @@ class List < ApplicationRecord
     def [] role
       where("list_memberships.role = ?", ListMembership.roles.fetch(role))
     end
+
+    def add user, role: nil
+      attrs = {list: @association.owner, user: user}
+      attrs.merge role: role unless role.nil?
+      ListMembership.create(attrs)
+    end
   end
 
   has_many :papers, through: :references
@@ -39,7 +45,10 @@ class List < ApplicationRecord
 
   def owner= user
     List.transaction do
-      list_memberships.find_by(role: :owner).update_column :role, :moderator
+      if (owner_membership = list_memberships.find_by(role: :owner))
+        owner_membership.update_column(:role, :moderator)
+      end
+
       list_memberships.find_by(user: user).update_column :role, :owner
     end
   end
