@@ -37,9 +37,9 @@
     <div class="form-group">
       <label class="col-md-2 control-label">Current contributors</label>
       <div class="col-md-10">
-        <% non_members = list.members.where.not(id: list.owner.id) %>
-        <% if non_members.any? %>
-          <% non_members.each do |member| %>
+        <% members = list.members.where.not(id: list.owner.id) %>
+        <% if members.any? %>
+          <% members.each do |member| %>
             <div class="form-control">
               <%= link_to member.username, user_lists_path(member) %>
               <%= link_to 'Remove', {}, class: 'text-danger pull-right' %>
@@ -54,7 +54,8 @@
     <div class="form-group">
       <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
       <div class="col-md-10">
-        <%= f.select :members, (User.all - @list.members).map(&:username), {include_blank: 'None'}, {class: "form-control"}  %>
+        <% non_members = User.all - @list.members %>
+        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control"}  %>
       </div>
     </div>
 
