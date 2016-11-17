@@ -2,6 +2,7 @@ class Users::ListsController < ApplicationController
   before_action :ensure_current_user, except: [:index, :show]
   before_action :set_user
   before_action :set_list, except: :index
+  before_action :ensure_editable, only: [:edit, :update, :destroy]
 
   def index
     @lists = @user.lists
@@ -57,5 +58,15 @@ class Users::ListsController < ApplicationController
 
     def list_params
       params.require(:list).permit(:name, :description, :tag_list)
+    end
+
+    def ensure_editable
+      @membership = @list.list_memberships.find_by(user: current_user)
+      unless @membership && @membership.can_edit?
+        return redirect_back(
+          fallback_location: lists_path,
+          alert: 'You must be a contributor to make changes to this list.'
+        )
+      end
     end
 end
