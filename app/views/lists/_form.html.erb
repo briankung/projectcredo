@@ -40,7 +40,10 @@
         <% non_members = list.members.where.not(id: list.owner.id) %>
         <% if non_members.any? %>
           <% non_members.each do |member| %>
-            <div class="form-control"><%= link_to member.username, user_lists_path(member) %></div>
+            <div class="form-control">
+              <%= link_to member.username, user_lists_path(member) %>
+              <%= link_to 'Remove', {}, class: 'text-danger pull-right' %>
+            </div>
           <% end %>
         <% else %>
           <div class="form-control">None</div>
