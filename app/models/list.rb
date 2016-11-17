@@ -6,6 +6,7 @@ class List < ApplicationRecord
 
   default_scope { order(cached_votes_up: :desc, updated_at: :desc) }
 
+  after_create ->{ list_memberships.find_or_create_by(list: self, user: user) }
   before_create :set_slug
 
   belongs_to :user

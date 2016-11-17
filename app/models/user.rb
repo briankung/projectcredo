@@ -32,7 +32,7 @@ class User < ApplicationRecord
     end
 
     def create(attributes={}, &block)
-      super(add_user_id(attributes), &block)
+      List.create(add_user_id(attributes), &block)
     end
   end
 
