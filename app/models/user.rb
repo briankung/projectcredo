@@ -42,7 +42,7 @@ class User < ApplicationRecord
     shared_guest_lists = List.where(
       'list_memberships.user_id = ? AND NOT lists.visibility = ?',
       id, List.visibilities[:private]
-    )
+    ).uniq
 
     public_lists.or(shared_guest_lists)
   end

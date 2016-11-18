@@ -8,7 +8,7 @@ class List < ApplicationRecord
 
   # Scopes
   default_scope { joins(:list_memberships).order(cached_votes_up: :desc, updated_at: :desc) }
-  scope :publicly_visible, -> { where(visibility: :public) }
+  scope :publicly_visible, -> { where(visibility: :public).uniq }
 
   # Callbacks
   after_create ->{ list_memberships.find_or_create_by(list: self, user: user) }
