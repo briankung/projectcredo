@@ -16,7 +16,7 @@ class Lists::MembersController < ApplicationController
 
     list.members.delete member
     if removing_self
-      return redirect_to(user_list_path(list.user, list), notice: "You have removed yourself from \"#{list.name}\"")
+      return redirect_to(user_list_path(list.user, list), notice: "You are no longer a contributor to \"#{list.name}\"")
     else
       return redirect_back(fallback_location: path, notice: "\"#{member.username}\" is no longer a contributor")
     end
