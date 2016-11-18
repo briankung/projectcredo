@@ -1,0 +1,6 @@
+linksList = "<%= escape_javascript(render('links/links', reference: reference)) %>";
+linksUL = $("#details-<%= reference.id %>").find('.links');
+
+linksUL.html(linksList);
+
+
