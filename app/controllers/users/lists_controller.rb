@@ -77,6 +77,7 @@ class Users::ListsController < ApplicationController
     end
 
     def ensure_visible
+      return if @list.visible_to_public?
       return redirect_back(fallback_location: lists_path) unless current_user && current_user.can_view?(@list)
     end
 end
