@@ -54,7 +54,6 @@
               <% if current_user && @current_user.can_moderate?(list) || member == current_user %>
                 <%= link_to('Remove',
                       list_member_path(list.id, member.id),
-                      "data-username" => member.username,
                       class: "remove-member text-danger pull-right",
                       method: :delete) %>
               <% end %>
