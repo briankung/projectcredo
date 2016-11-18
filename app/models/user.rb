@@ -37,6 +37,11 @@ class User < ApplicationRecord
     end
   end
 
+  def can_edit? list
+    membership = list.list_memberships.find_by(user: self)
+    membership && membership.can_edit?
+  end
+
   def visible_lists
     public_lists = List.publicly_visible
     shared_guest_lists = List.where(
