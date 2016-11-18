@@ -51,7 +51,7 @@
           <% members.each do |member| %>
             <div class="form-control contributor-list">
               <%= link_to member.username, user_lists_path(member) %>
-              <% if @membership && @membership.can_moderate? || member == current_user %>
+              <% if current_user && @current_user.can_moderate? || member == current_user %>
                 <%= link_to('Remove',
                       list_member_path(list.id, member.id),
                       "data-username" => member.username,
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <% if @membership && @membership.can_moderate? %>
+    <% if current_user && @current_user.can_moderate? %>
       <div class="form-group">
         <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
         <div class="col-md-10">
