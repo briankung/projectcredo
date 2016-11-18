@@ -11,6 +11,10 @@ class LinkPaperLocator
     if (link = Link.find_by url: locator_id)
       return link.paper
     else
+      # save extra link details, mostly host
+      # Grab different paper attributes depending on which host
+      # Pubmed or Crossref can be used if pmid or doi is in the url
+      # LinkScraper
       return Paper.create title: paper_title, links_attributes: [{url: locator_id}]
     end
   end

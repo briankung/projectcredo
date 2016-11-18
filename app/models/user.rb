@@ -37,13 +37,22 @@ class User < ApplicationRecord
     end
   end
 
+  def membership_for list
+    list.list_memberships.find_by(user: self)
+  end
+
+  def can_moderate? list
+    membership = membership_for list
+    membership && membership.can_moderate?
+  end
+
   def can_edit? list
-    membership = list.list_memberships.find_by(user: self)
+    membership = membership_for list
     membership && membership.can_edit?
   end
 
   def can_view? list
-    membership = list.list_memberships.find_by(user: self)
+    membership = membership_for list
     membership && membership.can_view?
   end
 
