@@ -10,7 +10,7 @@ class LinksController < ApplicationController
     reference = Reference.find(params[:reference])
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path, notice: "'#{url}' has been successfully removed from '#{paper}'") }
-      format.js { render('destroy_link.js.erb', locals: { reference: reference }) }
+      format.js { render('destroy.js.erb', locals: { reference: reference }) }
     end
   end
 
