@@ -1,9 +1,8 @@
 <% paper = reference.paper %>
 
 <ul class="nav nav-pills small" role="tablist">
-  <% %i{abstract details}.each do |tab| %>
-    <li><%= link_to tab.capitalize, '', "data-detail-id" => "#{tab}-#{reference.id}", class: "paper-detail-tab" %></li>
-  <% end %>
+  <li><%= link_to 'Abstract', '', "data-detail-id" => "abstract-#{reference.id}", class: "paper-detail-tab" %></li>
+  <li><%= link_to 'Details', '', "data-detail-id" => "details-#{reference.id}", class: "paper-detail-tab" %></li>
   <li><%= render 'references/comments_tab', reference: reference %></li>
   <% if current_user %>
     <li>
@@ -14,35 +13,3 @@
     </li>
   <% end %>
 </ul>
-<div class="collapse paper-detail well" id="abstract-<%= reference.id %>">
-  <%= render 'papers/abstract', reference: reference, paper: paper %>
-</div>
-<div class="collapse paper-detail well" id="details-<%= reference.id %>">
-  Links:
-  <ul class="links">
-    <% if paper.doi.present? %>
-      <li>DOI: <%= link_to paper.doi, "http://dx.doi.org/#{paper.doi}", target: '_blank' %></li>
-    <% end %>
-
-    <% if paper.pubmed_id.present? %>
-      <li>Pubmed ID: <%= link_to paper.pubmed_id, "https://www.ncbi.nlm.nih.gov/pubmed/#{paper.pubmed_id}", target: '_blank' %></li>
-    <% end %>
-
-    <% if paper.links.any? %>
-      <% paper.links.each do |l| %><li><%= link_to l.url, l.url, target: '_blank' %></li><% end %>
-    <% end %>
-
-    <%= form_for(paper, html: {class: "form-inline"}) do |p| %>
-      <div class="form-group">
-        <%= p.fields_for :links, paper.links.build do |l| %>
-          <%= l.text_field :url, class: "form-control", size: 50%>
-        <% end %>
-        <%= p.submit 'Add Link', class: "btn btn-xs btn-primary" %>
-        <i class="help-block"> Add a primary source link for this paper that represents the paper itself </i>
-      </div>
-    <% end %>
-  </ul>
-</div>
-<div class="paper-detail well collapse <%= "in" if show_comments %>" id="comments-<%= reference.id %>">
-  <%= render 'references/comments', reference: reference %>
-</div>

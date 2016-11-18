@@ -1,7 +1,23 @@
+<% paper = reference.paper %>
+
 <% if paper.abstract.present? %>
-  <p><%= wrap_on_line_breaks paper.abstract %></p>
+  <div class='edit-abstract' id="edit-abstract-<%=reference.id%>">
+    <i class='help-block'>
+      <% if paper.abstract_editable %>
+        This abstract is user generated and can be
+        <%= link_to 'edited', '#', class: "edit-abstract" %>
+      <% else %>
+        This abstract was imported and cannot be edited
+      <% end %>
+    </i>
+    <%= wrap_on_line_breaks paper.abstract %>
+  </div>
+  <div class='abstract-form hidden'>
+    <%= render 'papers/abstract_form', paper: paper %>
+  </div>
 <% elsif current_user %>
- <%= render 'papers/abstract_form', reference: reference, paper: paper %>
+  <b>No abstract found, you can add one:</b>
+  <%= render 'papers/abstract_form', paper: paper %>
 <% else %>
   No abstract found. <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to add one.
 <% end %>

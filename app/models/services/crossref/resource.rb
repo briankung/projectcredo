@@ -53,7 +53,7 @@ class Crossref
         end,
         links_attributes:   lambda do |data|
           if (links = data.dig 'message', 'link')
-            links.map {|link| Hash[url: link['URL']] }
+            links.map {|link| Hash[url: link['URL'], link_editable: false] }
           else
             []
           end
