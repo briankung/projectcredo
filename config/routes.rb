@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :lists, only: [:index, :new, :create] do
     resources :references, only: [:show, :create, :destroy]
     resource :vote, controller: 'lists/votes', only: [:create, :destroy]
+    resources :members, only: :destroy, controller: 'lists/members'
   end
 
   resources :references do

@@ -1,17 +1,38 @@
 class List < ApplicationRecord
+  # Modules
   acts_as_taggable
   acts_as_votable
 
-  default_scope { order( cached_votes_up: :desc, updated_at: :desc ) }
+  # Attributes
+  enum visibility: {private: 10, contributors: 20, public: 30}, _prefix: :visible_to
 
+  # Scopes
+  default_scope { joins(:list_memberships).order(cached_votes_up: :desc, updated_at: :desc) }
+  scope :publicly_visible, -> { where(visibility: :public).uniq }
+
+  # Callbacks
+  after_create ->{ list_memberships.find_or_create_by(list: self, user: user) }
   before_create :set_slug
 
-  has_and_belongs_to_many :homepages
+  # Associations
   belongs_to :user
-
+  has_and_belongs_to_many :homepages
+  has_many :list_memberships, dependent: :destroy
   has_many :papers, through: :references
   has_many :references, dependent: :destroy
+  has_many :members, through: :list_memberships, source: :user do
+    def [] role
+      where("list_memberships.role = ?", ListMembership.roles.fetch(role))
+    end
 
+    def add user, role: nil
+      attrs = {list: @association.owner, user: user}
+      attrs.merge!(role: role) if role
+      ListMembership.create(attrs)
+    end
+  end
+
+  # Validations
   validates :name,
             presence: true,
             uniqueness: {
@@ -20,12 +41,23 @@ class List < ApplicationRecord
               message: "must be unique for lists you own."
             }
 
+  # Methods
+  def owner
+    members[:owner].first
+  end
+
+  def owner= user
+    List.transaction do
+      if (owner_membership = list_memberships.find_by(role: :owner))
+        owner_membership.update_column(:role, :moderator)
+      end
+
+      list_memberships.find_by(user: user).update_column :role, :owner
+    end
+  end
+
   def to_slug
-    self.name
-      .downcase
-      .gsub("'", '')                # Remove apostrophes
-      .gsub(/[^\p{N}\p{L}]/, '-')   # Replace non-number, non-letter characters with a dash
-      .gsub(/-{2,}/, '-')           # Combine any contiguous dashes
+    self.name.downcase.gsub("'", '').gsub(/[^\p{N}\p{L}]/, '-').gsub(/-{2,}/, '-')
   end
 
   def set_slug

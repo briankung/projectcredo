@@ -28,9 +28,50 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :tag_list, 'Tags (separated by commas)', class: "col-md-2 control-label"  %>
+      <%= f.label :tag_list, 'Tags (separated by commas)', class: "col-md-2 control-label" %>
       <div class="col-md-10">
-        <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control"  %>
+        <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control", placeholder: 'Ex: biology, chemistry, physics' %>
+      </div>
+    </div>
+
+    <% if list.persisted? %>
+      <div class="form-group">
+        <label class="col-md-2 control-label">List owner</label>
+        <div class="col-md-10">
+          <div class="form-control contributor-list">
+            <%= link_to list.owner.username, user_lists_path(list.owner) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-2 control-label">Current contributors</label>
+        <div class="col-md-10">
+          <% members = list.members.where.not(id: list.owner.id) %>
+          <% if members.any? %>
+            <% members.each do |member| %>
+              <div class="form-control contributor-list">
+                <%= link_to member.username, user_lists_path(member) %>
+                <% if current_user && @current_user.can_moderate?(list) || member == current_user %>
+                  <%= link_to('Remove',
+                        list_member_path(list.id, member.id),
+                        class: "remove-member text-danger pull-right",
+                        method: :delete) %>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="form-control">None</div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
+      <div class="col-md-10">
+        <% non_members = User.all - @list.members %>
+        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control", disabled: current_user.can_moderate?(list)}  %>
       </div>
     </div>
 
