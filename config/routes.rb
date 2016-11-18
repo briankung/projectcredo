@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :papers, only: [:show, :edit, :update]
+  resources :papers, only: [:show, :edit, :update] do
+    resources :links, only: :delete
+  end
 
   resources :pins, only: [:create, :destroy]
 

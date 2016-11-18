@@ -20,7 +20,7 @@
       <h4 class="paper-title">
         <%= link_to paper.title, direct_link, target: '_blank' %>
         <small>
-          contributed by <%= link_to reference.user.username, user_profile_path(reference.user) %>
+          contributed by <%= link_to reference.user.username, user_lists_path(reference.user) %>
           - <%= link_to 'permalink', user_list_reference_path(reference.list.user, reference.list, reference) %>
         </small>
       </h4>

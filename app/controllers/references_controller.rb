@@ -35,15 +35,6 @@ class ReferencesController < ApplicationController
     end
   end
 
-  # GET /username/references/1/edit_abstract
-  def edit_abstract
-    list = @reference.list
-    respond_to do |format|
-      format.html { redirect_to @reference }
-      format.js { render 'references/edit_abstract.js.erb' }
-    end
-  end
-
   private
     def set_reference
       @reference = Reference.find(params[:id])
