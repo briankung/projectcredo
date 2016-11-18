@@ -16,7 +16,8 @@
     <%= render 'papers/abstract_form', paper: paper %>
   </div>
 <% elsif current_user %>
- <%= render 'papers/abstract_form', paper: paper %>
+  <b>No abstract found, you can add one:</b>
+  <%= render 'papers/abstract_form', paper: paper %>
 <% else %>
   No abstract found. <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %> to add one.
 <% end %>

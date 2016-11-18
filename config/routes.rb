@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :papers, only: [:show, :edit, :update] do
-    resources :links, only: :delete
+    resources :links, only: :destroy, shallow: true
   end
 
   resources :pins, only: [:create, :destroy]
@@ -21,8 +21,6 @@ Rails.application.routes.draw do
   resources :comments, only: [:create, :edit, :update, :destroy] do
     resource :vote, controller: 'comments/votes', only: [:create, :destroy]
   end
-
-  resources :links, only: [:destroy]
 
   scope ':username' do
     resources :lists, path: '/', except: [:new, :create], as: :user_lists, controller: 'users/lists'
