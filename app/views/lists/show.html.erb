@@ -1,11 +1,13 @@
 <h2 class= "list-title"><%= @list.name %></h2>
 <div class="list-nav">
   created by <%= link_to @list.owner.username, user_lists_path(@list.owner) %>
-  <% if current_user.can_edit? @list %>
-   - <%= link_to 'Edit', edit_user_list_path(@list.owner, @list) %>
- <% end %>
-  <% if @list.owner == current_user %>
-     - <%= link_to 'Delete List', user_list_path(@list.owner, @list), data: { confirm: 'Are you sure?' }, method: :delete %>
+  <% if current_user %>
+    <% if current_user.can_edit? @list %>
+     - <%= link_to 'Edit', edit_user_list_path(@list.owner, @list) %>
+   <% end %>
+    <% if @list.owner == current_user %>
+       - <%= link_to 'Delete List', user_list_path(@list.owner, @list), data: { confirm: 'Are you sure?' }, method: :delete %>
+    <% end %>
   <% end %>
 </div>
 <p>
