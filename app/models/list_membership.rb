@@ -18,6 +18,10 @@ class ListMembership < ApplicationRecord
     end
   end
 
+  def can_view?
+    !(list.visibility == 'private')
+  end
+
   def can_edit?
     owner? || moderator? || contributor?
   end

@@ -3,6 +3,7 @@ class Users::ListsController < ApplicationController
   before_action :set_user
   before_action :set_list, except: :index
   before_action :ensure_editable, only: [:edit, :update, :destroy]
+  before_action :ensure_visible, only: :show
 
   def index
     @lists = @user.authored_lists.uniq
@@ -65,12 +66,15 @@ class Users::ListsController < ApplicationController
     end
 
     def ensure_editable
-      @membership = @list.list_memberships.find_by(user: current_user)
-      unless @membership && @membership.can_edit?
+      unless current_user.can_edit? @list
         return redirect_back(
           fallback_location: lists_path,
           alert: 'You must be a contributor to make changes to this list.'
         )
       end
+    end
+
+    def ensure_visible
+      return redirect_back(fallback_location: lists_path) unless current_user.can_view?(@list)
     end
 end
