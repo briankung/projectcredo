@@ -66,6 +66,8 @@ class Users::ListsController < ApplicationController
     end
 
     def ensure_editable
+      redirect_to(lists_path) unless current_user
+
       unless current_user.can_edit? @list
         return redirect_back(
           fallback_location: lists_path,
