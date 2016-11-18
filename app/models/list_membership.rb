@@ -21,4 +21,8 @@ class ListMembership < ApplicationRecord
   def can_edit?
     owner? || moderator? || contributor?
   end
+
+  def can_moderate?
+    owner? || moderator?
+  end
 end
