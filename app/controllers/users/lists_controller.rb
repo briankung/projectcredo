@@ -28,7 +28,7 @@ class Users::ListsController < ApplicationController
         format.html { redirect_back(fallback_location: user_list_path(@list.user, @list), notice: 'List was successfully updated.') }
         format.json { render :show, status: :ok, location: @list }
       else
-        format.html { render :edit }
+        format.html { render 'lists/edit' }
         format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end
