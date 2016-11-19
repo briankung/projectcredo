@@ -40,6 +40,7 @@ class List < ApplicationRecord
               case_sensitive: false,
               message: "must be unique for lists you own."
             }
+  validates_associated :list_memberships
 
   # Methods
   def owner
