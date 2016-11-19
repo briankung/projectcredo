@@ -1,19 +1,19 @@
 class Pubmed
   class Resource
-    attr_accessor :id, :response
+    attr_accessor :id, :response, :paper_attributes
 
     def initialize id
       self.id = id.to_s
-      self.response = get_response(id)
-    end
+      self.response = Pubmed::Http.efetch(id: id)
 
-    def paper_attributes
-      return nil if response.nil?
-      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.body, &:noblanks)
+      # Pubmed responds with <PubmedArticleSet></PubmedArticleSet> for nonexistent IDs like 123456789987654321
+      # Check that the response size is larger than that + the doctype declaration
+      if response.body.size > 250
+        self.paper_attributes = map_attributes(mapper, Nokogiri::XML(response.body, &:noblanks))
+      end
     end
 
     def map_attributes mapper, data
-      return nil unless data
       mapper.inject({}) do |memo, _|
         attribute, mapping = _[0], _[1]
         memo[attribute] = mapping.call(data)
@@ -36,16 +36,6 @@ class Pubmed
           end
         end
       }
-    end
-
-    def get_response uid
-      return nil if uid.nil?
-      # Pubmed responds with <PubmedArticleSet></PubmedArticleSet> for IDs like 123456789987654321
-      # Check that the response size is larger than that + the doctype declaration
-      response = Pubmed::Http.efetch(id: uid)
-      return nil if response.body.size < 300
-
-      response
     end
   end
 end
