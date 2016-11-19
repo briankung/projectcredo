@@ -71,11 +71,15 @@
       <%= f.label :members, 'Add a contributor', class: "col-md-2 control-label"  %>
       <div class="col-md-10">
         <%
-          all_users = User.all
-          members = if list.persisted? then @list.members else [current_user] end
-          non_members = all_users - members
+          if list.persisted?
+            non_members = User.all - @list.members
+            disable_contributors = !current_user.can_moderate?(list)
+          else
+            non_members = User.all - [current_user]
+            disable_contributors = false
+          end
         %>
-        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control", disabled: !current_user.can_moderate?(list)}  %>
+        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control", disabled: disable_contributors}  %>
       </div>
     </div>
 
