@@ -75,7 +75,7 @@
           members = if list.persisted? then @list.members else [current_user] end
           non_members = all_users - members
         %>
-        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control", disabled: current_user.can_moderate?(list)}  %>
+        <%= f.select :members, non_members.map(&:username), {include_blank: 'None'}, {class: "form-control", disabled: !current_user.can_moderate?(list)}  %>
       </div>
     </div>
 
