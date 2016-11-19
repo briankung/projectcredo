@@ -21,15 +21,14 @@ class Users::ListsController < ApplicationController
 
   def update
     member = User.find_by username: params[:list].delete(:members)
+    @list.list_memberships.build(user: member, role: :contributor) if member
 
     respond_to do |format|
       if @list.update(list_params)
-        @list.members.add(member, role: :contributor) if member
-
         format.html { redirect_back(fallback_location: user_list_path(@list.user, @list), notice: 'List was successfully updated.') }
         format.json { render :show, status: :ok, location: @list }
       else
-        format.html { render :edit }
+        format.html { render 'lists/edit' }
         format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end

@@ -21,10 +21,10 @@ class ListsController < ApplicationController
   def create
     @list = current_user.lists.build(list_params)
     member = User.find_by username: params[:list].delete(:members)
+    @list.list_memberships.build(user: member, role: :contributor) if member
 
     respond_to do |format|
       if @list.save
-        @list.members.add(member, role: :contributor) if member
         current_user.homepage.lists << @list
         format.html { redirect_to user_list_path(@list.owner, @list), notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @list }
