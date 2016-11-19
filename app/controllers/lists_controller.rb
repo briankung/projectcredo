@@ -23,7 +23,6 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
-        current_user.lists << @list
         current_user.homepage.lists << @list
         format.html { redirect_to user_list_path(@list.owner, @list), notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @list }
