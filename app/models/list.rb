@@ -53,7 +53,7 @@ class List < ApplicationRecord
         owner_membership.update_column(:role, :moderator)
       end
 
-      list_memberships.find_by(user: user).update_column :role, :owner
+      list_memberships.find_or_create_by(user: user).update_column :role, :owner
     end
   end
 
