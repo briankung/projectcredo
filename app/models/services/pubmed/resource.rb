@@ -8,7 +8,8 @@ class Pubmed
     end
 
     def paper_attributes
-      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.try(:body), &:noblanks)
+      return nil if response.nil?
+      @paper_attributes ||= map_attributes mapper(), Nokogiri::XML(response.body, &:noblanks)
     end
 
     def map_attributes mapper, data
@@ -39,7 +40,12 @@ class Pubmed
 
     def get_response uid
       return nil if uid.nil?
-      Pubmed::Http.efetch(id: uid)
+      # Pubmed responds with <PubmedArticleSet></PubmedArticleSet> for IDs like 123456789987654321
+      # Check that the response size is larger than that + the doctype declaration
+      response = Pubmed::Http.efetch(id: uid)
+      return nil if response.body.size < 300
+
+      response
     end
   end
 end
