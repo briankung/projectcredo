@@ -15,7 +15,7 @@
   <div class='abstract-form hidden'>
     <%= render 'papers/abstract_form', paper: paper %>
   </div>
-<% elsif current_user %>
+<% elsif current_user && current_user.can_edit?(reference.list) %>
   <b>No abstract found, you can add one:</b>
   <%= render 'papers/abstract_form', paper: paper %>
 <% else %>
