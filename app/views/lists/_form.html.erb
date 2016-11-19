@@ -78,6 +78,9 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <%= f.submit button_name, class: "btn btn-primary" %>
+        <%= link_to 'cancel',
+          if list.id then user_list_path(list.user, list) else root_path end
+        %>
       </div>
     </div>
   </div>
