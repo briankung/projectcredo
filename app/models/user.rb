@@ -66,6 +66,10 @@ class User < ApplicationRecord
     public_lists.or(shared_guest_lists)
   end
 
+  def owned_lists
+    lists.where('list_memberships.role' => :owner).uniq
+  end
+
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage
 
