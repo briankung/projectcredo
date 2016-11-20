@@ -1,0 +1,7 @@
+<% if flash[:notice] %>
+  $('div.flash-messages').append("<%= escape_javascript content_tag(:p, flash[:notice], class: 'notice alert-success') %>")
+<% end %>
+
+<% if flash[:alert] %>
+  $('div.flash-messages').append("<%= escape_javascript content_tag(:p, flash[:alert], class: 'alert alert-danger') %>")
+<% end %>
