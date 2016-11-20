@@ -30,11 +30,10 @@
         </div>
       </div>
     </nav>
-    <% if notice %>
-      <p class="notice alert-success"><%= notice %></p>
-    <% elsif alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
+    <div class="flash-messages">
+      <%= content_tag(:p, notice, class: "notice alert-success") if notice %>
+      <%= content_tag(:p, alert, class: "alert alert-danger") if alert %>
+    </div>
     <%= yield %>
     <%= console if Rails.env.development? %>
   </body>

@@ -52,7 +52,7 @@
             <% members.each do |member| %>
               <div class="form-control contributor-list">
                 <%= link_to member.username, user_lists_path(member) %>
-                <% if current_user && @current_user.can_moderate?(list) || member == current_user %>
+                <% if current_user_can_moderate?(list) || member == current_user %>
                   <%= link_to('Remove',
                         list_member_path(list.id, member.id),
                         class: "remove-member text-danger pull-right",

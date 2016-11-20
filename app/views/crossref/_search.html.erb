@@ -2,7 +2,13 @@
 <div class="input-group input-group-sm crossref">
 
   <span class="input-group-addon" id="crossref-submit"><i class="glyphicon glyphicon-search"></i></span>
-  <%= text_field_tag 'crossref-search', nil, class: 'form-control', placeholder: 'Search for a paper' %>
+  <%=
+    text_field_tag 'crossref-search',
+      nil,
+      class: 'form-control',
+      placeholder: 'Search for a paper',
+      disabled: !current_user_can_edit?(list)
+  %>
   <%= form_for list.references.build, html: {class: 'hidden'} do |f| %>
     <%= f.hidden_field :list_id, value: list.id %>
     <%= f.fields_for Paper.new do |p| %>

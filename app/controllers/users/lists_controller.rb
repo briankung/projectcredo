@@ -2,7 +2,7 @@ class Users::ListsController < ApplicationController
   before_action :ensure_current_user, except: [:index, :show]
   before_action :set_user
   before_action :set_list, except: :index
-  before_action :ensure_editable, only: [:edit, :update, :destroy]
+  before_action :ensure_editable, only: [:edit, :update]
   before_action :ensure_visible, only: :show
 
   def index
@@ -21,7 +21,10 @@ class Users::ListsController < ApplicationController
 
   def update
     member = User.find_by username: params[:list].delete(:members)
-    @list.list_memberships.build(user: member, role: :contributor) if member
+
+    if member && current_user.can_moderate?(@list)
+      @list.list_memberships.build(user: member, role: :contributor)
+    end
 
     respond_to do |format|
       if @list.update(list_params)
@@ -35,6 +38,10 @@ class Users::ListsController < ApplicationController
   end
 
   def destroy
+    unless current_user == @list.owner
+      return redirect_back(fallback_location: lists_path, alert: 'Only the list owner can delete a list.')
+    end
+
     @list.destroy
 
     respond_to do |format|
