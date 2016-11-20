@@ -1,0 +1,55 @@
+div.curate {
+  color: $gray-light;
+  text-align: center;
+
+  &:before    {
+    font-family: "Glyphicons Halflings";
+    content: "\e012";
+    font-size: 4em;
+    width: 50%;
+  }
+
+  h2 {
+    margin: 10px 0 0 0;
+  }
+}
+
+div.document {
+  color: $gray-light;
+  text-align: center;
+
+  &:before    {
+    font-family: "Glyphicons Halflings";
+    content: "\270f";
+    font-size: 4em;
+    width: 50%;
+  }
+
+  h2 {
+    margin: 10px 0 0 0;
+  }
+}
+
+div.share {
+  color: $gray-light;
+  text-align: center;
+
+  &:before    {
+    font-family: "Glyphicons Halflings";
+    content: "\e171";
+    font-size: 4em;
+    width: 50%;
+  }
+
+  h2 {
+    margin: 10px 0 0 0;
+  }
+}
+
+div.divider {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  color: $gray-light;
+}

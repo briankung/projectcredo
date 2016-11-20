@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'homepage#show'
+  get '/about' => 'static_pages#about'
 
   devise_for :users
 
