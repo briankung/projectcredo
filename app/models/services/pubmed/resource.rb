@@ -29,7 +29,7 @@ class Pubmed
         pubmed_id:          lambda {|data| data.css('PMID').text },
         abstract:           lambda do |data|
           data.css('AbstractText').map do |a|
-            a['Label'] + "\n" + a.text
+            if a['Label'] then "#{a['Label']}\n#{a.text}" else a.text end
           end.join("\n\n")
         end,
         abstract_editable:  lambda {|data| data.css('AbstractText').blank? },
