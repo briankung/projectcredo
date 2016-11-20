@@ -35,6 +35,11 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
+    unless @comment.user == current_user
+      flash[:alert] = "You do not have permission to edit this comment"
+      redirect_back(fallback_location: user_list_path(list.owner, list))
+    end
+
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
@@ -53,9 +58,9 @@ class CommentsController < ApplicationController
     reference = @comment.root.commentable
     list = reference.list
 
-    unless current_user.can_moderate?(list)
+    unless current_user.can_moderate?(list) || @comment.user == current_user
       flash[:alert] = "You do not have permission to moderate this list"
-      return redirect_back(fallback_location: user_list_path(list.owner, list))
+      redirect_back(fallback_location: user_list_path(list.owner, list))
     end
 
     @comment.destroy
