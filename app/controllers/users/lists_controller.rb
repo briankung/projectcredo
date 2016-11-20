@@ -2,14 +2,12 @@ class Users::ListsController < ApplicationController
   before_action :ensure_current_user, except: [:index, :show]
   before_action :set_user
   before_action :set_list, except: :index
+  before_action :ensure_editable, only: [:edit, :update]
+  before_action :ensure_visible, only: :show
 
   def index
-    @lists = @user.lists
+    @lists = @user.authored_lists.uniq
     render 'lists/index'
-  end
-
-  def edit
-    render 'lists/edit'
   end
 
   def show
@@ -17,19 +15,33 @@ class Users::ListsController < ApplicationController
     render 'lists/show'
   end
 
+  def edit
+    render 'lists/edit'
+  end
+
   def update
+    member = User.find_by username: params[:list].delete(:members)
+
+    if member && current_user.can_moderate?(@list)
+      @list.list_memberships.build(user: member, role: :contributor)
+    end
+
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to user_list_path(@list.user, @list), notice: 'List was successfully updated.' }
+        format.html { redirect_back(fallback_location: user_list_path(@list.user, @list), notice: 'List was successfully updated.') }
         format.json { render :show, status: :ok, location: @list }
       else
-        format.html { render :edit }
+        format.html { render 'lists/edit' }
         format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
+    unless current_user == @list.owner
+      return redirect_back(fallback_location: lists_path, alert: 'Only the list owner can delete a list.')
+    end
+
     @list.destroy
 
     respond_to do |format|
@@ -44,7 +56,9 @@ class Users::ListsController < ApplicationController
     end
 
     def set_list
-      @list = @user.lists.find_by slug: params[:id]
+      @list = @user.owned_lists.find_by slug: params[:id]
+
+      return redirect_back(fallback_location: lists_path, alert: "List not found.") unless @list
     end
 
     def params_sort_order
@@ -56,6 +70,22 @@ class Users::ListsController < ApplicationController
     end
 
     def list_params
-      params.require(:list).permit(:name, :description, :tag_list)
+      params.require(:list).permit(:name, :description, :tag_list, :members)
+    end
+
+    def ensure_editable
+      redirect_to(lists_path) unless current_user
+
+      unless current_user.can_edit? @list
+        return redirect_back(
+          fallback_location: lists_path,
+          alert: 'You must be a contributor to make changes to this list.'
+        )
+      end
+    end
+
+    def ensure_visible
+      return if @list.visible_to_public?
+      return redirect_back(fallback_location: lists_path) unless current_user && current_user.can_view?(@list)
     end
 end

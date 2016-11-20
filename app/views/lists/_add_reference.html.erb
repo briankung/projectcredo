@@ -20,7 +20,7 @@
                           class: "form-control hidden paper-title input-sm",
                           disabled: true %>
         <div class="form-group">
-        <%= f.submit "Submit", class: "btn btn-primary btn-xs hidden", id: 'add_locator_submit' %>
+        <%= f.submit "Submit", class: "btn btn-primary btn-xs hidden", id: 'add_locator_submit', disabled: !current_user_can_edit?(list) %>
         <%= link_to "cancel", '#', id: "cancel-add-locator", class: "hidden" %>
         </div>
       </div>

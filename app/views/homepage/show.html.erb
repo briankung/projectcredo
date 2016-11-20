@@ -1,19 +1,19 @@
-<% if @lists.present? %>
+<% if @pinned_lists.present? %>
   <h1>Pinned Lists</h1>
   <%= link_to "View All Lists", lists_path %> or
   <%= link_to 'Create a New List', new_list_path %>
 
   <div class="cards row">
-    <%= render @lists %>
+    <%= render @pinned_lists %>
   </div>
 <% end %>
 
-<% if (other_lists = List.where.not(id: @lists.pluck(:id)).limit(9)) %>
+<% if @unpinned_lists %>
   <h1>Popular Lists</h1>
   <%= link_to "View All Lists", lists_path %> or
   <%= link_to 'Create a New List', new_list_path %>
 
   <div class="cards row">
-    <%= render other_lists %>
+    <%= render @unpinned_lists %>
   </div>
 <% end %>

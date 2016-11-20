@@ -14,7 +14,61 @@ class User < ApplicationRecord
             format: {with: /\A[\p{N}\p{L}_]{3,}\z/}
 
   has_one :homepage, dependent: :destroy
-  has_many :lists
+
+  has_many :authored_lists, class_name: 'List'
+  has_many :list_memberships, dependent: :destroy
+  has_many :lists, through: :list_memberships do
+    # Adds owner id to lists when created through join table
+    def add_user_id attributes
+      if attributes.is_a?(Array)
+        attributes.each {|attrs| attrs[:user_id] = @association.owner.id }
+      else
+        attributes[:user_id] = @association.owner.id
+      end
+      attributes
+    end
+
+    def build(attributes={}, &block)
+      super(add_user_id(attributes), &block)
+    end
+
+    def create(attributes={}, &block)
+      List.create(add_user_id(attributes), &block)
+    end
+  end
+
+  def membership_for list
+    list.list_memberships.find_by(user: self)
+  end
+
+  def can_moderate? list
+    membership = membership_for list
+    membership && membership.can_moderate?
+  end
+
+  def can_edit? list
+    membership = membership_for list
+    membership && membership.can_edit?
+  end
+
+  def can_view? list
+    membership = membership_for list
+    membership && membership.can_view?
+  end
+
+  def visible_lists
+    public_lists = List.publicly_visible
+    shared_guest_lists = List.where(
+      'list_memberships.user_id = ? AND NOT lists.visibility = ?',
+      id, List.visibilities[:private]
+    ).uniq
+
+    public_lists.or(shared_guest_lists)
+  end
+
+  def owned_lists
+    lists.where('list_memberships.role' => :owner).uniq
+  end
 
   before_save { self.email.downcase! if self.email }
   after_create :create_homepage

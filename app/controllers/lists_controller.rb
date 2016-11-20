@@ -4,7 +4,11 @@ class ListsController < ApplicationController
   # GET /lists
   # GET /lists.json
   def index
-    @lists = List.all
+    if current_user
+      @lists = current_user.visible_lists
+    else
+      @lists = List.publicly_visible
+    end
   end
 
   # GET /lists/new
@@ -16,11 +20,13 @@ class ListsController < ApplicationController
   # POST /lists.json
   def create
     @list = current_user.lists.build(list_params)
+    member = User.find_by username: params[:list].delete(:members)
+    @list.list_memberships.build(user: member, role: :contributor) if member
 
     respond_to do |format|
       if @list.save
         current_user.homepage.lists << @list
-        format.html { redirect_to user_list_path(@list.user, @list), notice: 'List was successfully created.' }
+        format.html { redirect_to user_list_path(@list.owner, @list), notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @list }
       else
         format.html { render :new }
