@@ -37,13 +37,13 @@ class Users::ListsController < ApplicationController
 
   def destroy
     unless current_user == @list.owner
-      return redirect_back(fallback_location: lists_path, alert: 'Only the list owner can delete a list.')
+      return redirect_back(fallback_location: root_path, alert: 'Only the list owner can delete a list.')
     end
 
     @list.destroy
 
     respond_to do |format|
-      format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -55,7 +55,7 @@ class Users::ListsController < ApplicationController
 
     def set_list
       @list = @user.owned_lists.find_by slug: params[:id]
-      return redirect_back(fallback_location: lists_path, alert: "List not found.") unless @list
+      return redirect_back(fallback_location: root_path, alert: "List not found.") unless @list
     end
 
     def params_sort_order
@@ -71,11 +71,11 @@ class Users::ListsController < ApplicationController
     end
 
     def ensure_editable
-      redirect_to(lists_path) unless current_user
+      redirect_to(root_path) unless current_user
 
       unless current_user.can_edit? @list
         return redirect_back(
-          fallback_location: lists_path,
+          fallback_location: root_path,
           alert: 'You must be a contributor to make changes to this list.'
         )
       end
@@ -83,6 +83,6 @@ class Users::ListsController < ApplicationController
 
     def ensure_visible
       return if @list.visible_to_public?
-      return redirect_back(fallback_location: lists_path) unless current_user && current_user.can_view?(@list)
+      return redirect_back(fallback_location: root_path) unless current_user && current_user.can_view?(@list)
     end
 end
