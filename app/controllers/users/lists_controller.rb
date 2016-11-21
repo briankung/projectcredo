@@ -57,7 +57,6 @@ class Users::ListsController < ApplicationController
 
     def set_list
       @list = @user.owned_lists.find_by slug: params[:id]
-
       return redirect_back(fallback_location: lists_path, alert: "List not found.") unless @list
     end
 
