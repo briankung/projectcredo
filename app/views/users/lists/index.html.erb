@@ -1,21 +1,17 @@
-<% @title = 'Home' %>
+<% @title = "#{@user.username}'s lists" %>
 
-<% if @pinned_lists.present? %>
-  <h1>Pinned Lists</h1>
-  <%= link_to "View All Lists", lists_path %> or
-  <%= link_to 'Create a New List', new_list_path %>
+<h1>
+  <span><%= "#{@user.username}'s" %> Lists</span>
+  <small>sorted by popularity</small>
+</h1>
 
-  <div class="cards row">
-    <%= render @pinned_lists %>
+<p><%= link_to 'Create New List', new_list_path %></p>
+<div class="cards row">
+  <%= render partial: 'lists/list', collection: @lists %>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to 'Create New List', new_list_path %>
   </div>
-<% end %>
-
-<% if @unpinned_lists %>
-  <h1>Popular Lists</h1>
-  <%= link_to "View All Lists", lists_path %> or
-  <%= link_to 'Create a New List', new_list_path %>
-
-  <div class="cards row">
-    <%= render @unpinned_lists %>
-  </div>
-<% end %>
+</div>
