@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
   def update
     unless @comment.user == current_user
       flash[:alert] = "You do not have permission to edit this comment"
-      redirect_back(fallback_location: user_list_path(list.owner, list))
+      return redirect_back(fallback_location: user_list_path(list.owner, list))
     end
 
     respond_to do |format|
