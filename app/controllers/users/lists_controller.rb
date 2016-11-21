@@ -6,17 +6,14 @@ class Users::ListsController < ApplicationController
   before_action :ensure_visible, only: :show
 
   def index
-    @lists = @user.authored_lists.uniq
-    render 'lists/index'
+    @lists = @user.authored_lists.distinct
   end
 
   def show
     @references = @list.references.joins(:paper).order(params_sort_order)
-    render 'lists/show'
   end
 
   def edit
-    render 'lists/edit'
   end
 
   def update
@@ -32,7 +29,7 @@ class Users::ListsController < ApplicationController
         format.html { redirect_back(fallback_location: user_list_path(@list.user, @list), notice: 'List was successfully updated.') }
         format.json { render :show, status: :ok, location: @list }
       else
-        format.html { render 'lists/edit' }
+        format.html { render :edit }
         format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end

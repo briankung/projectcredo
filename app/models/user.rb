@@ -61,13 +61,13 @@ class User < ApplicationRecord
     shared_guest_lists = List.where(
       'list_memberships.user_id = ? AND NOT lists.visibility = ?',
       id, List.visibilities[:private]
-    ).uniq
+    ).distinct
 
     public_lists.or(shared_guest_lists)
   end
 
   def owned_lists
-    lists.where('list_memberships.role' => :owner).uniq
+    lists.where('list_memberships.role' => :owner).distinct
   end
 
   before_save { self.email.downcase! if self.email }

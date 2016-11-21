@@ -1,0 +1,17 @@
+<% @title = "#{@user.username}'s lists" %>
+
+<h1>
+  <span><%= "#{@user.username}'s" %> Lists</span>
+  <small>sorted by popularity</small>
+</h1>
+
+<p><%= link_to 'Create New List', new_list_path %></p>
+<div class="cards row">
+  <%= render partial: 'lists/list', collection: @lists %>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to 'Create New List', new_list_path %>
+  </div>
+</div>

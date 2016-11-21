@@ -32,5 +32,4 @@ class LinksController < ApplicationController
     def link_params
       params.permit(:id)
     end
-
 end

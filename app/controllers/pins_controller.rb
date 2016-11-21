@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
-  before_action :set_pinned_lists
   before_action :ensure_current_user
+  before_action :set_pinned_lists
 
   def create
     @pinned_lists << List.find_by(slug: list_params[:id])
