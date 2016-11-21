@@ -21,6 +21,7 @@ class Users::ListsController < ApplicationController
 
   def update
     member = User.find_by username: params[:list].delete(:members)
+    params[:list].delete(:participants) unless current_user == @list.owner
 
     if member && current_user.can_moderate?(@list)
       @list.list_memberships.build(user: member, role: :contributor)
@@ -69,7 +70,7 @@ class Users::ListsController < ApplicationController
     end
 
     def list_params
-      params.require(:list).permit(:name, :description, :tag_list, :members)
+      params.require(:list).permit(:name, :description, :tag_list, :members, :participants)
     end
 
     def ensure_editable

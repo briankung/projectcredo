@@ -28,9 +28,28 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :tag_list, 'Tags (separated by commas)', class: "col-md-2 control-label" %>
+      <div class="col-md-2 control-label">
+        <%= f.label :tag_list, 'Tags'%>
+        <p><small>(separated by commas)</small></p>
+      </div>
       <div class="col-md-10">
         <%= f.text_field :tag_list, value: list.tag_list.join(","), class: "form-control", placeholder: 'Ex: biology, chemistry, physics' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <%= f.label :participants, 'List participants'%>
+        <p><small>(who can add to this list?)</small></p>
+      </div>
+      <div class="col-md-10">
+        <%= f.select :participants,
+          options_for_select(
+            [%w{Public public},%w{Contributors contributors}],
+            list.participants
+          ),
+          {},
+          {class: "form-control", disabled: !(current_user == list.owner)} %>
       </div>
     </div>
 
