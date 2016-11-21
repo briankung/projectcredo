@@ -23,6 +23,7 @@ class Pubmed
 
     def mapper
       {
+        import_source:      lambda {|data| 'pubmed' },
         title:              lambda {|data| data.css('ArticleTitle').text },
         publication:        lambda {|data| data.css('Journal Title').text },
         doi:                lambda {|data| data.css('ArticleId[IdType=doi]').text },
