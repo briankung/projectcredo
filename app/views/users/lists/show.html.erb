@@ -11,6 +11,13 @@
        - <%= link_to 'Delete List', user_list_path(@list.owner, @list), data: { confirm: 'Are you sure?' }, method: :delete %>
     <% end %>
   <% end %>
+
+  <% if @list.participants == 'contributors' %>
+   <span data-toggle="tooltip" data-placement="right" title="Only contibutors may add references and edit this list"> 🔒 </span>
+  <% else %>
+    <span data-toggle="tooltip" data-placement="right" title="This list is open to the public for contributions"> 🔓 </span>
+  <% end %>
+
 </div>
 <p>
   <% @list.tag_list.each do |tag| %>
