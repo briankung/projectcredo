@@ -49,7 +49,7 @@
             list.participants
           ),
           {},
-          {class: "form-control", disabled: !(current_user == list.owner)} %>
+          {class: "form-control", disabled: list.persisted? && !(current_user == list.owner)} %>
       </div>
     </div>
 
