@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'homepage#show'
   get '/about' => 'static_pages#about'
 
-  devise_for :users
+  devise_for :users, controllers: {registrations: 'users/registrations'}
 
   resources :papers, only: [:show, :edit, :update] do
     resources :links, only: :destroy, shallow: true
