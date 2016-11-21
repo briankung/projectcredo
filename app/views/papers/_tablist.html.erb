@@ -9,7 +9,9 @@
       <%= form_for reference, method: :delete do |r| %>
         <%= r.text_field :id, value: reference.id, hidden: true %>
       <% end %>
-      <%= link_to('Remove from list', {}, class: 'delete-reference text-danger') if current_user.can_edit?(reference.list) %>
+      <% if reference.user == current_user || current_user.can_moderate?(reference.list) %>
+        <%= link_to('Remove from list', {}, class: 'delete-reference text-danger') %>
+      <% end %>
     </li>
   <% end %>
 </ul>
