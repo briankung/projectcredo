@@ -11,7 +11,7 @@ class LinkPaperLocator
     if (link = Link.find_by url: locator_id)
       return link.paper
     else
-      return Paper.create title: paper_title, links_attributes: [{url: locator_id}]
+      return Paper.create title: paper_title, import_source: 'url', links_attributes: [{url: locator_id}]
     end
   end
 

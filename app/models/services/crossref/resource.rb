@@ -28,6 +28,7 @@ class Crossref
 
     def mapper
       {
+        import_source:      lambda {|data| 'crossref' },
         title:              lambda {|data| data.dig 'message', 'title', 0 },
         publication:        lambda {|data| data.dig 'message', 'short-container-title', 0 },
         doi:                lambda {|data| self.id },
