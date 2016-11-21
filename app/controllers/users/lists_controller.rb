@@ -6,7 +6,7 @@ class Users::ListsController < ApplicationController
   before_action :ensure_visible, only: :show
 
   def index
-    @lists = @user.authored_lists.uniq
+    @lists = @user.authored_lists.distinct
   end
 
   def show
