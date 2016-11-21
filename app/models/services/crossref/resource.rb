@@ -1,24 +1,23 @@
 class Crossref
   class Resource
-    attr_accessor :id, :response
+    attr_accessor :id, :response, :paper_attributes
 
     def initialize id
       self.id = id.to_s
       endpoint = URI.parse("https://api.crossref.org/works/#{self.id}")
       self.response = Net::HTTP.get_response endpoint
-    end
 
-    def paper_attributes
-      if response.code_type.ancestors.include? Net::HTTPSuccess
-        data = JSON.parse response.body
-        @paper_attributes ||= map_attributes(mapper, data)
-      else
-        @paper_attributes = nil
+      if response.code_type.ancestors.include?(Net::HTTPSuccess)
+        begin
+          data = JSON.parse response.body
+          @paper_attributes ||= map_attributes(mapper, data)
+        rescue JSON::ParserError => e
+          logger.debug "Malformed JSON response: \"#{e.message}\" for #{response.body}"
+        end
       end
     end
 
     def map_attributes mapper, data
-      return nil unless data
       mapper.inject({}) do |memo, _|
         attribute, mapping = _[0], _[1]
         memo[attribute] = mapping.call(data)
