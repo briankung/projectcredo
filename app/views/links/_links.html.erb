@@ -12,7 +12,7 @@
   <% paper.links.each do |l| %>
     <li>
       <%= link_to l.url, l.url, target: '_blank' %>
-      <% if l.link_editable %>
+      <% if l.link_editable && current_user_can_moderate?(reference.list) %>
         <%= link_to '',
           link_path(l, reference: reference),
           method: 'delete',
@@ -20,8 +20,6 @@
           data: { confirm: 'Are you want to delete this link?' },
           remote: true
         %>
-      <% else %>
-      <i> - imported</i>
       <% end %>
     </li>
   <% end %>
