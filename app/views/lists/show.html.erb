@@ -1,5 +1,3 @@
-<% @title = "#{@list.owner.username} | #{@list.name}" %>
-
 <h2 class= "list-title"><%= @list.name %></h2>
 <div class="list-nav">
   by <%= link_to @list.owner.username, user_lists_path(@list.owner) %>
