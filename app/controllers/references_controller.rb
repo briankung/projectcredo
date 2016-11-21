@@ -10,7 +10,7 @@ class ReferencesController < ApplicationController
     list = List.find(reference_params[:list_id])
     list_path = user_list_path(list.owner, list)
 
-    unless current_user.can_edit? list
+    unless list.accepts_public_contributions? || current_user.can_edit?(list)
       return redirect_back(fallback_location: list_path, alert: 'You must be a contributor to make changes to this list.')
     end
 
