@@ -28,11 +28,19 @@ class ApplicationController < ActionController::Base
     store_location_for(:user, request.fullpath) unless user_paths.include?(request.path)
   end
 
+  def ajax_redirect_to(redirect_uri)
+    render js: "window.location.replace('#{redirect_uri}');"
+  end
+
   private
     def ensure_current_user
       unless current_user
         flash[:alert] = 'You must sign in to perform this action'
-        redirect_to new_user_session_path
+
+        respond_to do |format|
+          format.html { return redirect_to new_user_session_path }
+          format.js { return ajax_redirect_to(new_user_session_path) }
+        end
       end
     end
 end

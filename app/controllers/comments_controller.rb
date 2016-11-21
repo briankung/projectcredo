@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
   def update
     unless @comment.user == current_user
       flash[:alert] = "You do not have permission to edit this comment"
-      redirect_back(fallback_location: user_list_path(list.owner, list))
+      return redirect_back(fallback_location: user_list_path(list.owner, list))
     end
 
     respond_to do |format|
@@ -58,17 +58,18 @@ class CommentsController < ApplicationController
     reference = @comment.root.commentable
     list = reference.list
 
-    unless current_user.can_moderate?(list) || @comment.user == current_user
-      flash[:alert] = "You do not have permission to moderate this list"
-      redirect_back(fallback_location: user_list_path(list.owner, list))
-    end
-
-    @comment.destroy
-
     respond_to do |format|
-      format.html { redirect_to :back, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
-      format.js { render 'destroy.js.erb', locals: {reference: reference} }
+      if current_user.can_moderate?(list) || @comment.user == current_user
+        @comment.destroy
+        format.html { redirect_to :back, notice: 'Comment was successfully destroyed.' }
+        format.json { head :no_content }
+        format.js { render 'destroy.js.erb', locals: {reference: reference} }
+      else
+        flash[:alert] = 'You do not have permission to moderate this list.'
+
+        format.html { redirect_back fallback_location: user_list_path(list.owner, list) }
+        format.js { ajax_redirect_to(user_list_path(list.owner, list)) }
+      end
     end
   end
 

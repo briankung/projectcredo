@@ -10,7 +10,7 @@ class ReferencesController < ApplicationController
     list = List.find(reference_params[:list_id])
     list_path = user_list_path(list.owner, list)
 
-    unless current_user.can_edit? list
+    unless list.accepts_public_contributions? || current_user.can_edit?(list)
       return redirect_back(fallback_location: list_path, alert: 'You must be a contributor to make changes to this list.')
     end
 
@@ -33,8 +33,8 @@ class ReferencesController < ApplicationController
   def destroy
     reference = Reference.find(reference_params[:id])
 
-    unless current_user.can_edit? reference.list
-      return redirect_back(fallback_location: user_list_path(reference.list.owner, reference.list), alert: 'You must be a contributor to make changes to this list.')
+    unless reference.user == current_user || current_user.can_moderate?(reference.list)
+      return redirect_back(fallback_location: user_list_path(reference.list.owner, reference.list), alert: 'You do not have permission to moderate this list.')
     end
 
     reference.destroy
