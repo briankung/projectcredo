@@ -123,7 +123,6 @@ ActiveRecord::Schema.define(version: 20161117045644) do
     t.string   "publication"
     t.boolean  "abstract_editable", default: true
     t.boolean  "paper_editable",    default: true
-    t.text     "import_source"
     t.index ["doi"], name: "index_papers_on_doi", using: :btree
     t.index ["pubmed_id"], name: "index_papers_on_pubmed_id", using: :btree
   end
