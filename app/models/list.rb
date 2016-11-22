@@ -59,7 +59,7 @@ class List < ApplicationRecord
   end
 
   def to_slug
-    self.name.downcase.gsub("'", '').gsub(/[^\p{N}\p{L}]/, '-').gsub(/-{2,}/, '-')
+    self.name.downcase.gsub("'", '').scan(/[\p{N}\p{L}]{1,}/).join('-')
   end
 
   def set_slug
