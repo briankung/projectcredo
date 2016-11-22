@@ -26,4 +26,4 @@ en:
         user:
           attributes:
             username:
-              invalid: "must be at least 3 characters long with no spaces: bob, بوب, 鲍_勃"
+              invalid: "must be 3 or more characters with no spaces or special characters other than underscore: bob, بوب, 鲍_勃"
