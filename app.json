@@ -24,6 +24,9 @@
     },
     "HEROKU_APP_NAME": {
       "required": true
+    },
+    "GITTER_WEBHOOK_URL": {
+      "required": true
     }
   },
   "formation": {
