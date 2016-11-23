@@ -50,7 +50,7 @@ class Users::ListsController < ApplicationController
 
   private
     def set_user
-      @user = User.find_by username: params[:username]
+      @user = User.find_by 'LOWER(username) = ?', params[:username].downcase
     end
 
     def set_list
