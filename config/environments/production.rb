@@ -89,7 +89,11 @@ Rails.application.configure do
   config.action_mailer.default charset: "utf-8"
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_TOKEN'] }
-  config.action_mailer.default_url_options = { host: 'projectcredo.com' }
+  if ENV['IS_REVIEW_APP']
+    config.action_mailer.default_url_options = { host: "#{ENV['HEROKU_APP_NAME']}.herokuapp.com" }
+  else
+    config.action_mailer.default_url_options = { host: 'projectcredo.com' }
+  end
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
 end

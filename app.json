@@ -30,6 +30,9 @@
     },
     "POSTMARK_API_TOKEN": {
       "required": true
+    },
+    "IS_REVIEW_APP": {
+      "required": true
     }
   },
   "formation": {
