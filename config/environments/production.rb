@@ -54,8 +54,6 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  config.action_mailer.default_url_options = { host: 'REPLACEME', port: 3000 }
-
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "projectcredo_#{Rails.env}"
@@ -87,4 +85,11 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.default charset: "utf-8"
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_TOKEN'] }
+  config.action_mailer.default_url_options = { host: 'projectcredo.com' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
 end
