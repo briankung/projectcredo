@@ -86,4 +86,9 @@ class User < ApplicationRecord
   def to_param
     username
   end
+
+  protected
+    def confirmation_required?
+      false
+    end
 end
