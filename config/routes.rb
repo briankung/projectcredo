@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'lists#index'
   get '/about' => 'static_pages#about'
+  get '/.well-known/acme-challenge/:id' => 'static_pages#lets_encrypt'
 
   devise_for :users, controllers: {registrations: 'users/registrations'}
 
