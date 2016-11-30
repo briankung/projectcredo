@@ -11,6 +11,7 @@ class Crossref
         begin
           data = JSON.parse response.body
           @paper_attributes ||= map_attributes(mapper, data)
+          @paper_attributes[:abstract_editable] = @paper_attributes[:abstract].nil?
         rescue JSON::ParserError => e
           logger.debug "Malformed JSON response: \"#{e.message}\" for #{response.body}"
         end
