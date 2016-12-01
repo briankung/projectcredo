@@ -29,6 +29,7 @@ class Crossref
       {
         import_source:      lambda {|data| 'crossref' },
         title:              lambda {|data| data.dig 'message', 'title', 0 },
+        abstract:           lambda {|data| data.dig 'message', 'abstract' },
         publication:        lambda {|data| data.dig 'message', 'short-container-title', 0 },
         doi:                lambda {|data| self.id },
         pubmed_id:          lambda {|data| Pubmed.get_uid_from_doi(id) },
