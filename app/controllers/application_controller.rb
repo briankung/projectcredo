@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_filter :store_pre_signin_path
 
+  force_ssl if: ->{ Rails.env.production? }, except: :lets_encrypt
+
   protected
 
   def configure_permitted_parameters
