@@ -31,12 +31,12 @@ class Crossref
         import_source:      lambda {|data| 'crossref' },
         title:              lambda {|data| data.dig 'message', 'title', 0 },
         abstract:           lambda do |data|
-          if (abstract = data.dig 'message', 'abstract')
-          elsif (uid = Pubmed.get_uid_from_doi(id))
+          abstract = data.dig 'message', 'abstract'
+          
+          if abstract.nil?
+            uid = Pubmed.get_uid_from_doi(id)
             pubmed = Pubmed.new locator_id: uid
             abstract = pubmed.resource.paper_attributes[:abstract]
-          else
-            abstract = nil
           end
 
           return abstract
