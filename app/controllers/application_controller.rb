@@ -8,31 +8,30 @@ class ApplicationController < ActionController::Base
   force_ssl if: ->{ Rails.env.production? }, except: :lets_encrypt
 
   protected
+    def configure_permitted_parameters
+      added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
+      devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+      devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+    end
 
-  def configure_permitted_parameters
-    added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
-    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
-    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
-  end
+    def store_pre_signin_path
+      return if !request.get? || request.xhr?
 
-  def store_pre_signin_path
-    return if !request.get? || request.xhr?
+      user_paths = [
+        "/users/sign_in",
+        "/users/sign_up",
+        "/users/password/new",
+        "/users/password/edit",
+        "/users/confirmation",
+        "/users/sign_out"
+      ]
 
-    user_paths = [
-      "/users/sign_in",
-      "/users/sign_up",
-      "/users/password/new",
-      "/users/password/edit",
-      "/users/confirmation",
-      "/users/sign_out"
-    ]
+      store_location_for(:user, request.fullpath) unless user_paths.include?(request.path)
+    end
 
-    store_location_for(:user, request.fullpath) unless user_paths.include?(request.path)
-  end
-
-  def ajax_redirect_to(redirect_uri)
-    render js: "window.location.replace('#{redirect_uri}');"
-  end
+    def ajax_redirect_to(redirect_uri)
+      render js: "window.location.replace('#{redirect_uri}');"
+    end
 
   private
     def ensure_current_user
