@@ -11,6 +11,7 @@ class Crossref
         begin
           data = JSON.parse response.body
           @paper_attributes ||= map_attributes(mapper, data)
+          @paper_attributes[:abstract_editable] = @paper_attributes[:abstract].nil?
         rescue JSON::ParserError => e
           logger.debug "Malformed JSON response: \"#{e.message}\" for #{response.body}"
         end
@@ -29,7 +30,17 @@ class Crossref
       {
         import_source:      lambda {|data| 'crossref' },
         title:              lambda {|data| data.dig 'message', 'title', 0 },
-        abstract:           lambda {|data| data.dig 'message', 'abstract' },
+        abstract:           lambda do |data|
+          abstract = data.dig 'message', 'abstract'
+          
+          if abstract.nil?
+            uid = Pubmed.get_uid_from_doi(id)
+            pubmed = Pubmed.new locator_id: uid
+            abstract = pubmed.resource.paper_attributes[:abstract]
+          end
+
+          return abstract
+        end,
         publication:        lambda {|data| data.dig 'message', 'short-container-title', 0 },
         doi:                lambda {|data| self.id },
         pubmed_id:          lambda {|data| Pubmed.get_uid_from_doi(id) },
