@@ -18,7 +18,7 @@
         <%= link_to list.name, user_list_path(list.owner, list) %><br>
         <small> by <%= link_to list.owner.username, user_lists_path(list.owner) %></small>
       </h2>
-      <p><%= list.description %></p>
+      <p><%= truncate(list.description, length: 400, separator: ' ') %></p>
       <small>Tags:<i><%= list.tag_list %></i></br></small>
     </div>
   </div>
