@@ -32,9 +32,8 @@ class Crossref
         title:              lambda {|data| data.dig 'message', 'title', 0 },
         abstract:           lambda do |data|
           abstract = data.dig 'message', 'abstract'
-          
-          if abstract.nil?
-            uid = Pubmed.get_uid_from_doi(id)
+
+          if abstract.nil? && (uid = Pubmed.get_uid_from_doi(id))
             pubmed = Pubmed.new locator_id: uid
             abstract = pubmed.resource.paper_attributes[:abstract]
           end
