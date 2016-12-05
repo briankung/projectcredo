@@ -34,7 +34,16 @@ class Pubmed
           end.join("\n\n")
         end,
         abstract_editable:  lambda {|data| data.css('AbstractText').blank? },
-        published_at:       lambda {|data| Date.parse data.css('PubDate').map(&:text).join(' ') },
+        published_at:       lambda do |data|
+          if (date_parts = data.css('PubDate').children)
+            year, month, day = ['Year','Month','Day'].map {|c| date_parts.css(c).text.presence}
+
+            return nil unless year
+
+            date = "#{year}/#{month || 1}/#{day || 1}"
+            Date.parse(date)
+          end
+        end,
         authors_attributes: lambda do |data|
           authors = data.css('AuthorList Author')
           authors.map do |author|
