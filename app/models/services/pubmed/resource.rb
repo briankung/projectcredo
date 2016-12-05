@@ -35,8 +35,8 @@ class Pubmed
         end,
         abstract_editable:  lambda {|data| data.css('AbstractText').blank? },
         published_at:       lambda do |data|
-          if (date_parts = data.css('PubDate').map(&:text).join(' '))
-            year, month, day = date_parts
+          if (date_parts = data.css('PubDate').children)
+            year, month, day = ['Year','Month','Day'].map {|c| date_parts.css(c).text.presence}
 
             return nil unless year
 
