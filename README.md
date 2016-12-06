@@ -12,7 +12,8 @@ Project Credo is open-source by design, under a GPLv3 license.
 
 ### Requirements:
 
-- Docker
+- docker
+- docker-compose
 - Internet connection
 
 ### Installation
