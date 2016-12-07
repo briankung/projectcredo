@@ -33,6 +33,11 @@ The site's address unfortunately depends on what system you're on. Linux and Mac
 
 Submit a pull request against the develop branch and fill out the Pull Request template.
 
+#### Testing
+
+1. `docker-compose run app rails db:environment:set RAILS_ENV=test`
+1. `docker-compose run app rails test`
+
 ### Reporting issues
 
 Start a new issue and fill out the issues template as well as you can.
