@@ -1,7 +1,7 @@
 {
   "name": "projectcredo",
   "scripts": {
-    "postdeploy": "bundle exec rails db:schema:load db:migrate test db:seed chat:review_app_deployed"
+    "postdeploy": "bundle exec rails db:schema:load db:migrate db:seed chat:review_app_deployed"
   },
   "env": {
     "LANG": {
