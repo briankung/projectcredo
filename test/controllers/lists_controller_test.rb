@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ListsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @list = List.create name: 'hey'
+    @list = Fabricate(:list)
   end
 
   test "should get index" do
