@@ -78,7 +78,7 @@ class User < ApplicationRecord
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      return where(conditions.to_h).where(["username = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      return where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", {value: login.downcase}]).first
     end
     super(conditions)
   end
