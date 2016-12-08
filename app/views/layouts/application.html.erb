@@ -35,7 +35,9 @@
       <%= content_tag(:p, notice, class: "notice alert-success") if notice %>
       <%= content_tag(:p, alert, class: "alert alert-danger") if alert %>
     </div>
-    <%= yield %>
+    <div class="container<%= '-fluid' if @full_width %>">
+      <%= yield %>
+    </div>
     <%= console if Rails.env.development? %>
   </body>
 </html>

@@ -1,9 +1,12 @@
-<% @title = 'Home' %>
+<%
+  @title = 'Home'
+  @full_width = true
+%>
 
 <% if @pinned_lists.present? %>
-  <h1>Pinned Lists</h1>
   <div class="row">
     <div class="col-md-12">
+      <h1>Pinned Lists</h1>
       <%= link_to 'Create New List', new_list_path %>
     </div>
   </div>
@@ -14,9 +17,9 @@
 <% end %>
 
 <% if @unpinned_lists.present? %>
-  <h1>Lists</h1>
   <div class="row">
     <div class="col-md-12">
+      <h1>Lists</h1>
       <%= link_to 'Create New List', new_list_path %>
     </div>
   </div>
