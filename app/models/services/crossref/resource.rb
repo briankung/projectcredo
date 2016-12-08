@@ -4,7 +4,7 @@ class Crossref
 
     def initialize id
       self.id = id.to_s
-      endpoint = URI.parse("https://api.crossref.org/works/#{self.id}")
+      endpoint = URI.parse("https://api.crossref.org/works/#{CGI.escape self.id}")
       self.response = Net::HTTP.get_response endpoint
 
       if response.code_type.ancestors.include?(Net::HTTPSuccess)

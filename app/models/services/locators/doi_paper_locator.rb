@@ -28,7 +28,7 @@ class DoiPaperLocator
 
   def valid?
     # Stolen from http://blog.crossref.org/2015/08/doi-regular-expressions.html
-    is_doi = locator_id.match(/^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i)
+    is_doi = locator_id.match(/^10.\d{4,9}\/[^\s]+$/)
 
     errors << "\"#{locator_id}\" does not match DOI format. Ex: \"10.1371/journal.pone.0001897\"" unless is_doi
 
