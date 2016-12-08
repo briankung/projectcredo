@@ -4,6 +4,9 @@ module ApplicationHelper
   end
 
   def autolink text
-    text.gsub(URI::regexp(%w(http https))) {|match| link_to match, match}
+    text.gsub(URI::regexp(%w(http https))) do |match|
+      unescaped_url = CGI.unescapeHTML match
+      link_to unescaped_url, unescaped_url
+    end
   end
 end
