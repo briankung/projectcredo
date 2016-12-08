@@ -8,6 +8,7 @@ gem 'acts_as_votable', '~> 0.10.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'autoprefixer-rails', '~> 6.4.0.1'
 gem 'closure_tree', '~> 6.1.0'
+gem 'postmark-rails', '~> 0.14.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0', '< 5.1'
 # Use postgresql as the database for Active Record
@@ -38,6 +39,8 @@ gem 'jbuilder', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'minitest-rails', '~> 3.0.0'
+  gem 'fabrication', '~> 2.16.0'
 end
 
 group :development do

@@ -1,7 +1,7 @@
 {
   "name": "projectcredo",
   "scripts": {
-    "postdeploy": "bundle exec rails db:schema:load db:migrate db:seed"
+    "postdeploy": "bundle exec rails db:schema:load db:migrate db:seed chat:review_app_deployed"
   },
   "env": {
     "LANG": {
@@ -20,6 +20,18 @@
       "required": true
     },
     "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "GITTER_WEBHOOK_URL": {
+      "required": true
+    },
+    "POSTMARK_API_TOKEN": {
+      "required": true
+    },
+    "IS_REVIEW_APP": {
       "required": true
     }
   },

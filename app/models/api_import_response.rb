@@ -7,7 +7,7 @@ class ApiImportResponse < ApplicationRecord
     if xml
       Nokogiri::XML(xml, &:noblanks)
     elsif json
-      JSON.parse(json)
+      json
     end
   end
 end
